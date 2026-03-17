@@ -1,7 +1,9 @@
 package com.example.skripsi;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -95,6 +97,14 @@ public class DashboardActivity extends AppCompatActivity {
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         legend.setXEntrySpace(25f);
 
+        ImageView mapsmenu = findViewById(R.id.maps_menu);
 
+        mapsmenu.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, MapsActivity.class);
+            startActivity(intent);
+
+            //animasi perpindahan
+            overridePendingTransition(R.anim.slide_kanan_masuk, R.anim.slide_kiri_keluar);
+        });
     }
 }

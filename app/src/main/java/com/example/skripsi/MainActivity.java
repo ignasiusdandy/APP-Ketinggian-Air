@@ -4,7 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent; // Import wajib untuk pindah halaman
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -15,14 +20,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView buttonDaftar = findViewById(R.id.textView8);
+        Button buttonLogin = findViewById(R.id.btn_login);
 
-//        sessionManager = new SessionManager(this);
-//
-//        // Cek apakah user sudah login?
-//        if (!sessionManager.isLoggedIn()) {
+        SessionManager sessionManager = new SessionManager(this);
+
+        // Cek apakah user sudah login?
+//        if (!SessionManager.isLoggedIn()) {
 //            // Kalau belum login, lempar balik ke Login/Register
-//            // Intent intent = new Intent(this, RegisterActivity.class);
-//            // startActivity(intent);
+//             Intent intent = new Intent(this, RegisterActivity.class);
+//             startActivity(intent);
 //            // finish();
 //        } else {
 //            // Kalau sudah login, ambil datanya
@@ -38,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                 startActivity(intent);
             }
         });

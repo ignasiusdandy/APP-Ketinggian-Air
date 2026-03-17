@@ -37,8 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapterModel;
 
     // List String untuk ditampilkan di Spinner
-    private List<String> listNamaJenis = new ArrayList<>();
-    private List<String> listNamaModel = new ArrayList<>();
+    private final List<String> listNamaJenis = new ArrayList<>();
+    private final List<String> listNamaModel = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

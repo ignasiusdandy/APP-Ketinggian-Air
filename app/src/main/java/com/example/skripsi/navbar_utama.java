@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class navbar_utama extends AppCompatActivity {
 
     View highlight;
-    LinearLayout menuDashboard, menuMaps;
+    LinearLayout menuDashboard, menuMaps, menuProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +27,13 @@ public class navbar_utama extends AppCompatActivity {
         highlight = findViewById(R.id.highlight);
         menuDashboard = findViewById(R.id.menu_dashboard);
         menuMaps = findViewById(R.id.menu_maps);
+        menuProfile = findViewById(R.id.menu_profile);
         TextView textDashboard = findViewById(R.id.text_dashboard);
         TextView textMaps = findViewById(R.id.text_maps);
+        TextView textProfile = findViewById(R.id.text_profile);
         ImageView dashboardIcon = findViewById(R.id.dashboard_icon);
         ImageView mapsIcon = findViewById(R.id.maps_icon);
+        ImageView profileIcon = findViewById(R.id.profile_icon);
 
         textDashboard.setVisibility(View.VISIBLE);
         textMaps.setVisibility(View.GONE);
@@ -45,8 +48,10 @@ public class navbar_utama extends AppCompatActivity {
         menuDashboard.setOnClickListener(v -> {
             textDashboard.setVisibility(View.VISIBLE);
             textMaps.setVisibility(View.GONE);
+            textProfile.setVisibility(View.GONE);
             dashboardIcon.setImageResource(R.drawable.dashboard_icon);
             mapsIcon.setImageResource(R.drawable.maps_icon_putih);
+            profileIcon.setImageResource(R.drawable.profile_icon_putih);
 
             moveHighlight(menuDashboard);
             loadFragment(new DashboardFragment());
@@ -55,11 +60,25 @@ public class navbar_utama extends AppCompatActivity {
         menuMaps.setOnClickListener(v -> {
             textDashboard.setVisibility(View.GONE);
             textMaps.setVisibility(View.VISIBLE);
+            textProfile.setVisibility(View.GONE);
             dashboardIcon.setImageResource(R.drawable.dashboard_icon_putih);
             mapsIcon.setImageResource(R.drawable.maps_icon);
+            profileIcon.setImageResource(R.drawable.profile_icon_putih);
 
             moveHighlight(menuMaps);
             loadFragment(new MapsFragment());
+        });
+
+        menuProfile.setOnClickListener(v -> {
+            textDashboard.setVisibility(View.GONE);
+            textMaps.setVisibility(View.GONE);
+            textProfile.setVisibility(View.VISIBLE);
+            dashboardIcon.setImageResource(R.drawable.dashboard_icon_putih);
+            profileIcon.setImageResource(R.drawable.profile_icon);
+            mapsIcon.setImageResource(R.drawable.maps_icon_putih);
+            moveHighlight(menuProfile);
+            loadFragment(new ProfileFragment());
+
         });
     }
 

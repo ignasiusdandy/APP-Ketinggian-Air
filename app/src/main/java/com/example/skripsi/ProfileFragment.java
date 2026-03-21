@@ -1,5 +1,6 @@
 package com.example.skripsi;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,9 @@ public class ProfileFragment extends Fragment {
 
         btnKeluar.setOnClickListener(v -> {
             setSelected(btnKeluar);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().finish();
         });
 
         return view;

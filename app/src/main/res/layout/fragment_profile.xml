@@ -150,6 +150,8 @@
             android:background="@drawable/card_putih"
             android:layout_marginBottom="50dp"
             android:paddingBottom="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             >
         </FrameLayout>
 

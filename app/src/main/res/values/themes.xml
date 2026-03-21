@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Skripsi" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-<!--         <item name="colorPrimary">@color/blue6</item>-->
+        <!--         <item name="colorPrimary">@color/blue6</item>-->
 
-<!--         <item name="android:statusBarColor">@android:color/transparent</item>-->
-<!--        <item name="android:windowLightStatusBar">false</item>-->
+        <!--         <item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:windowLightStatusBar">false</item>-->
 
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

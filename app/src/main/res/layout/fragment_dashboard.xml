@@ -471,8 +471,18 @@
                 android:elevation="6dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="50dp"
                 >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:text="Grafik Perubahan 1 Jam Terakhir"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="1dp"/>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/lineChart"

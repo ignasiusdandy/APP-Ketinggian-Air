@@ -25,7 +25,8 @@
         android:background="@drawable/bg_navbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        >
 
         <!-- 🔥 HIGHLIGHT (KOTAK PUTIH) -->
         <View

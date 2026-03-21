@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PengaturanAkunFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="Pengaturan Akun"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:text="Nama"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_input"
+            android:backgroundTint="@null"
+            android:fontFamily="@font/poppinsmedium"
+            android:paddingLeft="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@null"
+            android:fontFamily="@font/poppinsmedium"
+            android:text="Kendaraan Utama"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/wrapper_spinner_1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/bg_spinner"
+            android:fontFamily="@font/poppinsmedium"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.example.skripsi.CustomSpinner
+                android:id="@+id/spinner_motor"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppinsmedium"
+                android:paddingStart="10dp"
+                android:paddingEnd="40dp"
+                android:popupBackground="@color/white"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_motor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:rotation="-90"
+                android:src="@drawable/ic_arrow_down_blue" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_update_pengaturan"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/blue6"
+            android:text="Perbaharui Data"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</FrameLayout>

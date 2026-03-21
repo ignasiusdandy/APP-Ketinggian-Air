@@ -16,6 +16,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".PengaturanAkunFragment"
+            android:exported="false"
+            android:label="@string/title_activity_pengaturan_akun_fragment"
+            android:theme="@style/Theme.Skripsi" />
+        <activity
             android:name=".navbar_utama"
             android:exported="false" />
         <activity

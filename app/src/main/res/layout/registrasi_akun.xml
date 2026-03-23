@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imageView"
@@ -49,47 +49,73 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textDaftar" />
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/frame_scroll"
             android:layout_marginTop="192dp"
-            android:adjustViewBounds="true"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
-            app:srcCompat="@drawable/frame_scroll"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp"
+            app:layout_constraintTop_toTopOf="@+id/imageView">
+
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:adjustViewBounds="true"-->
+<!--            app:srcCompat="@drawable/frame_scroll"-->
+<!--             />-->
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/poppinsmedium"
             android:text="Nama Lengkap"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/div_nama"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_input"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" >
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/profile_icon_image"
+                android:layout_marginLeft="16dp"
+                />
+
         <EditText
             android:id="@+id/et_nama"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/input_nama"
             android:fontFamily="@font/poppinsmedium"
             android:hint="Masukan Nama Mu"
+            android:background="@null"
+            android:backgroundTint="@null"
             android:inputType="textPersonName"
-            android:paddingStart="60dp"
+            android:paddingStart="24dp"
             android:paddingEnd="16dp"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.666"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            android:textSize="16sp"
+            />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textEmail"
@@ -101,25 +127,42 @@
             android:fontFamily="@font/poppinsmedium"
             android:text="Email"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_nama" />
+            app:layout_constraintTop_toBottomOf="@+id/div_nama" />
 
-        <EditText
-            android:id="@+id/et_email"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/div_email"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppinsmedium"
-            android:background="@drawable/input_email"
-            android:hint="Masukkan Email Mu"
-            android:inputType="textEmailAddress"
-            android:paddingStart="60dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/bg_input"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/textEmail" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/email_icon"
+                android:layout_marginStart="16dp"/>
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/poppinsmedium"
+                android:hint="Masukkan Email Mu"
+                android:inputType="textEmailAddress"
+                android:paddingStart="20dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textPass"
@@ -131,36 +174,50 @@
             android:fontFamily="@font/poppinsmedium"
             android:text="Kata Sandi"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_email" />
+            app:layout_constraintTop_toBottomOf="@+id/div_email" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_password"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:id="@+id/layout_password"
+            android:gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
+            android:background="@drawable/bg_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textPass">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/password_icon"
+                android:layout_marginStart="16dp"
+                />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/poppinsmedium"
             app:endIconMode="password_toggle"
-            app:hintEnabled="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textPass"
-
-            >
+            app:boxBackgroundMode="none"
+            android:background="@null"
+            android:backgroundTint="@null"
+            app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/input_password"
-                android:paddingStart="60dp"
+                android:paddingStart="20dp"
                 android:paddingEnd="16dp"
-                android:hint="********"
+                android:hint="Masukkan Sandi"
                 android:inputType="textPassword"
                 android:textColor="@color/black"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textPassConf"
@@ -174,51 +231,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_password" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_password_conf"
+            android:gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textPassConf">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/password_icon"
+            android:layout_marginStart="16dp"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_konfirpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppinsmedium"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             app:endIconMode="password_toggle"
-            app:hintEnabled="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textPassConf"
-
-            >
+            app:boxBackgroundMode="none"
+            android:background="@null"
+            android:backgroundTint="@null"
+            app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_passwordConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/input_password"
-                android:paddingStart="60dp"
+                android:paddingStart="20dp"
                 android:paddingEnd="16dp"
-                android:hint="********"
+                android:hint="Masukkan Konfirmasi "
                 android:inputType="textPassword"
                 android:textColor="@color/black"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-<!--        <EditText-->
-<!--            android:id="@+id/et_passwordConfirm"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginRight="16dp"-->
-<!--            android:layout_marginLeft="16dp"-->
-<!--            android:background="@drawable/input_password"-->
-<!--            android:hint="********"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:paddingStart="60dp"-->
-<!--            android:paddingEnd="16dp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/textPassConf" />-->
+        </LinearLayout>
 
         <TextView
             android:id="@+id/pilih_kendaraan"
@@ -230,13 +284,13 @@
             android:fontFamily="@font/poppinsmedium"
             android:text="Pilih Kendaraan mu"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_konfirpassword"
+            app:layout_constraintTop_toBottomOf="@+id/layout_password_conf"
             />
 
         <ImageView
             android:id="@+id/btn_pilih_kendaraan"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:src="@drawable/motor_terpilih"
@@ -339,13 +393,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_daftar"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="120dp"
             android:backgroundTint="@color/blue6"
-            android:text="Masuk Sekarang"
+            android:text="Daftar Sekarang"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -353,6 +408,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/wrapper_spinner_2" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </ScrollView>

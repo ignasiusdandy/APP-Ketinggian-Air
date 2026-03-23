@@ -104,7 +104,7 @@ public class DashboardActivity extends AppCompatActivity {
             startActivity(intent);
 
             //animasi perpindahan
-            overridePendingTransition(R.anim.slide_kanan_masuk, R.anim.slide_kiri_keluar);
+            overridePendingTransition(R.anim.slide_kanan_masuk, R.anim.slide_in_right);
         });
     }
 }

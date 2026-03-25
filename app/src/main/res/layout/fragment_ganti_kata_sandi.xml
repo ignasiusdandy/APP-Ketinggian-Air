@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".GantiKataSandiFragment">
 
     <LinearLayout
@@ -28,21 +29,43 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_input"
-            android:backgroundTint="@null"
-            android:fontFamily="@font/poppinsmedium"
-            android:paddingLeft="12dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:background="@drawable/bg_input"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            app:boxBackgroundMode="none"
+            android:backgroundTint="@null"
+            android:layout_marginBottom="8dp"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/kata_sandi"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:fontFamily="@font/poppinsmedium"
+                android:hint="Masukan Kata Sandi"
+                android:inputType="textPassword"
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/peringatan"
+            android:layout_marginBottom="6dp"
+            android:text="Kata Sandi yang anda masukkan salah!"
+            android:visibility="gone"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,20 +77,44 @@
             android:textSize="14sp" />
 
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_input"
-            android:backgroundTint="@null"
-            android:fontFamily="@font/poppinsmedium"
-            android:paddingLeft="12dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:background="@drawable/bg_input"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            app:boxBackgroundMode="none"
+            android:backgroundTint="@null"
+            android:layout_marginBottom="8dp"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/kata_sandi_baru"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:fontFamily="@font/poppinsmedium"
+                android:hint="Masukan Kata Sandi Baru"
+                android:inputType="textPassword"
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/peringatan"
+            android:layout_marginBottom="6dp"
+            android:text="Kata Sandi yang anda masukkan tidak sesuai"
+            android:visibility="gone"
+
+        />
 
 
         <TextView
@@ -80,20 +127,44 @@
             android:textSize="14sp" />
 
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_input"
-            android:backgroundTint="@null"
-            android:fontFamily="@font/poppinsmedium"
-            android:paddingLeft="12dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:background="@drawable/bg_input"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            app:boxBackgroundMode="none"
+            android:backgroundTint="@null"
+            android:layout_marginBottom="8dp"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/password_konfirmasi"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:fontFamily="@font/poppinsmedium"
+                android:hint="Masukan Konfirmasi Sandi"
+                android:inputType="textPassword"
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/peringatan"
+            android:layout_marginBottom="6dp"
+            android:text="Kata Sandi yang anda masukkan tidak sesuai"
+            android:visibility="gone"
+            />
+
 
 
 
@@ -109,6 +180,8 @@
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+
     </LinearLayout>
 
 </FrameLayout>

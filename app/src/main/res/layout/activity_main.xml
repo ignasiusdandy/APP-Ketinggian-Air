@@ -171,7 +171,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="80dp"
         android:layout_marginRight="16dp"
         android:backgroundTint="@color/blue6"
         android:fontFamily="@font/poppinsmedium"

@@ -19,16 +19,16 @@
     <FrameLayout
         android:id="@+id/navbar"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="52dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="1dp"
         android:background="@drawable/bg_navbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
 
-        <!-- 🔥 HIGHLIGHT (KOTAK PUTIH) -->
         <View
             android:id="@+id/highlight"
             android:layout_width="0dp"
@@ -36,7 +36,6 @@
             android:layout_margin="6dp"
             android:background="@drawable/menu_rounded"/>
 
-        <!-- MENU -->
         <LinearLayout
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
@@ -44,7 +43,6 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <!-- DASHBOARD -->
             <LinearLayout
                 android:id="@+id/menu_dashboard"
                 android:layout_width="wrap_content"
@@ -74,7 +72,6 @@
                     android:layout_marginStart="6dp"/>
             </LinearLayout>
 
-            <!-- MAPS -->
             <LinearLayout
                 android:id="@+id/menu_maps"
                 android:layout_width="wrap_content"

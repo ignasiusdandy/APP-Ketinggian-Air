@@ -104,7 +104,13 @@ public class MapsFragment extends Fragment {
 
         markerPulang.setOnMarkerClickListener((m, mapView) -> {
             InfoWindow.closeAllInfoWindowsOn(map);
-            map.getController().animateTo(m.getPosition());
+            GeoPoint posisi = m.getPosition();
+            GeoPoint offset = new GeoPoint(
+                    posisi.getLatitude() + 0.0007,
+                    posisi.getLongitude()
+            );
+
+            map.getController().animateTo(offset);
             m.showInfoWindow();
             return true;
         });

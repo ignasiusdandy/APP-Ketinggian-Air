@@ -68,6 +68,7 @@ public class MapsFragment extends Fragment {
 
         markerDatang.setOnMarkerClickListener((m, mapView) -> {
             InfoWindow.closeAllInfoWindowsOn(map);
+            map.getController().animateTo(m.getPosition());
             m.showInfoWindow();
             return true;
         });
@@ -101,8 +102,9 @@ public class MapsFragment extends Fragment {
             public void onClose() {}
         });
 
-        markerDatang.setOnMarkerClickListener((m, mapView) -> {
+        markerPulang.setOnMarkerClickListener((m, mapView) -> {
             InfoWindow.closeAllInfoWindowsOn(map);
+            map.getController().animateTo(m.getPosition());
             m.showInfoWindow();
             return true;
         });

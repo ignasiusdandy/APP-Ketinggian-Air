@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -83,8 +84,11 @@ public class MapsFragment extends Fragment {
                 TextView tvtittle = mView.findViewById(R.id.tvTittle);
                 TextView tvinfotinggi = mView.findViewById(R.id.tvInfoTinggi);
                 TextView btndetail = mView.findViewById(R.id.btn_detail);
+                ImageView imageStatus = mView.findViewById(R.id.image_status);
+
                 tvtittle.setText("Jalan Pulang");
                 tvinfotinggi.setText(tinggiAir + " Cm");
+                imageStatus.setImageResource(R.drawable.jalan_pulang);
 
                 btndetail.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), DashboardActivity.class);

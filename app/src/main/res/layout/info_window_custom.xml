@@ -71,6 +71,7 @@
 
 
     <ImageView
+        android:id="@+id/image_status"
         android:layout_marginTop="8dp"
         android:layout_width="300dp"
         android:layout_height="200dp"

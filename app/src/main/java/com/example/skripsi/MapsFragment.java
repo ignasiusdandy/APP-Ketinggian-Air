@@ -46,6 +46,7 @@ public class MapsFragment extends Fragment {
         map.getController().setCenter(jalanDatang);
         Marker markerDatang = new Marker(map);
         markerDatang.setPosition(jalanDatang);
+        markerDatang.setIcon(getResources().getDrawable(R.drawable.maps_point_icon));
 
         markerDatang.setInfoWindow(new InfoWindow(R.layout.info_window_custom, map){
             @Override
@@ -57,7 +58,7 @@ public class MapsFragment extends Fragment {
                 tvinfotinggi.setText(tinggiAir + " Cm");
 
                 btndetail.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), DashboardActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailStatusDatangActivity.class);
                     startActivity(intent);
                 });
             }
@@ -68,7 +69,13 @@ public class MapsFragment extends Fragment {
 
         markerDatang.setOnMarkerClickListener((m, mapView) -> {
             InfoWindow.closeAllInfoWindowsOn(map);
-            map.getController().animateTo(m.getPosition());
+            GeoPoint posisi = m.getPosition();
+            GeoPoint offset = new GeoPoint(
+                    posisi.getLatitude() + 0.0007,
+                    posisi.getLongitude()
+            );
+
+            map.getController().animateTo(offset);
             m.showInfoWindow();
             return true;
         });
@@ -78,6 +85,7 @@ public class MapsFragment extends Fragment {
 
         Marker markerPulang = new Marker(map);
         markerPulang.setPosition(jalanPulang);
+        markerPulang.setIcon(getResources().getDrawable(R.drawable.maps_point_icon));
 
         markerPulang.setInfoWindow(new InfoWindow(R.layout.info_window_custom, map){
             @Override

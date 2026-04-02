@@ -14,9 +14,16 @@
     <color name="blue9">#243791</color>
 
     <color name="peringatan">#ff0000</color>
+    <color name="hijautulisanaman">#1A8268</color>
     <color name="hijauaman">#22BD14</color>
     <color name="kuningrendah">#FACC15</color>
     <color name="orensedang">#FB923C</color>
     <color name="merahtinggi">#BE1114</color>
     <color name="lihat">#2196F3</color>
+    <color name="tulisanabu">#5B5B5B</color>
+
+    <color name="hijaubackgroundaman">#F0FDF4</color>
+    <color name="kuningbackgroundrendah">#FFF5CD</color>
+    <color name="orenbackgroundsedang">#FFE8D5</color>
+    <color name="merahbackgroundtinggi">#FFE1E1</color>
 </resources>

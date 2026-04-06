@@ -7,11 +7,46 @@
     android:background="@color/blue6"
     tools:context=".MainActivity">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
+        <LinearLayout
+            android:id="@+id/topMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/backgroundvalidasisalah"
+            android:gravity="center_vertical"
+            android:layout_gravity = "bottom"
+            android:fitsSystemWindows="true"
+            android:paddingTop="40dp"
+            >
+
+            <ImageView
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/kesalahan_icon"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/tvMessage"
+                android:textColor="@color/peringatan"
+                android:text="Email/password yang anda masukkan tidak sesuai"
+                android:textSize="14sp" />
+        </LinearLayout>
+        </LinearLayout>
 
 
     <ImageView

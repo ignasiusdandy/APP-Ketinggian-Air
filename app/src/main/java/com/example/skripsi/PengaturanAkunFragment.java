@@ -1,64 +1,208 @@
 package com.example.skripsi;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PengaturanAkunFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.material.button.MaterialButton;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class PengaturanAkunFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    List<KendaraanUserResponseModel.DataKendaraanUser> listKendaraan = new ArrayList<>();
+    ArrayAdapter<String> adapter;
 
     public PengaturanAkunFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PengaturanAkunFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PengaturanAkunFragment newInstance(String param1, String param2) {
-        PengaturanAkunFragment fragment = new PengaturanAkunFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        super(R.layout.fragment_pengaturan_akun);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        TextView TVnamaAkun = view.findViewById(R.id.nama_pengaturan_akun);
+        CustomSpinner spinner = view.findViewById(R.id.spinner_kendaraan_utama);
+        MaterialButton btnUpdate = view.findViewById(R.id.btn_update_pengaturan);
+        ImageView arrowMotor = view.findViewById(R.id.iv_arrow_motor);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        SessionManager sessionManager = new SessionManager(requireContext());
+
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        String token = sessionManager.getToken();
+
+        // set nama awal
+        TVnamaAkun.setText(user.get(SessionManager.KEY_NAMA));
+
+        // init adapter kosong
+        adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                new ArrayList<>()
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        // animasi arrow
+        spinner.setSpinnerEventsListener(new CustomSpinner.OnSpinnerEventsListener() {
+            @Override
+            public void onSpinnerOpened(androidx.appcompat.widget.AppCompatSpinner spinner) {
+                arrowMotor.animate().rotation(0).setDuration(300).start();
+            }
+
+            @Override
+            public void onSpinnerClosed(androidx.appcompat.widget.AppCompatSpinner spinner) {
+                arrowMotor.animate().rotation(-90).setDuration(300).start();
+            }
+        });
+
+        // load data awal
+        loadKendaraanUser(apiService, token, spinner);
+
+        // tombol update
+        btnUpdate.setOnClickListener(v -> {
+
+            String nama = TVnamaAkun.getText().toString().trim();
+            int posisi = spinner.getSelectedItemPosition();
+
+            if (posisi < 0 || posisi >= listKendaraan.size()) {
+                Toast.makeText(getContext(), "Pilih kendaraan dulu", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String idKendaraan = listKendaraan.get(posisi).getId();
+            String jenis = listKendaraan.get(posisi).getJenisMotor();
+            String model = listKendaraan.get(posisi).getModelMotor();
+
+
+            btnUpdate.setEnabled(false);
+
+            apiService.updateUser("Bearer " + token, nama, idKendaraan)
+                    .enqueue(new Callback<UpdatePengaturanAkunModel>() {
+                        @Override
+                        public void onResponse(Call<UpdatePengaturanAkunModel> call, Response<UpdatePengaturanAkunModel> response) {
+
+                            btnUpdate.setEnabled(true);
+
+                            if (response.isSuccessful() && response.body() != null && response.body().isStatus()) {
+
+                                Dialog dialog = new Dialog(requireContext());
+                                dialog.setContentView(R.layout.popup_berhasil);
+                                dialog.getWindow().setLayout(
+                                        ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT
+                                );
+
+                                //bikin agak gelap
+                                dialog.getWindow().setDimAmount(0.8f);
+                                // bikin transparan agar bisa diliat corner radiusnya
+                                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                LinearLayout lanjutanBerhasil = dialog.findViewById(R.id.lanjutanBerhasil);
+                                lanjutanBerhasil.setOnClickListener(v -> {
+                                    dialog.dismiss();
+                                });
+
+                                dialog.show();
+
+
+                                // update nama session
+                                sessionManager.updateNama(
+                                        nama
+                                );
+
+                                // refresh data
+                                loadKendaraanUser(apiService, token, spinner);
+                            } else {
+                                Dialog dialog = new Dialog(requireContext());
+                                dialog.setContentView(R.layout.popup_gagal);
+                                dialog.getWindow().setLayout(
+                                        ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT
+                                );
+
+                                //bikin agak gelap
+                                dialog.getWindow().setDimAmount(0.8f);
+                                // bikin transparan agar bisa diliat corner radiusnya
+                                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                                LinearLayout lanjutanGagal = dialog.findViewById(R.id.lanjutanGagal);
+                                lanjutanGagal.setOnClickListener(v -> {
+                                    dialog.dismiss();
+                                });
+
+                                dialog.show();
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UpdatePengaturanAkunModel> call, Throwable t) {
+                            btnUpdate.setEnabled(true);
+                            Toast.makeText(getContext(), "Error koneksi", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pengaturan_akun, container, false);
+    private void loadKendaraanUser(ApiService apiService, String token, CustomSpinner spinner) {
+
+        apiService.getKendaraanUser("Bearer " + token)
+                .enqueue(new Callback<KendaraanUserResponseModel>() {
+                    @Override
+                    public void onResponse(Call<KendaraanUserResponseModel> call, Response<KendaraanUserResponseModel> response) {
+
+                        if (response.isSuccessful() && response.body() != null) {
+
+                            listKendaraan.clear();
+                            listKendaraan.addAll(response.body().getData());
+
+                            List<String> namaKendaraan = new ArrayList<>();
+
+                            int selectedIndex = 0;
+
+                            for (int i = 0; i < listKendaraan.size(); i++) {
+                                KendaraanUserResponseModel.DataKendaraanUser k = listKendaraan.get(i);
+                                Log.d("CEK_KENDARAAN",
+                                        k.getNamaLengkapMotor() + " | utama: " + k.isKendaraanUtama());
+
+                                namaKendaraan.add(k.getNamaLengkapMotor());
+
+                                if (k.isKendaraanUtama()) {
+                                    selectedIndex = i;
+                                }
+                            }
+
+                            adapter.clear();
+                            adapter.addAll(namaKendaraan);
+                            adapter.notifyDataSetChanged();
+
+                            spinner.setSelection(selectedIndex);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<KendaraanUserResponseModel> call, Throwable t) {
+                        Toast.makeText(getContext(), "Gagal load kendaraan", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

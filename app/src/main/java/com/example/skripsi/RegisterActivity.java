@@ -30,8 +30,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
-
-    private static final String BASE_URL = "http://104.248.98.110/";
     private List<Kendaraan> listSemuaKendaraan = new ArrayList<>();
 
     // Adapter Spinner
@@ -150,12 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void ambilDataKendaraanDariServer() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiService apiService = retrofit.create(ApiService.class);
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<KendaraanResponse> call = apiService.getDataKendaraan();
 
         call.enqueue(new Callback<KendaraanResponse>() {
@@ -210,12 +203,7 @@ public class RegisterActivity extends AppCompatActivity {
         spinnerModel.setSelection(0);
     }
     private void prosesRegister(String nama, String email, String pass, String idKendaraan, String motorText, String modelText){
-        Retrofit retrofit =  new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiService apiService = retrofit.create(ApiService.class);
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
         Call<ResponseBody> call = apiService.registerUser(nama, email, pass, idKendaraan);
 
@@ -224,9 +212,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful() && response.body() != null){
                     SessionManager sessionManager = new SessionManager(RegisterActivity.this);
-
-                    sessionManager.createLoginSession(nama, email, motorText, modelText);
-
                     Toast.makeText(RegisterActivity.this, "Berhasil " + response.body().getMessage(), Toast.LENGTH_LONG).show();
                 }
                 else {

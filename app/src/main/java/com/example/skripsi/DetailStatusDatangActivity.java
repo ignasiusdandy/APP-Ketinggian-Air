@@ -67,8 +67,8 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
         // Bagian Tambah kendaraan
         LinearLayout btnInput = findViewById(R.id.btn_input);
         btnInput.setOnClickListener(v -> {
-            Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.pilih_edit_kendaraan_user);
+            PopupTambahKendaraan dialog = new PopupTambahKendaraan(this);
+            dialog.show();
             dialog.getWindow().setLayout(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
@@ -77,7 +77,6 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
             //bikin agak gelap
             dialog.getWindow().setDimAmount(0.8f);
 
-            dialog.show();
 
         });
 

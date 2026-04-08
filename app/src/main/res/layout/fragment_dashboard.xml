@@ -77,6 +77,7 @@
                     android:text="Honda Beat 150" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/layoutJalanDatang"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="vertical"
@@ -271,6 +272,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutJalanPulang"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="vertical"

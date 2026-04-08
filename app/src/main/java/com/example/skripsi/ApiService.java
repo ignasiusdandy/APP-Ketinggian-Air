@@ -1,5 +1,6 @@
 package com.example.skripsi;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -43,5 +44,14 @@ public interface ApiService {
             @Header("Authorization") String token,
             @Field("nama") String nama,
             @Field("id_kendaraan") String idKendaraan
+    );
+
+    @GET("api/data/chartAll")
+    Call<ChartAllResponseModel> getChartData();
+
+    @POST("api/kendaraan/tambahKendaraanUser")
+    Call<ResponseBody> tambahKendaraan(
+            @Header("Authorization") String token,
+            @Body TambahKendaraanRequestModel request
     );
 }

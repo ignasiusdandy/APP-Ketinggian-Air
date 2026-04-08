@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".DetailStatusPulangActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailStatusDatangActivity"
             android:exported="false"
             android:label="@string/title_activity_detail_status"

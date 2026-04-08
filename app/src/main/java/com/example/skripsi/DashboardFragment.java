@@ -1,5 +1,6 @@
 package com.example.skripsi;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -24,7 +26,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +39,8 @@ public class DashboardFragment extends Fragment {
     private SessionManager sessionManager;
     private TextView tvPerkenalanNama;
     private TextView tvKendaraan;
+    private ApiService apiService;
+    private LineChart lineChart;
 
     public DashboardFragment() {
         super(R.layout.fragment_dashboard);
@@ -42,7 +49,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient().create(ApiService.class);
 
         // Untuk mendapatkan session managernya
         sessionManager = new SessionManager(requireContext());
@@ -108,78 +115,20 @@ public class DashboardFragment extends Fragment {
 
 
         // ini untuk chart
-        LineChart lineChart = view.findViewById(R.id.lineChart);
-        ArrayList<Entry> data1 = new ArrayList<>();
-        data1.add(new Entry(0, 160));
-        data1.add(new Entry(1, 150));
-        data1.add(new Entry(2, 170));
-        data1.add(new Entry(3, 240));
-        data1.add(new Entry(4, 230));
-        data1.add(new Entry(5, 120));
+        lineChart = view.findViewById(R.id.lineChart);
+        loadChartData();
 
-        ArrayList<Entry> data2 = new ArrayList<>();
-        data2.add(new Entry(0, 20));
-        data2.add(new Entry(1, 140));
-        data2.add(new Entry(2, 120));
-        data2.add(new Entry(3, 60));
-        data2.add(new Entry(4, 10));
-        data2.add(new Entry(5, 40));
+        // ini untuk on click ke detail status
+        LinearLayout layoutDatang = view.findViewById(R.id.layoutJalanDatang);
+        LinearLayout layoutPulang = view.findViewById(R.id.layoutJalanPulang);
 
-        LineDataSet set1 = new LineDataSet(data1, "Jalan Datang");
-        set1.setColor(Color.BLUE);
-        set1.setLineWidth(2f);
+        layoutDatang.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), DetailStatusDatangActivity.class));
+        });
 
-        LineDataSet set2 = new LineDataSet(data2, "Jalan Pulang");
-        set2.setColor(Color.parseColor("#B42D9B"));
-        set2.setLineWidth(2f);
-
-        // garis smooth
-        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        set2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-
-        // hilangkan lingkaran titik
-        set1.setDrawCircles(false);
-        set2.setDrawCircles(false);
-
-        // hilangkan angka di titik
-        set1.setDrawValues(false);
-        set2.setDrawValues(false);
-
-        // ketebalan garis
-        set1.setLineWidth(3f);
-        set2.setLineWidth(3f);
-
-        LineData lineData = new LineData(set1, set2);
-        lineChart.setData(lineData);
-
-        lineChart.getDescription().setEnabled(false);
-        lineChart.invalidate();
-
-        lineChart.getAxisRight().setEnabled(false);
-        lineChart.getAxisLeft().setAxisMinimum(0f);
-        lineChart.getAxisLeft().setAxisMaximum(260f);
-        lineChart.getAxisLeft().setGranularity(50f);
-        lineChart.setDrawBorders(false);
-        lineChart.setDrawGridBackground(false);
-        lineChart.animateX(1000);
-        lineChart.setExtraBottomOffset(15f);
-
-
-        String[] waktu = {"21:00","22:00","23:00","00:00","01:00","02:00"};
-
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(waktu));
-        xAxis.setGranularity(1f);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawGridLines(false);
-        xAxis.setTextSize(11f);
-        xAxis.setAxisMinimum(-0.5f);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        // memidahkan keterangan dibawah jalan datang dan pulang
-        Legend legend = lineChart.getLegend();
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        legend.setXEntrySpace(25f);
+        layoutPulang.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), DetailStatusPulangActivity.class));
+        });
 
     }
 
@@ -189,6 +138,8 @@ public class DashboardFragment extends Fragment {
 
         if (!hidden) {
             refreshData();
+            loadChartData();
+
         }
     }
 
@@ -198,7 +149,7 @@ public class DashboardFragment extends Fragment {
         tvPerkenalanNama.setText("Hai " + namaBaru);
 
         String token = sm.getToken();
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+//        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
         apiService.getKendaraanUtama("Bearer " + token)
                 .enqueue(new Callback<KendaraanUtamaResponseModel>() {
@@ -220,5 +171,118 @@ public class DashboardFragment extends Fragment {
                         tvKendaraan.setText("Error koneksi");
                     }
                 });
+    }
+
+    private void loadChartData(){
+        apiService.getChartData().enqueue(new Callback<ChartAllResponseModel>() {
+            @Override
+            public void onResponse(Call<ChartAllResponseModel> call, Response<ChartAllResponseModel> response) {
+                if(response.isSuccessful() && response.body() != null ){
+                    List<ChartItem> datang = response.body().getDataChartAll().getJalandatang();
+                    List<ChartItem> pulang = response.body().getDataChartAll().getJalanpulang();
+
+                    if(datang.isEmpty() && pulang.isEmpty()){
+                        lineChart.clear();
+                        lineChart.setNoDataText("Tidak Ada Data");
+                        return;
+                    }
+
+                    setupChart(datang,pulang);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChartAllResponseModel> call, Throwable t) {
+                lineChart.setNoDataText("Gagal Ambil Data");
+            }
+        });
+    }
+
+    private void setupChart(List<ChartItem> datang, List<ChartItem> pulang){
+        ArrayList<Entry> dataDatang = new ArrayList<>();
+        ArrayList<Entry> dataPulang = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+
+        // MAP untuk sinkronisasi waktu
+        Map<String, Float> mapDatang = new HashMap<>();
+        Map<String, Float> mapPulang = new HashMap<>();
+        List<String> allWaktu = new ArrayList<>();
+
+        // isi data datang
+        for (ChartItem d : datang) {
+            mapDatang.put(d.getWaktu(), d.getNilai());
+            if (!allWaktu.contains(d.getWaktu())) {
+                allWaktu.add(d.getWaktu());
+            }
+        }
+
+        // isi data pulang
+        for (ChartItem p : pulang) {
+            mapPulang.put(p.getWaktu(), p.getNilai());
+            if (!allWaktu.contains(p.getWaktu())) {
+                allWaktu.add(p.getWaktu());
+            }
+        }
+
+        // URUTKAN waktu
+        Collections.sort(allWaktu);
+
+        // mapping ke Entry
+        for (int i = 0; i < allWaktu.size(); i++) {
+            String waktu = allWaktu.get(i);
+            labels.add(waktu);
+
+            if (mapDatang.containsKey(waktu)) {
+                dataDatang.add(new Entry(i, mapDatang.get(waktu)));
+            }
+
+            if (mapPulang.containsKey(waktu)) {
+                dataPulang.add(new Entry(i, mapPulang.get(waktu)));
+            }
+        }
+
+
+        LineDataSet set1 = new LineDataSet(dataDatang, "Jalan Datang");
+        set1.setColor(Color.BLUE);
+        set1.setDrawCircles(false);
+        set1.setDrawValues(false);
+        set1.setLineWidth(3f);
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+        LineDataSet set2 = new LineDataSet(dataPulang, "Jalan Pulang");
+        set2.setColor(Color.parseColor("#B42D9B"));
+        set2.setDrawValues(false);
+        set2.setDrawCircles(false);
+        set2.setLineWidth(3f);
+        set2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setDrawGridLines(false);
+        xAxis.setAxisMinimum(-0.5f);
+
+        // paksa semuanya agar tampil dan textnya menyesuaikan
+        xAxis.setLabelCount(labels.size(), true);
+        xAxis.setTextSize(9f);
+        xAxis.setLabelCount(10, false);
+
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.animateX(1000);
+        lineChart.invalidate();
+        lineChart.animateX(1000);
+        lineChart.setExtraBottomOffset(15f);
+
+
+        LineData lineData = new LineData(set1, set2);
+        lineChart.setData(lineData);
+
+        // memidahkan keterangan dibawah jalan datang dan pulang
+        Legend legend = lineChart.getLegend();
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        legend.setXEntrySpace(25f);
+
     }
 }

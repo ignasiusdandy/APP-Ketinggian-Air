@@ -492,6 +492,11 @@
                                 android:text="Grafik Perubahan 1 Jam Terakhir"/>
                         </LinearLayout>
 
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/lineChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="230dp"/>
+
                         </LinearLayout>
                     </LinearLayout>
 

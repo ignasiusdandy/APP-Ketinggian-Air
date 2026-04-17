@@ -9,7 +9,7 @@
         android:layout_marginTop="32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/popup_berhasil"
+        android:src="@drawable/popup_gagal"
         android:layout_marginBottom="26dp"/>
 
     <TextView
@@ -19,40 +19,18 @@
         android:textSize="20sp"
         android:fontFamily="@font/poppinssemibold"
         android:textColor="@color/black"
-        android:text="Berhasil"/>
+        android:text="Gagal"/>
 
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="30dp"
         android:layout_gravity="center_horizontal"
         android:textSize="14sp"
         android:fontFamily="@font/poppins_regular"
         android:textColor="@color/black"
-        android:text="Perubahan berhasil disimpan"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="32dp">
-
-        <LinearLayout
-            android:id="@+id/lanjutanBerhasil"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_add"
-            android:padding="6dp"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/white"
-                android:text="Lanjutkan"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+        android:textAlignment="center"
+        android:text="Anda tidak diperbolehkan menghapus data kendaraan utama, silahkan ganti kendaraan utama terlebih dahulu dimenu pengaturan akun"/>
 
 </LinearLayout>

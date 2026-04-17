@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="32dp"
+    tools:context=".PopupEditKendaraan"
+    android:background="@drawable/card_putih">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp">
+        <ImageView
+            android:id="@+id/btn_batal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/batal"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plusjakarta_extrabold"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:text="Edit Kendaraan"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plusjakartasans_regular"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:text="Perbaiki data kendaraan anda" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsmedium"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:text="Pemilik"
+        android:layout_marginTop="32dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        >
+
+        <com.example.skripsi.CustomSpinner
+            android:id="@+id/spinner_pemilik"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="40dp"
+            android:background="@drawable/bg_spinner"
+            android:spinnerMode="dropdown"
+            android:popupBackground="@color/white"/>
+
+
+        <ImageView
+            android:id="@+id/iv_arrow_pemilik"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="12dp"
+            android:rotation="-90"
+            android:src="@drawable/ic_arrow_down_blue" />
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsmedium"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:text="Kategori"
+        android:layout_marginTop="32dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        >
+
+        <com.example.skripsi.CustomSpinner
+            android:id="@+id/spinner_kategori"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="40dp"
+            android:background="@drawable/bg_spinner"
+            android:spinnerMode="dropdown"
+            android:popupBackground="@color/white"/>
+
+
+        <ImageView
+            android:id="@+id/iv_arrow_kategori"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="12dp"
+            android:rotation="-90"
+            android:src="@drawable/ic_arrow_down_blue" />
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsmedium"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:text="Model"
+        android:layout_marginTop="32dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        >
+
+        <com.example.skripsi.CustomSpinner
+            android:id="@+id/spinner_model"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="40dp"
+            android:background="@drawable/bg_spinner"
+            android:spinnerMode="dropdown"
+            android:popupBackground="@color/white"/>
+
+
+        <ImageView
+            android:id="@+id/iv_arrow_model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="12dp"
+            android:rotation="-90"
+            android:src="@drawable/ic_arrow_down_blue" />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/update_kendaraan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/bg_add"
+        android:padding="12dp"
+        android:layout_marginTop="52dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:text="Update Kendaraan"/>
+    </LinearLayout>
+</LinearLayout>

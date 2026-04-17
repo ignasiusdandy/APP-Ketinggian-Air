@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvPemilik"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/blue6"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tvKategori"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/tulisanabu"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tvModel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/tulisanabu"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

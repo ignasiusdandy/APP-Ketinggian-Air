@@ -10,8 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:layout_marginBottom="50dp">
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="15dp">
         <ImageView
+            android:id="@+id/btn_batal_pilih"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/batal"/>
@@ -50,7 +52,7 @@
 
 
         <ImageView
-            android:id="@+id/iv_arrow_model"
+            android:id="@+id/iv_arrow_motor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
@@ -65,6 +67,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="50dp">
         <LinearLayout
+            android:id="@+id/btn_hapus"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -87,6 +90,7 @@
             android:layout_weight="0.5"/>
 
         <LinearLayout
+            android:id="@+id/edit_kendaraan"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"

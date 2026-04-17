@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     tools:context=".DetailStatusDatangActivity"
     >
@@ -43,6 +43,7 @@
                             >
 
                         <ImageView
+                            android:id="@+id/btn_kembali"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginLeft="20dp"
@@ -79,11 +80,13 @@
                                 android:layout_marginRight="20dp">
 
                                 <ImageView
+                                    android:id="@+id/bulatStatusDetail"
                                     android:layout_width="9dp"
                                     android:layout_height="9dp"
                                     android:src="@drawable/bulathijaukecil"/>
 
                                 <TextView
+                                    android:id="@+id/tvStatusDetail"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
@@ -126,6 +129,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/bgRekomendasi"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
@@ -137,10 +141,12 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center_horizontal"
                                 android:paddingTop="12dp">
+
                                 <ImageView
+                                    android:id="@+id/iconRekomendasi"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@drawable/aman_icon"/>
+                                    android:src="@drawable/aman_icon" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -151,6 +157,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/textRekomendasi"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppinsmedium"
@@ -159,6 +166,7 @@
                                     android:text="Motor Honda Beat 120 Anda Aman untuk melintasi jalur ini"/>
 
                                 <TextView
+                                    android:id="@+id/deskripsiRekomendasi"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppinsmedium"
@@ -212,6 +220,7 @@
                                             android:orientation="horizontal">
 
                                             <TextView
+                                                android:id="@+id/tvTinggiDetail"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="12dp"
@@ -223,6 +232,7 @@
                                                 android:textSize="16sp" />
 
                                             <ImageView
+                                                android:id="@+id/arrowTinggiDetail"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:src="@drawable/down_arrow" />
@@ -257,6 +267,7 @@
                                             android:layout_height="match_parent"
                                             android:orientation="horizontal">
                                             <TextView
+                                                android:id="@+id/tvKecepatanDetail"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="12dp"
@@ -268,6 +279,7 @@
                                                 android:layout_marginRight="4dp"/>
 
                                             <ImageView
+                                                android:id="@+id/arrowKecepatanDetail"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:src="@drawable/up_arrow" />
@@ -290,6 +302,7 @@
                                 android:text="Status "/>
 
                             <TextView
+                                android:id="@+id/statusJam"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppinsmedium"
@@ -306,6 +319,7 @@
                                 android:text=" sejak "/>
 
                             <TextView
+                                android:id="@+id/tvWaktuDetail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppinsmedium"
@@ -445,6 +459,7 @@
                                 android:layout_weight="1"/>
 
                             <LinearLayout
+                                android:id="@+id/btn_edit"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="2"
@@ -473,7 +488,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
                         android:orientation="vertical"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -496,7 +511,6 @@
                             android:id="@+id/lineChart"
                             android:layout_width="match_parent"
                             android:layout_height="230dp"/>
-
                         </LinearLayout>
                     </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.example.skripsi;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PopupTambahKendaraan extends Dialog {
+public class PopupEditKendaraan extends Dialog {
 
     private Context context;
 
@@ -33,19 +34,30 @@ public class PopupTambahKendaraan extends Dialog {
 
     private String selectedIdKendaraan = null;
     private String selectedPemilik = "Pribadi";
+    private KendaraanUserResponseModel.DataKendaraanUser dataKendaraan;
+    private boolean isFirstLoad = true;
+    private OnEditListener listener;
 
-    private LinearLayout btnTambah;
+
+    private LinearLayout btnUpdate;
     private ImageView btnClose;
 
-    public PopupTambahKendaraan(@NonNull Context context) {
+    public PopupEditKendaraan(@NonNull Context context,
+                              KendaraanUserResponseModel.DataKendaraanUser data, OnEditListener listener) {
         super(context);
         this.context = context;
+        this.dataKendaraan = data;
+        this.listener = listener;
+    }
+
+    public interface OnEditListener {
+        void onBerhasilEdit();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tambah_kendaraan_user);
+        setContentView(R.layout.form_edit_kendaraan_user);
 
         initView();
         setupSpinner();
@@ -58,7 +70,7 @@ public class PopupTambahKendaraan extends Dialog {
         spinnerModel = findViewById(R.id.spinner_model);
         spinnerPemilik = findViewById(R.id.spinner_pemilik);
 
-        btnTambah = findViewById(R.id.tambah_kendaraan);
+        btnUpdate = findViewById(R.id.update_kendaraan);
         btnClose = findViewById(R.id.btn_batal);
     }
 
@@ -75,6 +87,11 @@ public class PopupTambahKendaraan extends Dialog {
         );
 
         spinnerPemilik.setAdapter(adapterPemilik);
+        if (dataKendaraan.getPemilikKendaraan().equalsIgnoreCase("Pribadi")) {
+            spinnerPemilik.setSelection(0);
+        } else {
+            spinnerPemilik.setSelection(1);
+        }
 
         spinnerPemilik.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -148,8 +165,13 @@ public class PopupTambahKendaraan extends Dialog {
         listJenis.clear();
         listJenis.add("Pilih Jenis Motor");
         listJenis.addAll(KendaraanCache.getJenisList());
-
         adapterJenis.notifyDataSetChanged();
+        String jenisTerpilih = dataKendaraan.getJenisMotor();
+        int indexJenis = listJenis.indexOf(jenisTerpilih);
+
+        if(indexJenis >= 0){
+            spinnerJenis.setSelection(indexJenis);
+        }
     }
 
     private void loadModel(String jenis) {
@@ -170,6 +192,12 @@ public class PopupTambahKendaraan extends Dialog {
 
         adapterModel.notifyDataSetChanged();
         spinnerModel.setSelection(0);
+//        String modelTerpilih = dataKendaraan.getModelMotor();
+//        int indexModel = listJenis.indexOf(modelTerpilih);
+//
+//        if(indexModel >= 0){
+//            spinnerModel.setSelection(indexModel);
+//        }
 
         spinnerModel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -185,41 +213,59 @@ public class PopupTambahKendaraan extends Dialog {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        if (isFirstLoad) {
+            String idModel = dataKendaraan.getId();
+
+            for (int i = 0; i < listModel.size(); i++) {
+                String model = listModel.get(i);
+
+                String id = KendaraanCache.getIdByModel(model);
+
+                if (id != null && id.equals(idModel)) {
+                    spinnerModel.setSelection(i);
+                    selectedIdKendaraan = id;
+                    break;
+                }
+            }
+        }
     }
 
     private void setupAction() {
 
         btnClose.setOnClickListener(v -> dismiss());
 
-        btnTambah.setOnClickListener(v -> {
+        btnUpdate.setOnClickListener(v -> {
 
             if (selectedIdKendaraan == null) {
                 Toast.makeText(context, "Pilih kendaraan dulu", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            tambahKendaraan();
+            updateKendaraan();
         });
     }
 
-    private void tambahKendaraan() {
+    private void updateKendaraan() {
 
         SessionManager session = new SessionManager(context);
         String token = "Bearer " + session.getToken();
+        Log.d("EDIT_DEBUG", "ID LAMA: " + dataKendaraan.getId());
+        Log.d("EDIT_DEBUG", "ID BARU: " + selectedIdKendaraan);
+        Log.d("EDIT_DEBUG", "PEMILIK: " + selectedPemilik);
 
-        TambahKendaraanRequestModel request =
-                new TambahKendaraanRequestModel(selectedIdKendaraan, selectedPemilik);
+        EditKendaraanRequestModel request =
+                new EditKendaraanRequestModel(selectedIdKendaraan, selectedPemilik);
 
         ApiService api = ApiClient.getClient().create(ApiService.class);
-
-        api.tambahKendaraan(token, request).enqueue(new Callback<ResponseBody>() {
-
+        api.updateKendaraan(token, dataKendaraan.getId(),request).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+//                Log.d("EDIT_DEBUG", "CODE: " + response.code());
+//                Log.d("EDIT_DEBUG", "MESSAGE: " + response.message());
                 if (response.isSuccessful()) {
                     Dialog dialog = new Dialog(context);
-                    dialog.setContentView(R.layout.popup_berhasil_tambah);
+                    dialog.setContentView(R.layout.popup_berhasil);
                     dialog.getWindow().setLayout(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -234,7 +280,10 @@ public class PopupTambahKendaraan extends Dialog {
                         dialog.dismiss();
                     });
 
-                    dialog.show();
+                    if (listener != null) {
+                        listener.onBerhasilEdit();
+                    }
+
                     dismiss();
                 } else {
                     Dialog dialog = new Dialog(context);
@@ -252,7 +301,6 @@ public class PopupTambahKendaraan extends Dialog {
                     lanjutanGagal.setOnClickListener(v -> {
                         dialog.dismiss();
                     });
-                    dialog.show();
                     dismiss();
                 }
             }

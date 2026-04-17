@@ -44,6 +44,30 @@ public class KendaraanTabelAdapter extends RecyclerView.Adapter<KendaraanTabelAd
             holder.tvKategori.setText(k.getKategori());
             holder.tvModel.setText(k.getModel());
             holder.tvStatus.setText( k.getStatus());
+
+            if(k.getPemilik().equals("Orang Lain")){
+                holder.tvPemilik.setTextColor(
+                        holder.itemView.getContext().getColor(R.color.tulisanabu)
+                );
+            }
+
+            if (k.getStatus().equals("Resiko Rendah")){
+                holder.tvStatus.setTextColor(
+                        holder.itemView.getContext().getColor(R.color.kuningrendah)
+                );
+            } else if(k.getStatus().equals("Resiko Sedang")){
+                holder.tvStatus.setTextColor(
+                        holder.itemView.getContext().getColor(R.color.orensedang)
+                );
+            } else if(k.getStatus().equals("Resiko Tinggi")){
+                holder.tvStatus.setTextColor(
+                        holder.itemView.getContext().getColor(R.color.merahtinggi)
+                );
+            } else {
+                holder.tvStatus.setTextColor(
+                        holder.itemView.getContext().getColor(R.color.hijauaman)
+                );
+            }
         }
 
         @Override

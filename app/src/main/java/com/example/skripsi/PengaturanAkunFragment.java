@@ -163,6 +163,27 @@ public class PengaturanAkunFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        SessionManager sessionManager = new SessionManager(requireContext());
+        CustomSpinner spinner = getView().findViewById(R.id.spinner_kendaraan_utama);
+        String token = sessionManager.getToken();
+        // init adapter kosong
+        adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                new ArrayList<>()
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        if (!hidden) {
+            loadKendaraanUser(apiService, token, spinner);
+        }
+    }
+
     private void loadKendaraanUser(ApiService apiService, String token, CustomSpinner spinner) {
 
         apiService.getKendaraanUser("Bearer " + token)
@@ -187,7 +208,7 @@ public class PengaturanAkunFragment extends Fragment {
                                 namaKendaraan.add(k.getNamaLengkapMotor());
 
                                 if (k.isKendaraanUtama()) {
-                                    selectedIndex = i;
+                                    selectedIndex = i + 1;
                                 }
                             }
 

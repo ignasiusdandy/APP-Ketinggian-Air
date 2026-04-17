@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,12 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MapsFragment extends Fragment {
     private MapView map;
-    double tinggiAir = 20;
-    String status = "Resiko Sedang";
     String lokasi = "";
     String title = "";
 
@@ -53,9 +56,10 @@ public class MapsFragment extends Fragment {
             public void onOpen(Object item){
                 TextView tvtittle = mView.findViewById(R.id.tvTittle);
                 TextView tvinfotinggi = mView.findViewById(R.id.tvInfoTinggi);
+                TextView tvStatus = mView.findViewById(R.id.tvInfoStatus);
                 TextView btndetail = mView.findViewById(R.id.btn_detail);
                 tvtittle.setText("Jalan Datang");
-                tvinfotinggi.setText(tinggiAir + " Cm");
+                loadStatus(tvinfotinggi, tvStatus);
 
                 btndetail.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), DetailStatusDatangActivity.class);
@@ -94,10 +98,11 @@ public class MapsFragment extends Fragment {
                 TextView tvinfotinggi = mView.findViewById(R.id.tvInfoTinggi);
                 TextView btndetail = mView.findViewById(R.id.btn_detail);
                 ImageView imageStatus = mView.findViewById(R.id.image_status);
+                TextView tvStatus = mView.findViewById(R.id.tvInfoStatus);
 
                 tvtittle.setText("Jalan Pulang");
-                tvinfotinggi.setText(tinggiAir + " Cm");
                 imageStatus.setImageResource(R.drawable.jalan_pulang);
+                loadStatus(tvinfotinggi, tvStatus);
 
                 btndetail.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), DashboardActivity.class);
@@ -145,5 +150,58 @@ public class MapsFragment extends Fragment {
     public void onPause(){
         super.onPause();
         map.onPause();
+    }
+
+
+    private void loadStatus(TextView tvinfotinggi, TextView tvStatus){
+
+        SessionManager session = new SessionManager(requireContext());
+        String token = "Bearer " + session.getToken();
+
+        ApiService api = ApiClient.getClient().create(ApiService.class);
+
+        api.getStatusUtama(token).enqueue(new Callback<StatusUtamaResponseModel>() {
+            @Override
+            public void onResponse(Call<StatusUtamaResponseModel> call,
+                                   Response<StatusUtamaResponseModel> response) {
+
+                if(response.isSuccessful() && response.body() != null){
+
+                    StatusUtamaResponseModel.Lokasi lokasi = response.body().getDatang();
+
+                    if(lokasi != null && lokasi.getData() != null){
+
+                        StatusUtamaResponseModel.Data d = lokasi.getData();
+
+                        double tinggi = d.getTinggi();
+                        String risiko = d.getRisiko();
+                        tvinfotinggi.setText(tinggi + " Cm");
+                        tvStatus.setText(risiko);
+
+                        if (risiko.toLowerCase().equals("aman")){
+                            tvStatus.setTextColor(getResources().getColor(R.color.hijauaman));
+                        } else if (risiko.toLowerCase().equals("resiko rendah")){
+                            tvStatus.setTextColor(getResources().getColor(R.color.kuningrendah));
+                        } else if (risiko.toLowerCase().equals("resiko sedang")){
+                            tvStatus.setTextColor(getResources().getColor(R.color.orensedang));
+                        } else if (risiko.toLowerCase().equals("resiko tinggi")){
+                            tvStatus.setTextColor(getResources().getColor(R.color.merahtinggi));
+                        } else{
+                            Log.e("risiko", "Risiko tidak sama");
+                        }
+                    } else{
+                        String risiko;
+                        risiko = "-";
+                        tvinfotinggi.setText("- Cm");
+                        tvStatus.setText(risiko);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StatusUtamaResponseModel> call, Throwable t) {
+                Log.e("API_ERROR", "Gagal Ambil Response Status");
+            }
+        });
     }
 }

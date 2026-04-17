@@ -2,7 +2,7 @@ package com.example.skripsi;
 
 import java.util.List;
 
-public class KendaraanUserResponseModel {
+public class KendaraanUserSPKResponseModel {
     private boolean status;
     private String message;
     List<DataKendaraanUser> data;
@@ -54,6 +54,3 @@ public class KendaraanUserResponseModel {
 
     }
 }
-
-
-

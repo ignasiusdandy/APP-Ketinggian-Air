@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,10 +38,10 @@ import retrofit2.Response;
 
 public class DashboardFragment extends Fragment {
     private SessionManager sessionManager;
-    private TextView tvPerkenalanNama;
-    private TextView tvKendaraan;
+    private TextView tvPerkenalanNama, tvKendaraan, tvStatusDatang, tvStatusPulang, tvTinggiDatang, tvTinggiPulang, tvKecepatanDatang, tvKecepatanPulang, tvWaktuDatang, tvWaktuPulang;
     private ApiService apiService;
     private LineChart lineChart;
+    private ImageView bulatStatusDatang, bulatStatusPulang, arrowTinggiDatang, arrowKecepatanDatang, arrowTinggiPulang, arrowKecepatanPulang;
 
     public DashboardFragment() {
         super(R.layout.fragment_dashboard);
@@ -55,11 +56,6 @@ public class DashboardFragment extends Fragment {
         sessionManager = new SessionManager(requireContext());
         String nama = sessionManager.getUserDetails().get(SessionManager.KEY_NAMA);
         String token = sessionManager.getToken();
-//        Log.d("SESSION_DEBUG", "ID: " +user.get(SessionManager.KEY_ID));
-//        Log.d("SESSION_DEBUG", "Nama: " + user.get(SessionManager.KEY_NAMA));
-//        Log.d("SESSION_DEBUG", "Email: " + user.get(SessionManager.KEY_EMAIL));
-//        Log.d("SESSION_DEBUG", "Token: " + user.get(SessionManager.KEY_TOKEN));
-//        Log.d("SESSION_DEBUG", "Role: " + user.get(SessionManager.KEY_ROLE));
 
         //ini untuk perkenalan nama
         tvPerkenalanNama = view.findViewById(R.id.haiNamaUser);
@@ -72,11 +68,15 @@ public class DashboardFragment extends Fragment {
 
         String ucapan;
 
-        if (jam > 5 && jam < 12 ){
+        if (jam > 3 && jam < 10 ){
             ucapan = "Selamat Pagi";
-        } else if (jam > 12 && jam < 16 ){
+        } else if (jam > 10 && jam < 15 ){
+            ucapan = "Selamat Siang";
+        } else if (jam > 15 && jam < 18 ){
             ucapan = "Selamat Sore";
-        } else {
+        }else if (jam > 18 && jam < 19 ){
+            ucapan = "Selamat Sore";
+        }else {
             ucapan = "Selamat Malam";
         }
         tvselamatwaktu.setText(ucapan);
@@ -129,6 +129,24 @@ public class DashboardFragment extends Fragment {
         layoutPulang.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), DetailStatusPulangActivity.class));
         });
+
+        // Ini untuk SPK dan Status
+        tvTinggiDatang = view.findViewById(R.id.tinggiDatang);
+        tvKecepatanDatang = view.findViewById(R.id.kecepatanDatang);
+        tvStatusDatang = view.findViewById(R.id.statusDatang);
+        tvWaktuDatang = view.findViewById(R.id.waktuDatang);
+        bulatStatusDatang = view.findViewById(R.id.bulatStatusDatang);
+        arrowTinggiDatang = view.findViewById(R.id.arrowTinggiDatang);
+        arrowKecepatanDatang = view.findViewById(R.id.arrowTinggiDatang);
+
+        tvTinggiPulang = view.findViewById(R.id.tinggiPulang);
+        tvKecepatanPulang = view.findViewById(R.id.kecepatanPulang);
+        tvStatusPulang = view.findViewById(R.id.statusPulang);
+        tvWaktuPulang = view.findViewById(R.id.waktuPulang);
+        bulatStatusPulang = view.findViewById(R.id.bulatStatusPulang);
+        arrowTinggiPulang = view.findViewById(R.id.arrowTinggiPulang);
+        arrowKecepatanPulang = view.findViewById(R.id.arrowKecepatanPulang);
+        loadStatus();
 
     }
 
@@ -284,5 +302,149 @@ public class DashboardFragment extends Fragment {
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         legend.setXEntrySpace(25f);
 
+    }
+
+    private void loadStatus(){
+        String token = "Bearer " + sessionManager.getToken();
+        apiService.getStatusUtama(token).enqueue(new Callback<StatusUtamaResponseModel>() {
+            @Override
+            public void onResponse(Call<StatusUtamaResponseModel> call, Response<StatusUtamaResponseModel> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    StatusUtamaResponseModel res = response.body();
+                    if (res.getDatang() != null && res.getDatang().getData() != null){
+                        StatusUtamaResponseModel.Data d = res.getDatang().getData();
+
+                        double tinggi = d.getTinggi();
+                        double kecepatan = d.getKecepatan();
+                        String risiko = d.getRisiko();
+                        String lastUpdate = d.getLastUpdate();
+                        setArrow(kecepatan, arrowTinggiDatang);
+                        setArrow(kecepatan, arrowKecepatanDatang);
+
+                        // Kita ubah waktu datangnya
+                        tvWaktuDatang.setText(lastUpdate + " WITA");
+
+                        if (risiko.toLowerCase().contains("aman")){
+                            tvTinggiDatang.setText((double) tinggi + " cm");
+                            tvKecepatanDatang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.hijauaman));
+                            bulatStatusDatang.setImageResource(R.drawable.bulathijaukecil);
+                        } else if (risiko.toLowerCase().contains("resiko rendah")){
+                            tvTinggiDatang.setText((double) tinggi + " cm");
+                            tvKecepatanDatang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.kuningrendah));
+                            bulatStatusDatang.setImageResource(R.drawable.bulatkuningkecil);
+                        } else if (risiko.toLowerCase().contains("resiko sedang")){
+                            tvTinggiDatang.setText((double) tinggi + " cm");
+                            tvKecepatanDatang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.orensedang));
+                            bulatStatusDatang.setImageResource(R.drawable.bulatorenkecil);
+
+                        } else if (risiko.toLowerCase().contains("resiko tinggi")){
+                            tvTinggiDatang.setText((double) tinggi + " cm");
+                            tvKecepatanDatang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.peringatan));
+                            bulatStatusDatang.setImageResource(R.drawable.bulatmerahkecil);
+
+                        } else {
+                            tvTinggiDatang.setText("-");
+                            tvKecepatanDatang.setText("-");
+                            tvStatusDatang.setText("Error");
+                        }
+
+                    } else{
+                        tvTinggiDatang.setText("-");
+                        tvKecepatanDatang.setText("-");
+                        tvStatusDatang.setText("-");
+                        tvWaktuDatang.setText("-");
+                    }
+
+                    if (res.getPulang() != null && res.getPulang().getData() != null){
+                        StatusUtamaResponseModel.Data d = res.getDatang().getData();
+
+                        double tinggi = d.getTinggi();
+                        double kecepatan = d.getKecepatan();
+                        String risiko = d.getRisiko();
+                        String lastUpdate = d.getLastUpdate();
+                        setArrow(kecepatan, arrowTinggiPulang);
+                        setArrow(kecepatan, arrowKecepatanPulang);
+                        // Kita ubah waktu datangnya
+                        tvWaktuPulang.setText(lastUpdate + " WITA");
+
+                        if (risiko.toLowerCase().contains("aman")){
+                            tvTinggiPulang.setText((double) tinggi + " cm");
+                            tvKecepatanPulang.setText((double) kecepatan + " cm/h");
+                            tvStatusPulang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.hijauaman));
+                            bulatStatusPulang.setImageResource(R.drawable.bulathijaukecil);
+                        } else if (risiko.toLowerCase().contains("resiko rendah")){
+                            tvTinggiPulang.setText((double) tinggi + " cm");
+                            tvKecepatanPulang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.kuningrendah));
+                            bulatStatusPulang.setImageResource(R.drawable.bulatkuningkecil);
+                        } else if (risiko.toLowerCase().contains("resiko sedang")){
+                            tvTinggiDatang.setText((double) tinggi + " cm");
+                            tvKecepatanDatang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.orensedang));
+                            bulatStatusPulang.setImageResource(R.drawable.bulatorenkecil);
+
+                        } else if (risiko.toLowerCase().contains("resiko tinggi")){
+                            tvTinggiDatang.setText((double) tinggi + " cm");
+                            tvKecepatanDatang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.merahtinggi));
+                            bulatStatusPulang.setImageResource(R.drawable.bulatmerahkecil);
+
+                        } else {
+                            tvTinggiPulang.setText("-");
+                            tvKecepatanPulang.setText("-");
+                            tvStatusPulang.setText("Error");
+                        }
+                    } else{
+                        tvTinggiPulang.setText("-");
+                        tvKecepatanPulang.setText("-");
+                        tvStatusPulang.setText("-");
+                        tvWaktuPulang.setText("-");
+                    }
+
+                } else {
+                    Log.d("DASHBOARD", "Response gagal: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StatusUtamaResponseModel> call, Throwable t) {
+                Log.d("DASHBOARD", "Error: " + t.getMessage());
+            }
+        });
+
+    }
+
+    private void setArrow(double kecepatan, ImageView imgArrow){
+        if(kecepatan > 0){
+            imgArrow.setImageResource(R.drawable.up_arrow);
+            tvKecepatanDatang.setTextColor(getResources().getColor(R.color.hijauaman));
+            tvTinggiDatang.setTextColor(getResources().getColor(R.color.hijauaman));
+            tvKecepatanPulang.setTextColor(getResources().getColor(R.color.hijauaman));
+            tvTinggiPulang.setTextColor(getResources().getColor(R.color.hijauaman));
+        } else if (kecepatan < 0){
+            imgArrow.setImageResource(R.drawable.down_arrow);
+            tvKecepatanDatang.setTextColor(getResources().getColor(R.color.peringatan));
+            tvTinggiDatang.setTextColor(getResources().getColor(R.color.peringatan));
+            tvKecepatanPulang.setTextColor(getResources().getColor(R.color.peringatan));
+            tvTinggiPulang.setTextColor(getResources().getColor(R.color.peringatan));
+        } else{
+            imgArrow.setImageResource(R.drawable.arrow_stabil);
+            tvKecepatanDatang.setTextColor(getResources().getColor(R.color.black));
+            tvTinggiDatang.setTextColor(getResources().getColor(R.color.black));
+            tvKecepatanPulang.setTextColor(getResources().getColor(R.color.black));
+            tvTinggiPulang.setTextColor(getResources().getColor(R.color.black));
+        }
     }
 }

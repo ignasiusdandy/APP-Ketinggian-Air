@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_putih">
+
+
+    <ImageView
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/popup_gagal"
+        android:layout_marginBottom="26dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textSize="15sp"
+        android:fontFamily="@font/poppinsmedium"
+        android:textColor="@color/black"
+        android:text="Apakah kamu yakin menghapus Data Kendaraan?"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/btn_batal_hapus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginLeft="40dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_batal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/tulisanabu"
+                android:layout_gravity="center"
+                android:text="Batal"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"/>
+
+        <LinearLayout
+            android:id="@+id/btnLanjutanHapus"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_hapus"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_marginRight="40dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/white"
+                android:text="Hapus"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

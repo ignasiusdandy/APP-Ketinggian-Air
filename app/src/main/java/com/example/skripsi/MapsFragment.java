@@ -105,7 +105,7 @@ public class MapsFragment extends Fragment {
                 loadStatus(tvinfotinggi, tvStatus);
 
                 btndetail.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), DashboardActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailStatusDatangActivity.class);
                     startActivity(intent);
                 });
 

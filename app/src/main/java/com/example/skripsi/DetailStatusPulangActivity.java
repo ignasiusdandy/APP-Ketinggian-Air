@@ -348,7 +348,7 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             tvRekomendasi.setText("Motor Honda Beat 150 anda Beresiko Rendah untuk melintasi jalur ini");
             tvDeskripsiRekomendasi.setText("Kondisi diperkiran akan surut. Disarankan menunggu hingga kondisi lebih aman");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.kuningrendah));
-            params.weight = 0.7f;
+            params.weight = 0.6f;
 
         } else if(risiko.toLowerCase().contains("resiko sedang")){
             tvStatusJam.setText("Resiko Sedang");
@@ -361,7 +361,7 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             tvRekomendasi.setText("Motor Honda Beat 150 anda Beresiko Sedang untuk melintasi jalur ini");
             tvDeskripsiRekomendasi.setText("Kondisi berpotensi berbahaya, Ketinggian air tidak menunjukkan penurunan");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.orensedang));
-            params.weight = 0.7f;
+            params.weight = 0.6f;
 
         } else if(risiko.toLowerCase().contains("resiko tinggi")){
             tvStatusJam.setText("Resiko Tinggi");
@@ -374,7 +374,7 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             tvRekomendasi.setText("Motor Honda Beat 150 anda Beresiko Tinggi untuk melintasi jalur ini ");
             tvDeskripsiRekomendasi.setText("Kondisi sangat berbahaya, Ketinggian air sangat berisiko menyebabkan motor mogok dan bahkan risiko kerusakan pada kendaraan");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.peringatan));
-            params.weight = 0.7f;
+            params.weight = 0.6f;
 
         }
     }

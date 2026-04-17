@@ -42,8 +42,8 @@ import retrofit2.Response;
 
 public class DetailStatusPulangActivity extends AppCompatActivity {
     private MapView map;
-    private LineChart lineChart, weightResiko;
-    private LinearLayout bgRekomendasi;
+    private LineChart lineChart;
+    private LinearLayout bgRekomendasi, weightResiko;
 
     private TextView tvTinggi, tvKecepatan, tvStatus, tvWaktu, tvStatusJam, tvRekomendasi, tvDeskripsiRekomendasi;
     private ImageView bulatStatus, arrowKecepatan, arrowTinggi, iconRekomendasi;

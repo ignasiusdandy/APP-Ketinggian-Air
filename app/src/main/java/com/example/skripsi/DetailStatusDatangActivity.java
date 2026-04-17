@@ -85,42 +85,6 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
         tabelKendaraan.setLayoutManager(new LinearLayoutManager(this));
         loadKendaraan(tabelKendaraan);
 
-        // Bagian Tambah kendaraan
-        LinearLayout btnInput = findViewById(R.id.btn_input);
-        btnInput.setOnClickListener(v -> {
-            PopupTambahKendaraan dialog = new PopupTambahKendaraan(this);
-            dialog.show();
-            dialog.getWindow().setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-
-            //bikin agak gelap
-            dialog.getWindow().setDimAmount(0.8f);
-
-            // bikin agar bisa direfresh
-            dialog.setOnDismissListener(d -> {
-                loadKendaraan(tabelKendaraan);
-            });
-        });
-
-        // bagian btn edit
-        LinearLayout btnEdit = findViewById(R.id.btn_edit);
-        btnEdit.setOnClickListener(v -> {
-            PopupPilihEditKendaraan dialog = new PopupPilihEditKendaraan(this, () -> {
-                showPopupBerhasil();
-            });
-            dialog.show();
-            dialog.getWindow().setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-
-            dialog.getWindow().setDimAmount(0.8f);
-            dialog.setOnDismissListener(d -> {
-                loadKendaraan(tabelKendaraan);
-            });
-        });
 
         // bagian kembali
         ImageView btnKembali = findViewById(R.id.btn_kembali);
@@ -211,15 +175,14 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
             public void onResponse(Call<ChartAllResponseModel> call, Response<ChartAllResponseModel> response) {
                 if(response.isSuccessful() && response.body() != null ){
                     List<ChartItem> datang = response.body().getDataChartAll().getJalandatang();
-                    List<ChartItem> pulang = response.body().getDataChartAll().getJalanpulang();
 
-                    if(datang.isEmpty() && pulang.isEmpty()){
+                    if(datang.isEmpty()){
                         lineChart.clear();
                         lineChart.setNoDataText("Tidak Ada Data");
                         return;
                     }
 
-                    setupChart(datang,pulang);
+                    setupChart(datang);
                 }
             }
 
@@ -230,14 +193,12 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
         });
     }
 
-    private void setupChart(List<ChartItem> datang, List<ChartItem> pulang){
+    private void setupChart(List<ChartItem> datang){
         ArrayList<Entry> dataDatang = new ArrayList<>();
-        ArrayList<Entry> dataPulang = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
         // MAP untuk sinkronisasi waktu
         Map<String, Float> mapDatang = new HashMap<>();
-        Map<String, Float> mapPulang = new HashMap<>();
         List<String> allWaktu = new ArrayList<>();
 
         // isi data datang
@@ -248,13 +209,6 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
             }
         }
 
-        // isi data pulang
-        for (ChartItem p : pulang) {
-            mapPulang.put(p.getWaktu(), p.getNilai());
-            if (!allWaktu.contains(p.getWaktu())) {
-                allWaktu.add(p.getWaktu());
-            }
-        }
 
         // URUTKAN waktu
         Collections.sort(allWaktu);
@@ -268,9 +222,6 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
                 dataDatang.add(new Entry(i, mapDatang.get(waktu)));
             }
 
-            if (mapPulang.containsKey(waktu)) {
-                dataPulang.add(new Entry(i, mapPulang.get(waktu)));
-            }
         }
 
 
@@ -304,7 +255,7 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
         LineData lineData = new LineData(set1);
         lineChart.setData(lineData);
 
-        // memidahkan keterangan dibawah jalan datang dan pulang
+        // memidahkan keterangan dibawah jalan datang
         Legend legend = lineChart.getLegend();
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         legend.setXEntrySpace(25f);

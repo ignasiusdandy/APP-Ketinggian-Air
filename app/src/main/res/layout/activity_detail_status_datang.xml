@@ -418,65 +418,6 @@
                             android:id="@+id/rvKendaraan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:orientation="horizontal"
-                            android:paddingBottom="2dp">
-
-                            <LinearLayout
-                                android:id="@+id/btn_input"
-                                android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:layout_height="50dp"
-                                android:background="@drawable/bg_add"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:paddingLeft="20dp"
-                                android:paddingRight="20dp">
-
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/tambah_icon"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="4dp"
-                                    android:fontFamily="@font/poppinsmedium"
-                                    android:text="Input Kendaraan"
-                                    android:textColor="@color/white"
-                                    android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"/>
-
-                            <LinearLayout
-                                android:id="@+id/btn_edit"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:background="@drawable/bg_garisbirukotak"
-                                android:gravity="center">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="12sp"
-                                    android:textColor="@color/blue6"
-                                    android:text="Edit"/>
-
-                            </LinearLayout>
-
-                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -488,7 +429,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
                         android:orientation="vertical"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"

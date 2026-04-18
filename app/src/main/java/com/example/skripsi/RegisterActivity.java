@@ -3,6 +3,7 @@ package com.example.skripsi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -10,7 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -56,6 +59,18 @@ public class RegisterActivity extends AppCompatActivity {
         EditText etPasswordConf = findViewById(R.id.et_passwordConfirm);
         MaterialButton btnDaftar = findViewById(R.id.btn_daftar);
 
+        // Ketika salah
+        TextView wrongNama = findViewById(R.id.wrongNama);
+        TextView wrongEmail = findViewById(R.id.wrongEmail);
+        TextView wrongPass = findViewById(R.id.wrongPass);
+        TextView wrongPassConf = findViewById(R.id.wrongPassConf);
+        TextView wrongJenis = findViewById(R.id.wrongJenis);
+        TextView wrongModel = findViewById(R.id.wrongModel);
+        hideErrorOnType(etNama, wrongNama);
+        hideErrorOnType(etEmail, wrongEmail);
+        hideErrorOnType(etPassword, wrongPass);
+        hideErrorOnType(etPasswordConf, wrongPassConf);
+
         CustomSpinner spinnerMotor = findViewById(R.id.spinner_motor);
         CustomSpinner spinnerModel = findViewById(R.id.spinner_model_motor);
         final ImageView arrowMotor = findViewById(R.id.iv_arrow_motor);
@@ -99,8 +114,25 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String jenisTerpilih = spinnerMotor.getSelectedItem().toString();
+                if (!jenisTerpilih.contains("Pilih") && !jenisTerpilih.contains("Loading")) {
+                    wrongJenis.setVisibility(View.GONE);
+                }
                 filterModelBerdasarkanJenis(jenisTerpilih);
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        spinnerModel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String modelTerpilih = parent.getItemAtPosition(position).toString();
+
+                if (!modelTerpilih.contains("Pilih")) {
+                    wrongModel.setVisibility(View.GONE);
+                }
+            }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -115,19 +147,80 @@ public class RegisterActivity extends AppCompatActivity {
             String passConf = etPasswordConf.getText().toString();
             String motor = spinnerMotor.getSelectedItem().toString();
             String model = spinnerModel.getSelectedItem().toString();
+            boolean valid = true;
+            wrongNama.setVisibility(View.GONE);
+            wrongEmail.setVisibility(View.GONE);
+            wrongPass.setVisibility(View.GONE);
+            wrongPassConf.setVisibility(View.GONE);
+            wrongJenis.setVisibility(View.GONE);
+            wrongModel.setVisibility(View.GONE);
+            View firstErrorView = null;
 
-            if (nama.isEmpty() || email.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(this, "Harap isi semua data!", Toast.LENGTH_SHORT).show();
-                return;
+
+            if (nama.isEmpty()) {
+                wrongNama.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etNama;
+            }
+
+            if (email.isEmpty()) {
+                wrongEmail.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etEmail;
+            }
+
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                wrongEmail.setText("Format email tidak valid");
+                wrongEmail.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etEmail;
+            }
+
+            if (pass.isEmpty()) {
+                wrongPass.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etPassword;
+            }
+
+            if(pass.length() < 8){
+                wrongPass.setText("Password minimal 8 karakter");
+                wrongPass.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etPassword;
             }
 
             if (!pass.equals(passConf)) {
-                Toast.makeText(this, "Password tidak sama! Harap masukkan ulang", Toast.LENGTH_SHORT).show();
-                return;
+                wrongPassConf.setText("Password tidak sama");
+                wrongPassConf.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etPasswordConf;
             }
 
-            if (motor.contains("Pilih") || model.contains("Pilih")) {
-                Toast.makeText(this, "Silahkan pilih motor & tahun!", Toast.LENGTH_SHORT).show();
+            if (passConf.isEmpty()) {
+                wrongPassConf.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etPasswordConf;
+            }
+
+            if (passConf.length() < 8) {
+                wrongPassConf.setText("Konfirmasi password minimal 8 karakter");
+                wrongPassConf.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etPasswordConf;
+            }
+
+            if (motor.contains("Pilih")) {
+                wrongJenis.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = spinnerMotor;
+            }
+
+            if (model.contains("Pilih")) {
+                wrongModel.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = spinnerModel;
+            }
+
+            ScrollView scrollView = findViewById(R.id.scrollView); // kasih id di XML dulu
+
+            if (firstErrorView != null) {
+                final View targetView = firstErrorView;
+
+                scrollView.post(() -> {
+                    scrollView.smoothScrollTo(0, targetView.getTop());
+                });
+
+                targetView.requestFocus();
                 return;
             }
 
@@ -217,8 +310,27 @@ public class RegisterActivity extends AppCompatActivity {
                 else {
                     try {
                         String errorBody = response.errorBody().string();
-                        Toast.makeText(RegisterActivity.this, "Gagal: " + response.code() + " " + errorBody, Toast.LENGTH_LONG).show();
-                        Log.e("RegisterError", "Server Error: " + errorBody);
+                        TextView wrongEmail = findViewById(R.id.wrongEmail);
+                        ScrollView scrollView = findViewById(R.id.scrollView);
+                        TextView etEmail = findViewById(R.id.et_email);
+                        // cek kalau error dari email
+                        if (errorBody.toLowerCase().contains("email")) {
+                            wrongEmail.setText("Email sudah terdaftar");
+                            wrongEmail.setVisibility(View.VISIBLE);
+                            etEmail.requestFocus();
+
+                            scrollView.post(() -> {
+                                scrollView.smoothScrollTo(0, etEmail.getTop());
+                            });
+
+                            return;
+
+                        } else {
+                            Toast.makeText(RegisterActivity.this,
+                                    "Gagal: " + response.code(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -232,5 +344,21 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Ini menghide jika user sudah edit
+    private void hideErrorOnType(EditText editText, TextView errorView) {
+        editText.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                errorView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
     }
 }

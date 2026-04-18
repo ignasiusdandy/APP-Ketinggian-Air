@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/blue6"
     android:fillViewport="true"
+    android:id="@+id/scrollView"
 >
 
     <FrameLayout
@@ -98,6 +99,19 @@
 
         </LinearLayout>
 
+            <TextView
+                android:id="@+id/wrongNama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/peringatan"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Masukkan nama anda"
+                android:visibility="gone"
+                />
+
         <TextView
             android:id="@+id/textEmail"
             android:layout_width="wrap_content"
@@ -140,6 +154,20 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+            <TextView
+                android:id="@+id/wrongEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/peringatan"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Masukkan email anda"
+                android:visibility="gone"
+
+                />
 
         <TextView
             android:id="@+id/textPass"
@@ -192,6 +220,20 @@
         </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
+            <TextView
+                android:id="@+id/wrongPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/peringatan"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Masukkan sandi anda"
+                android:visibility="gone"
+
+                />
+
         <TextView
             android:id="@+id/textPassConf"
             android:layout_width="wrap_content"
@@ -242,6 +284,20 @@
 
         </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
+            <TextView
+                android:id="@+id/wrongPassConf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/peringatan"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Masukkan sandi konfirmasi anda"
+                android:visibility="gone"
+
+                />
 
         <TextView
             android:id="@+id/pilih_kendaraan"
@@ -304,6 +360,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/wrongJenis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/peringatan"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Masukkan jenis motor anda"
+                android:visibility="gone"
+
+                />
+
         <TextView
             android:id="@+id/textModelKendaraan"
             android:layout_width="wrap_content"
@@ -345,6 +415,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/wrongModel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/peringatan"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Masukkan model motor anda"
+                android:visibility="gone"
+
+                />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_daftar"

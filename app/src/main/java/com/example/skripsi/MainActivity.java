@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,8 +30,9 @@ import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
-    LinearLayout pesanValidasi;
+    LinearLayout pesanValidasi, bgValidasi;
     TextView tvMessage;
+    ImageView iconValidasi;
     ProgressBar progressBar;
     Dialog loadingDialog;
 
@@ -42,28 +44,17 @@ public class MainActivity extends AppCompatActivity {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         pesanValidasi = findViewById(R.id.topMessage);
         tvMessage = findViewById(R.id.tvMessage);
+        bgValidasi = findViewById(R.id.bg_validasi);
+        iconValidasi = findViewById(R.id.icon_validasi);
         TextView buttonDaftar = findViewById(R.id.textView8);
         Button buttonLogin = findViewById(R.id.btn_login);
         EditText etEmail = findViewById(R.id.et_email);
         EditText etPassword = findViewById(R.id.et_password);
 
         SessionManager sessionManager = new SessionManager(this);
-
-        // Cek apakah user sudah login?
-//        if (!SessionManager.isLoggedIn()) {
-//            // Kalau belum login, lempar balik ke Login/Register
-//             Intent intent = new Intent(this, RegisterActivity.class);
-//             startActivity(intent);
-//            // finish();
-//        } else {
-//            // Kalau sudah login, ambil datanya
-//            HashMap<String, String> user = sessionManager.getUserDetails();
-//            String namaUser = user.get(SessionManager.KEY_NAMA);
-//            String motorUser = user.get(SessionManager.KEY_MOTOR);
-//
-//            // Tampilkan ke TextView, misal: "Halo, Dandy!"
-//            // tvNama.setText("Halo, " + namaUser);
-//        }
+        if (getIntent().getBooleanExtra("REGISTER_SUKSES", false)) {
+            showTrue("Data berhasil disimpan");
+        }
 
         buttonDaftar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +129,27 @@ public class MainActivity extends AppCompatActivity {
         pesanValidasi.animate().cancel();
         pesanValidasi.setVisibility(View.VISIBLE);
         tvMessage.setText(message);
+
+        // animasi turun
+        pesanValidasi.setTranslationY(-300f);
+        pesanValidasi.animate().translationY(0).setDuration(300).start();
+
+        // hilang setelah 5 detik
+        new Handler().postDelayed(() -> {
+            pesanValidasi.animate().translationY(-300f).setDuration(300).withEndAction(() -> {
+                pesanValidasi.setVisibility(View.GONE);
+            }).start();
+        }, 5000);
+    }
+
+    private void showTrue(String message) {
+        pesanValidasi.clearAnimation();
+        pesanValidasi.animate().cancel();
+        pesanValidasi.setVisibility(View.VISIBLE);
+        tvMessage.setText(message);
+        bgValidasi.setBackgroundColor(getResources().getColor(R.color.backgroundvalidasibenar));
+        tvMessage.setTextColor(getResources().getColor(R.color.hijautulisanaman));
+        iconValidasi.setImageResource(R.drawable.berhasil_icon);
 
         // animasi turun
         pesanValidasi.setTranslationY(-300f);

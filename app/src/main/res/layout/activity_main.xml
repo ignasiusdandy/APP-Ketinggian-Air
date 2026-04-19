@@ -23,6 +23,7 @@
             >
 
         <LinearLayout
+            android:id="@+id/bg_validasi"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@color/backgroundvalidasisalah"
@@ -33,15 +34,16 @@
             >
 
             <ImageView
+                android:id="@+id/icon_validasi"
                 android:layout_marginLeft="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/kesalahan_icon"/>
             <TextView
+                android:id="@+id/tvMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:id="@+id/tvMessage"
                 android:textColor="@color/peringatan"
                 android:text="Email/password yang anda masukkan tidak sesuai"
                 android:textSize="14sp" />

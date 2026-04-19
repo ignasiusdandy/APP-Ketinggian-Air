@@ -1,16 +1,21 @@
 package com.example.skripsi;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,10 +53,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registrasi_akun);
 
-        getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        );
+//        getWindow().setFlags(
+//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+//        );
 
         EditText etNama = findViewById(R.id.et_nama);
         EditText etEmail = findViewById(R.id.et_email);
@@ -76,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         final ImageView arrowMotor = findViewById(R.id.iv_arrow_motor);
         final ImageView arrowModel = findViewById(R.id.iv_arrow_model);
 
-        listNamaJenis.add("Loading data..."); // Placeholder saat loading
+        listNamaJenis.add("Pilih Jenis Motor"); // Placeholder saat loading
         adapterJenis = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listNamaJenis);
         adapterJenis.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMotor.setAdapter(adapterJenis);
@@ -176,42 +181,40 @@ public class RegisterActivity extends AppCompatActivity {
             if (pass.isEmpty()) {
                 wrongPass.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = etPassword;
-            }
-
-            if(pass.length() < 8){
+            } else if(pass.length() < 8){
                 wrongPass.setText("Password minimal 8 karakter");
                 wrongPass.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = etPassword;
-            }
-
-            if (!pass.equals(passConf)) {
-                wrongPassConf.setText("Password tidak sama");
-                wrongPassConf.setVisibility(View.VISIBLE);
-                if (firstErrorView == null) firstErrorView = etPasswordConf;
+            } else if (!pass.equals(passConf)) {
+                wrongPass.setText("Password tidak sama");
+                wrongPass.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etPassword;
             }
 
             if (passConf.isEmpty()) {
                 wrongPassConf.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = etPasswordConf;
-            }
-
-            if (passConf.length() < 8) {
+            } else if (passConf.length() < 8) {
                 wrongPassConf.setText("Konfirmasi password minimal 8 karakter");
+                wrongPassConf.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etPasswordConf;
+            } else if (!pass.equals(passConf)) {
+                wrongPassConf.setText("Password tidak sama");
                 wrongPassConf.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = etPasswordConf;
             }
 
             if (motor.contains("Pilih")) {
                 wrongJenis.setVisibility(View.VISIBLE);
-                if (firstErrorView == null) firstErrorView = spinnerMotor;
+                if (firstErrorView == null) firstErrorView = (View) spinnerMotor.getParent();
             }
 
             if (model.contains("Pilih")) {
                 wrongModel.setVisibility(View.VISIBLE);
-                if (firstErrorView == null) firstErrorView = spinnerModel;
+                if (firstErrorView == null) firstErrorView = (View) spinnerModel.getParent();
             }
 
-            ScrollView scrollView = findViewById(R.id.scrollView); // kasih id di XML dulu
+            ScrollView scrollView = findViewById(R.id.scrollView);
 
             if (firstErrorView != null) {
                 final View targetView = firstErrorView;
@@ -269,9 +272,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<KendaraanResponse> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Error Koneksi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 listNamaJenis.clear();
-                listNamaJenis.add("Gagal Load Data");
+                listNamaJenis.add("Pilih Jenis Motor");
                 adapterJenis.notifyDataSetChanged();
             }
         });
@@ -304,8 +306,24 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful() && response.body() != null){
-                    SessionManager sessionManager = new SessionManager(RegisterActivity.this);
-                    Toast.makeText(RegisterActivity.this, "Berhasil " + response.body().getMessage(), Toast.LENGTH_LONG).show();
+                    Dialog dialog = new Dialog(RegisterActivity.this);
+                    dialog.setContentView(R.layout.popup_berhasil_tambah);
+                    dialog.getWindow().setLayout(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                    );
+
+                    //bikin agak gelap
+                    dialog.getWindow().setDimAmount(0.8f);
+                    // bikin transparan agar bisa diliat corner radiusnya
+                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    LinearLayout lanjutanBerhasil = dialog.findViewById(R.id.lanjutanBerhasil);
+                    lanjutanBerhasil.setOnClickListener(v -> {
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        intent.putExtra("REGISTER_SUKSES", true);
+                        startActivity(intent);
+                    });
+                    dialog.show();
                 }
                 else {
                     try {
@@ -324,7 +342,6 @@ public class RegisterActivity extends AppCompatActivity {
                             });
 
                             return;
-
                         } else {
                             Toast.makeText(RegisterActivity.this,
                                     "Gagal: " + response.code(),

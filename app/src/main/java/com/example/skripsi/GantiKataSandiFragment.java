@@ -1,64 +1,151 @@
 package com.example.skripsi;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GantiKataSandiFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.material.button.MaterialButton;
+
+import java.time.temporal.Temporal;
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class GantiKataSandiFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public GantiKataSandiFragment() {
-        // Required empty public constructor
+        super(R.layout.fragment_ganti_kata_sandi);
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GantiKataSandi.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GantiKataSandiFragment newInstance(String param1, String param2) {
-        GantiKataSandiFragment fragment = new GantiKataSandiFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    EditText kataSandiLama, kataSandiBaru, kataSandiBaruConf;
+    TextView wrongOld, wrongNew, wrongNewConf;
+    MaterialButton btn_ganti;
+    ApiService apiService;
+    SessionManager sessionManager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        apiService = ApiClient.getClient().create(ApiService.class);
+        sessionManager = new SessionManager(requireContext());
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        String token = sessionManager.getToken();
+        kataSandiLama = view.findViewById(R.id.kata_sandi);
+        kataSandiBaru = view.findViewById(R.id.kata_sandi_baru);
+        kataSandiBaruConf = view.findViewById(R.id.password_konfirmasi);
+        wrongOld = view.findViewById(R.id.wrongPass);
+        wrongNew = view.findViewById(R.id.wrongNewPass);
+        wrongNewConf = view.findViewById(R.id.wrongNewPassConf);
+        btn_ganti = view.findViewById(R.id.btn_update_pengaturan);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ganti_kata_sandi, container, false);
+        btn_ganti.setOnClickListener(v -> {
+            wrongOld.setVisibility(View.GONE);
+            wrongNew.setVisibility(View.GONE);
+            wrongNewConf.setVisibility(View.GONE);
+            String etSandiLama = kataSandiLama.getText().toString();
+            String etSandiBaru = kataSandiBaru.getText().toString();
+            String etSandiBaruConf = kataSandiBaruConf.getText().toString();
+            if(etSandiLama.isEmpty()){
+                wrongOld.setVisibility(View.VISIBLE);
+            }
+
+            if(etSandiBaru.isEmpty()){
+                wrongNew.setVisibility(View.VISIBLE);
+            } else if (etSandiBaru.length() < 8) {
+                wrongNew.setText("Password Baru minimal 8 karakter");
+                wrongNew.setVisibility(View.VISIBLE);
+            } else if (!etSandiBaru.equals(etSandiBaruConf) && !etSandiBaruConf.isEmpty()) {
+                wrongNew.setText("Password tidak sama");
+                wrongNew.setVisibility(View.VISIBLE);
+            }
+
+            if(etSandiBaruConf.isEmpty()){
+                wrongNewConf.setVisibility(View.VISIBLE);
+            } else if (etSandiBaruConf.length() < 8) {
+                wrongNewConf.setText("Konfirmasi password minimal 8 karakter");
+                wrongNewConf.setVisibility(View.VISIBLE);
+            } else if (!etSandiBaru.equals(etSandiBaruConf) && !etSandiBaruConf.isEmpty()) {
+                wrongNewConf.setText("Password tidak sama");
+                wrongNewConf.setVisibility(View.VISIBLE);
+            }
+
+            btn_ganti.setEnabled(false);
+
+
+            if(!etSandiLama.isEmpty() && !etSandiBaru.isEmpty() && !etSandiBaruConf.isEmpty()){
+                GantiKataSandiModel request = new GantiKataSandiModel(
+                        etSandiLama,
+                        etSandiBaru
+                );
+                apiService.changePassword("Bearer "+ token, request).enqueue(new Callback<GantiKataSandiModel>() {
+                    @Override
+                    public void onResponse(Call<GantiKataSandiModel> call, Response<GantiKataSandiModel> response) {
+                        btn_ganti.setEnabled(true);
+                        if (response.isSuccessful()) {
+                            Dialog dialog = new Dialog(requireContext());
+                            dialog.setContentView(R.layout.popup_berhasil);
+                            dialog.getWindow().setLayout(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT
+                            );
+
+                            //bikin agak gelap
+                            dialog.getWindow().setDimAmount(0.8f);
+                            // bikin transparan agar bisa diliat corner radiusnya
+                            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                            LinearLayout lanjutanBerhasil = dialog.findViewById(R.id.lanjutanBerhasil);
+                            lanjutanBerhasil.setOnClickListener(v -> {
+                                dialog.dismiss();
+                                kataSandiLama.setText("");
+                                kataSandiBaru.setText("");
+                                kataSandiBaruConf.setText("");
+                            });
+                            dialog.show();
+                        } else{
+                            Dialog dialog = new Dialog(requireContext());
+                            dialog.setContentView(R.layout.popup_gagal);
+                            dialog.getWindow().setLayout(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT
+                            );
+
+                            //bikin agak gelap
+                            dialog.getWindow().setDimAmount(0.8f);
+                            // bikin transparan agar bisa diliat corner radiusnya
+                            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                            LinearLayout lanjutanGagal = dialog.findViewById(R.id.lanjutanGagal);
+                            lanjutanGagal.setOnClickListener(v -> {
+                                dialog.dismiss();
+                                kataSandiLama.setText("");
+                                kataSandiBaru.setText("");
+                                kataSandiBaruConf.setText("");
+                            });
+                            dialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GantiKataSandiModel> call, Throwable t) {
+                        btn_ganti.setEnabled(true);
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
+
     }
 }

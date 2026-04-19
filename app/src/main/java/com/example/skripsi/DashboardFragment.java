@@ -43,6 +43,20 @@ public class DashboardFragment extends Fragment {
     private LineChart lineChart;
     private ImageView bulatStatusDatang, bulatStatusPulang, arrowTinggiDatang, arrowKecepatanDatang, arrowTinggiPulang, arrowKecepatanPulang;
 
+    // Ini untuk refresh tiap 5 menit
+    private final android.os.Handler handler = new android.os.Handler();
+    private final Runnable refreshRunnable = new Runnable() {
+        @Override
+        public void run() {
+            refreshData();
+            loadChartData();
+            loadStatus();
+
+            // ulangi setiap 5 menit
+            handler.postDelayed(this, 300000);
+        }
+    };
+
     public DashboardFragment() {
         super(R.layout.fragment_dashboard);
     }
@@ -150,6 +164,17 @@ public class DashboardFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        handler.post(refreshRunnable);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(refreshRunnable);
+    }
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);

@@ -152,7 +152,6 @@ public class RegisterActivity extends AppCompatActivity {
             String passConf = etPasswordConf.getText().toString();
             String motor = spinnerMotor.getSelectedItem().toString();
             String model = spinnerModel.getSelectedItem().toString();
-            boolean valid = true;
             wrongNama.setVisibility(View.GONE);
             wrongEmail.setVisibility(View.GONE);
             wrongPass.setVisibility(View.GONE);
@@ -185,7 +184,7 @@ public class RegisterActivity extends AppCompatActivity {
                 wrongPass.setText("Password minimal 8 karakter");
                 wrongPass.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = etPassword;
-            } else if (!pass.equals(passConf)) {
+            } else if (!pass.equals(passConf) && !passConf.isEmpty()) {
                 wrongPass.setText("Password tidak sama");
                 wrongPass.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = etPassword;
@@ -198,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
                 wrongPassConf.setText("Konfirmasi password minimal 8 karakter");
                 wrongPassConf.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = etPasswordConf;
-            } else if (!pass.equals(passConf)) {
+            } else if (!pass.equals(passConf) && !pass.isEmpty()) {
                 wrongPassConf.setText("Password tidak sama");
                 wrongPassConf.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = etPasswordConf;

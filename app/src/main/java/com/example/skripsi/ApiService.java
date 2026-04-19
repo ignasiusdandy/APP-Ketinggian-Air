@@ -29,6 +29,12 @@ public interface ApiService {
             @Field("password") String password
     );
 
+    @PUT("api/auth/gantiPassword")
+    Call<GantiKataSandiModel> changePassword(
+            @Header("Authorization") String token,
+            @Body GantiKataSandiModel request
+    );
+
     @GET("api/auth/kendaraan")
     Call<KendaraanResponse> getDataKendaraan();
 

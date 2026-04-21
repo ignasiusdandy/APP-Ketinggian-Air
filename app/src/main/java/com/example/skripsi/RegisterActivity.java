@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
@@ -62,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditText etEmail = findViewById(R.id.et_email);
         EditText etPassword = findViewById(R.id.et_password);
         EditText etPasswordConf = findViewById(R.id.et_passwordConfirm);
+        EditText etPlatKendaraan = findViewById(R.id.etPlatKendaraan);
         MaterialButton btnDaftar = findViewById(R.id.btn_daftar);
 
         // Ketika salah
@@ -71,10 +74,13 @@ public class RegisterActivity extends AppCompatActivity {
         TextView wrongPassConf = findViewById(R.id.wrongPassConf);
         TextView wrongJenis = findViewById(R.id.wrongJenis);
         TextView wrongModel = findViewById(R.id.wrongModel);
+        TextView wrongPlat = findViewById(R.id.wrongPlat);
         hideErrorOnType(etNama, wrongNama);
         hideErrorOnType(etEmail, wrongEmail);
         hideErrorOnType(etPassword, wrongPass);
         hideErrorOnType(etPasswordConf, wrongPassConf);
+        hideErrorOnType(etPlatKendaraan, wrongPlat);
+        initUppercase();
 
         CustomSpinner spinnerMotor = findViewById(R.id.spinner_motor);
         CustomSpinner spinnerModel = findViewById(R.id.spinner_model_motor);
@@ -149,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
             String nama = etNama.getText().toString();
             String email = etEmail.getText().toString();
             String pass = etPassword.getText().toString();
+            String plat = etPlatKendaraan.getText().toString();
             String passConf = etPasswordConf.getText().toString();
             String motor = spinnerMotor.getSelectedItem().toString();
             String model = spinnerModel.getSelectedItem().toString();
@@ -158,8 +165,8 @@ public class RegisterActivity extends AppCompatActivity {
             wrongPassConf.setVisibility(View.GONE);
             wrongJenis.setVisibility(View.GONE);
             wrongModel.setVisibility(View.GONE);
+            wrongPlat.setVisibility(View.GONE);
             View firstErrorView = null;
-
 
             if (nama.isEmpty()) {
                 wrongNama.setVisibility(View.VISIBLE);
@@ -203,6 +210,11 @@ public class RegisterActivity extends AppCompatActivity {
                 if (firstErrorView == null) firstErrorView = etPasswordConf;
             }
 
+            if (plat.isEmpty()) {
+                wrongPlat.setVisibility(View.VISIBLE);
+                if (firstErrorView == null) firstErrorView = etPlatKendaraan;
+            }
+
             if (motor.contains("Pilih")) {
                 wrongJenis.setVisibility(View.VISIBLE);
                 if (firstErrorView == null) firstErrorView = (View) spinnerMotor.getParent();
@@ -238,9 +250,34 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Data kendaraan tidak valid!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            prosesRegister(nama, email, pass, idKendaraanYangAkanDikirim, motor, model);
+            prosesRegister(nama, email, pass, idKendaraanYangAkanDikirim, plat, motor, model);
         });
     }
+
+    private void initUppercase(){
+        EditText etPlatKendaraan = findViewById(R.id.etPlatKendaraan);
+
+        etPlatKendaraan.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String upper = s.toString().toUpperCase();
+
+                if (!s.toString().equals(upper)) {
+                    etPlatKendaraan.removeTextChangedListener(this);
+                    etPlatKendaraan.setText(upper);
+                    etPlatKendaraan.setSelection(upper.length());
+                    etPlatKendaraan.addTextChangedListener(this);
+                }
+            }
+        });
+    }
+
 
     private void ambilDataKendaraanDariServer() {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
@@ -296,10 +333,10 @@ public class RegisterActivity extends AppCompatActivity {
         CustomSpinner spinnerModel = findViewById(R.id.spinner_model_motor);
         spinnerModel.setSelection(0);
     }
-    private void prosesRegister(String nama, String email, String pass, String idKendaraan, String motorText, String modelText){
+    private void prosesRegister(String nama, String email, String pass, String idKendaraan, String plat, String motorText, String modelText){
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        Call<ResponseBody> call = apiService.registerUser(nama, email, pass, idKendaraan);
+        Call<ResponseBody> call = apiService.registerUser(nama, email, pass, idKendaraan, plat);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

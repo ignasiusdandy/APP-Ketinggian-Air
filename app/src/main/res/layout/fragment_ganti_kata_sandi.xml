@@ -16,15 +16,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/poppinssemibold"
             android:text="Ganti Kata Sandi"
+            android:paddingStart="8dp"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/poppinsmedium"
             android:text="Kata Sandi"
@@ -41,7 +43,6 @@
             android:includeFontPadding="false"
             app:boxBackgroundMode="none"
             android:backgroundTint="@null"
-            android:layout_marginBottom="8dp"
             app:endIconMode="password_toggle"
             app:hintEnabled="false">
 
@@ -67,7 +68,6 @@
             android:textColor="@color/peringatan"
             android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="12dp"
             android:layout_marginLeft="12dp"
             android:visibility="gone"/>
 
@@ -86,10 +86,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
             android:fontFamily="@font/poppinsmedium"
             android:text="New Kata Sandi"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="36dp"/>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -102,7 +104,6 @@
             android:includeFontPadding="false"
             app:boxBackgroundMode="none"
             android:backgroundTint="@null"
-            android:layout_marginBottom="8dp"
             app:endIconMode="password_toggle"
             app:hintEnabled="false">
 
@@ -128,7 +129,6 @@
             android:textColor="@color/peringatan"
             android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="12dp"
             android:layout_marginLeft="12dp"
             android:visibility="gone"/>
 
@@ -152,7 +152,9 @@
             android:fontFamily="@font/poppinsmedium"
             android:text="Konfirmasi Kata Sandi"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:paddingStart="8dp"
+            android:textSize="14sp"
+            android:layout_marginTop="36dp"/>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -190,7 +192,6 @@
             android:text="Masukkan Konfirmasi  kata sandi baru anda"
             android:textColor="@color/peringatan"
             android:textSize="14sp"
-            android:layout_marginTop="4dp"
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="12dp"
             android:visibility="gone"/>

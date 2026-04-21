@@ -19,7 +19,8 @@ public interface ApiService {
             @Field("username") String nama,
             @Field("email") String email,
             @Field("password") String password,
-            @Field("id_kendaraan") String idKendaraan
+            @Field("id_kendaraan") String idKendaraan,
+            @Field("plat_kendaraan") String plat
     );
 
     @FormUrlEncoded
@@ -67,10 +68,11 @@ public interface ApiService {
             @Field("id_kendaraan") String idKendaraan
     );
 
-    @DELETE("api/kendaraan/hapus/{id_kendaraan}")
+    @DELETE("api/kendaraan/hapus/{id_kendaraan}/{plat_kendaraan}")
     Call<ResponseBody> hapusKendaraan(
             @Header("Authorization") String token,
-            @Path("id_kendaraan") String idKendaraan
+            @Path("id_kendaraan") String idKendaraan,
+            @Path("plat_kendaraan") String platKendaraan
     );
 
 

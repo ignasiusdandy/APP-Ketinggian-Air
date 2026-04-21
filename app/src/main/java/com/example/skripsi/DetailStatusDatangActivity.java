@@ -50,6 +50,8 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
 
     private TextView tvTinggi, tvKecepatan, tvStatus, tvWaktu, tvStatusJam, tvRekomendasi, tvDeskripsiRekomendasi;
     private ImageView bulatStatus, arrowKecepatan, arrowTinggi, iconRekomendasi;
+    InternetHandler internetHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,15 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
                 this,
                 getSharedPreferences("osmdroid", 0)
         );
+
+        // cek internet
+        internetHandler = new InternetHandler(
+                this,
+                findViewById(R.id.layoutNoInternet),
+                findViewById(R.id.btn_reconnect),
+                findViewById(R.id.progressReconnect)
+        );
+        internetHandler.checkInternet();
 
         map = findViewById(R.id.mapDetailDatang);
         map.setMultiTouchControls(false);
@@ -115,6 +126,19 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        internetHandler.startAutoCheck();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        internetHandler.stopAutoCheck();
+    }
+
+
     private void loadKendaraan(RecyclerView tabelKendaraan) {
 
         SessionManager session = new SessionManager(this);
@@ -136,14 +160,13 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
 
                     for (KendaraanUserResponseModel.DataKendaraanUser item : data) {
 
-                        String pemilik = item.getPemilikKendaraan();
-
+                        String plat = item.getPlatKendaraan();
                         String kategori = item.getJenisMotor();
                         String model = item.getModelMotor();
                         String status = item.getStatus();
 
                         list.add(new KendaraanTabelModel(
-                                pemilik,
+                                plat,
                                 kategori,
                                 model,
                                 status

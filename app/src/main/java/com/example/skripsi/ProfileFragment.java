@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 public class ProfileFragment extends Fragment {
-    LinearLayout btnAkun, btnPassword, btnKeluar, btnKendaraan;
+    LinearLayout btnAkun, btnPassword, btnKendaraan;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -20,7 +20,6 @@ public class ProfileFragment extends Fragment {
 
         btnAkun = view.findViewById(R.id.pengaturan_akun);
         btnPassword = view.findViewById(R.id.ubah_kata_sandi);
-        btnKeluar = view.findViewById(R.id.logout);
         btnKendaraan = view.findViewById(R.id.kendaraanUser);
 
         loadInnerFragment(new PengaturanAkunFragment());
@@ -41,13 +40,6 @@ public class ProfileFragment extends Fragment {
             loadInnerFragment(new GantiKataSandiFragment());
         });
 
-        btnKeluar.setOnClickListener(v -> {
-            setSelected(btnKeluar);
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
-            getActivity().finish();
-        });
-
         return view;
 
 
@@ -63,7 +55,6 @@ public class ProfileFragment extends Fragment {
     private void setSelected(View selected){
         btnAkun.setSelected(false);
         btnPassword.setSelected(false);
-        btnKeluar.setSelected(false);
         btnKendaraan.setSelected(false);
 
         selected.setSelected(true);

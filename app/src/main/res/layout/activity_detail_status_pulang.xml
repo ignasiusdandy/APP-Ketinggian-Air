@@ -92,7 +92,7 @@
                             android:layout_marginLeft="5dp"
                             android:fontFamily="@font/poppinsmedium"
                             android:textSize="12sp"
-                            android:text="Aman"
+                            android:text="-"
                             android:textColor="@color/hijauaman"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -227,7 +227,7 @@
                                             android:layout_marginTop="0dp"
                                             android:layout_marginRight="4dp"
                                             android:fontFamily="@font/poppinsmedium"
-                                            android:text="12 CM"
+                                            android:text="- cm"
                                             android:textColor="@color/black"
                                             android:textSize="16sp" />
 
@@ -272,7 +272,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="12dp"
                                             android:layout_marginTop="0dp"
-                                            android:text="24 MM"
+                                            android:text="- cm/h"
                                             android:fontFamily="@font/poppinsmedium"
                                             android:textSize="14sp"
                                             android:textColor="@color/black"
@@ -307,7 +307,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppinsmedium"
                             android:textSize="9sp"
-                            android:text="Aman"
+                            android:text="-"
                             android:textColor="@color/hijauaman"/>
 
                         <TextView
@@ -325,7 +325,7 @@
                             android:fontFamily="@font/poppinsmedium"
                             android:textColor="@color/black"
                             android:textSize="9sp"
-                            android:text="21:30 WITA"/>
+                            android:text="- WITA"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -372,7 +372,7 @@
                             android:textColor="@color/tulisanabu"
                             android:fontFamily="@font/poppinsmedium"
                             android:textSize="13sp"
-                            android:text="Pemilik"
+                            android:text="Plat"
                             />
 
                         <TextView
@@ -457,5 +457,8 @@
 
         </LinearLayout>
     </ScrollView>
+    <include
+        android:id="@+id/layoutNoInternet"
+        layout="@layout/layout_no_internet"/>
 
 </FrameLayout>

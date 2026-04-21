@@ -3,26 +3,37 @@ package com.example.skripsi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
 
 public class navbar_utama extends AppCompatActivity {
 
     View highlight;
-    LinearLayout menuDashboard, menuMaps, menuProfile;
+    LinearLayout menuDashboard, menuMaps, menuProfile, navbar;
 
     TextView textDashboard, textMaps, textProfile;
     ImageView dashboardIcon, mapsIcon, profileIcon;
+    LinearLayout layoutNoInternet;
+    MaterialButton btnReconnect;
 
     Fragment dashboard = new DashboardFragment();
     Fragment maps = new MapsFragment();
     Fragment profile = new ProfileFragment();
     Fragment active = dashboard;
+    InternetHandler internetHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +53,16 @@ public class navbar_utama extends AppCompatActivity {
         dashboardIcon = findViewById(R.id.dashboard_icon);
         mapsIcon = findViewById(R.id.maps_icon);
         profileIcon = findViewById(R.id.profile_icon);
+
+        // Cek internet
+//        navbar = findViewById(R.id.bottomNav);
+        internetHandler = new InternetHandler(
+                this,
+                findViewById(R.id.layoutNoInternet),
+                findViewById(R.id.btn_reconnect),
+                findViewById(R.id.progressReconnect)
+        );
+        internetHandler.checkInternet();
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -72,6 +93,18 @@ public class navbar_utama extends AppCompatActivity {
             setActiveMenu(menuProfile, textProfile, profileIcon);
             switchFragment(profile);
         });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        internetHandler.startAutoCheck();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        internetHandler.stopAutoCheck();
     }
 
     private void switchFragment(Fragment target) {
@@ -129,7 +162,6 @@ public class navbar_utama extends AppCompatActivity {
         moveHighlight(selectedMenu);
     }
 
-    // 🔥 FADE HALUS
     private void animateFade(View view) {
         view.setAlpha(0f);
         view.animate()

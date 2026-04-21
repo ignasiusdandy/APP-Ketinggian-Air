@@ -76,7 +76,6 @@ public class KendaraanAkunFragment extends Fragment {
 
         SessionManager session = new SessionManager(requireContext());
         String token = "Bearer " + session.getToken();
-
         ApiService api = ApiClient.getClient().create(ApiService.class);
 
         api.getKendaraanUser(token).enqueue(new Callback<KendaraanUserResponseModel>() {
@@ -92,13 +91,13 @@ public class KendaraanAkunFragment extends Fragment {
 
                     for (KendaraanUserResponseModel.DataKendaraanUser item : data) {
 
-                        String pemilik = item.getPemilikKendaraan();
+                        String plat = item.getPlatKendaraan();
 
                         String kategori = item.getJenisMotor();
                         String model = item.getModelMotor();
 
                         list.add(new KendaraanTabelPengaturanModel(
-                                pemilik,
+                                plat,
                                 kategori,
                                 model
                         ));

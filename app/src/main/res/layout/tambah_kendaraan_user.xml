@@ -42,35 +42,31 @@
         android:fontFamily="@font/poppinsmedium"
         android:textColor="@color/black"
         android:textSize="14sp"
-        android:text="Pemilik"
+        android:text="Plat Kendaraan"
         android:layout_marginTop="32dp"/>
 
-    <FrameLayout
+    <EditText
+        android:id="@+id/et_plat_kendaraan"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
-        >
-
-        <com.example.skripsi.CustomSpinner
-            android:id="@+id/spinner_pemilik"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="10dp"
-            android:paddingEnd="40dp"
-            android:background="@drawable/bg_spinner"
-            android:spinnerMode="dropdown"
-            android:popupBackground="@color/white"/>
+        android:background="@drawable/bg_spinner"
+        android:padding="10dp"
+        android:hint="Contoh: DA 1234 XYZ"
+        android:textColor="@color/black"
+        android:textSize="14sp"/>
 
 
-        <ImageView
-            android:id="@+id/iv_arrow_pemilik"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="12dp"
-            android:rotation="-90"
-            android:src="@drawable/ic_arrow_down_blue" />
-    </FrameLayout>
+    <TextView
+        android:id="@+id/wrongPlat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="14sp"
+        android:textColor="@color/peringatan"
+        android:text="Plat kendaraan tidak boleh kosong!"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"/>
 
 
     <TextView
@@ -109,6 +105,16 @@
             android:src="@drawable/ic_arrow_down_blue" />
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/wrongKategori"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="14sp"
+        android:textColor="@color/peringatan"
+        android:text="Kategori kendaraan tidak boleh kosong!"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -145,6 +151,17 @@
             android:rotation="-90"
             android:src="@drawable/ic_arrow_down_blue" />
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/wrongModel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="14sp"
+        android:textColor="@color/peringatan"
+        android:text="Model kendaraan tidak boleh kosong!"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"/>
 
 
     <LinearLayout

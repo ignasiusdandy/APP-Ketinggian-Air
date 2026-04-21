@@ -41,7 +41,7 @@ public class DashboardFragment extends Fragment {
     private TextView tvPerkenalanNama, tvKendaraan, tvStatusDatang, tvStatusPulang, tvTinggiDatang, tvTinggiPulang, tvKecepatanDatang, tvKecepatanPulang, tvWaktuDatang, tvWaktuPulang;
     private ApiService apiService;
     private LineChart lineChart;
-    private ImageView bulatStatusDatang, bulatStatusPulang, arrowTinggiDatang, arrowKecepatanDatang, arrowTinggiPulang, arrowKecepatanPulang;
+    private ImageView bulatStatusDatang, bulatStatusPulang, arrowTinggiDatang, arrowKecepatanDatang, arrowTinggiPulang, arrowKecepatanPulang, btnKeluar;
 
     // Ini untuk refresh tiap 5 menit
     private final android.os.Handler handler = new android.os.Handler();
@@ -161,6 +161,14 @@ public class DashboardFragment extends Fragment {
         arrowTinggiPulang = view.findViewById(R.id.arrowTinggiPulang);
         arrowKecepatanPulang = view.findViewById(R.id.arrowKecepatanPulang);
         loadStatus();
+
+        btnKeluar = view.findViewById(R.id.btnLogout);
+        btnKeluar.setOnClickListener(v -> {
+            sessionManager.logoutUser();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        });
 
     }
 
@@ -343,7 +351,7 @@ public class DashboardFragment extends Fragment {
                         double kecepatan = d.getKecepatan();
                         String risiko = d.getRisiko();
                         String lastUpdate = d.getLastUpdate();
-                        setArrow(kecepatan, arrowTinggiDatang, tvKecepatanDatang, tvTinggiDatang);
+                        setArrow(kecepatan, arrowTinggiDatang, arrowKecepatanDatang, tvKecepatanDatang, tvTinggiDatang);
 
                         // Kita ubah waktu datangnya
                         tvWaktuDatang.setText(lastUpdate + " WITA");
@@ -394,7 +402,7 @@ public class DashboardFragment extends Fragment {
                         double kecepatan = d.getKecepatan();
                         String risiko = d.getRisiko();
                         String lastUpdate = d.getLastUpdate();
-                        setArrow(kecepatan, arrowTinggiPulang, tvKecepatanPulang, tvTinggiPulang);
+                        setArrow(kecepatan, arrowTinggiPulang, arrowKecepatanPulang, tvKecepatanPulang, tvTinggiPulang);
                         // Kita ubah waktu datangnya
                         tvWaktuPulang.setText(lastUpdate + " WITA");
 
@@ -449,17 +457,20 @@ public class DashboardFragment extends Fragment {
 
     }
 
-    private void setArrow(double kecepatan, ImageView imgArrow, TextView tvKecepatan, TextView tvTinggi){
+    private void setArrow(double kecepatan, ImageView imgArrow, ImageView imgArrow2, TextView tvKecepatan, TextView tvTinggi){
         if(kecepatan > 0){
             imgArrow.setImageResource(R.drawable.up_arrow);
+            imgArrow2.setImageResource(R.drawable.up_arrow);
             tvKecepatan.setTextColor(getResources().getColor(R.color.hijauaman));
             tvTinggi.setTextColor(getResources().getColor(R.color.hijauaman));
         } else if (kecepatan < 0){
             imgArrow.setImageResource(R.drawable.down_arrow);
+            imgArrow2.setImageResource(R.drawable.down_arrow);
             tvKecepatan.setTextColor(getResources().getColor(R.color.peringatan));
             tvTinggi.setTextColor(getResources().getColor(R.color.peringatan));
         } else{
             imgArrow.setImageResource(R.drawable.arrow_stabil);
+            imgArrow2.setImageResource(R.drawable.arrow_stabil);
             tvKecepatan.setTextColor(getResources().getColor(R.color.black));
             tvTinggi.setTextColor(getResources().getColor(R.color.black));
         }

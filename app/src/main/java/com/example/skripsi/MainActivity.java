@@ -61,6 +61,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         SessionManager sessionManager = new SessionManager(this);
+        if (sessionManager.isLoggedIn()) {
+
+            String role = sessionManager.getUserDetails().get(SessionManager.KEY_ROLE);
+
+            if ("User".equals(role)) {
+                startActivity(new Intent(MainActivity.this, navbar_utama.class));
+            }
+            else if ("Admin".equals(role)) {
+//                startActivity(new Intent(MainActivity.this, AdminActivity.class));
+            }
+
+            finish();
+            return;
+        }
+
         if (getIntent().getBooleanExtra("REGISTER_SUKSES", false)) {
             showTrue("Data berhasil disimpan");
         }

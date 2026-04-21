@@ -24,7 +24,7 @@ public class KendaraanUserResponseModel {
         private String jenis_motor;
         private String model_motor;
         private int kendaraan_utama;
-        private String pemilik_kendaraan;
+        private String plat_kendaraan;
         private String status;
 
         public String getId(){
@@ -43,8 +43,8 @@ public class KendaraanUserResponseModel {
             return kendaraan_utama == 1;
         }
 
-        public String getPemilikKendaraan() {
-            return pemilik_kendaraan;
+        public String getPlatKendaraan() {
+            return plat_kendaraan;
         }
         public String getStatus() { return status; }
 

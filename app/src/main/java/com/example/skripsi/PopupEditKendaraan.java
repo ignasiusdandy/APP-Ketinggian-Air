@@ -3,13 +3,17 @@ package com.example.skripsi;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +37,6 @@ public class PopupEditKendaraan extends Dialog {
     private List<String> listModel = new ArrayList<>();
 
     private String selectedIdKendaraan = null;
-    private String selectedPemilik = "Pribadi";
     private KendaraanUserResponseModel.DataKendaraanUser dataKendaraan;
     private boolean isFirstLoad = true;
     private OnEditListener listener;
@@ -41,6 +44,10 @@ public class PopupEditKendaraan extends Dialog {
 
     private LinearLayout btnUpdate;
     private ImageView btnClose;
+    private TextView wrongPlat, wrongKategori, wrongModel;
+    private EditText etPlatKendaraan;
+
+
 
     public PopupEditKendaraan(@NonNull Context context,
                               KendaraanUserResponseModel.DataKendaraanUser data, OnEditListener listener) {
@@ -60,7 +67,10 @@ public class PopupEditKendaraan extends Dialog {
         setContentView(R.layout.form_edit_kendaraan_user);
 
         initView();
+        etPlatKendaraan.setText(dataKendaraan.getPlatKendaraan());
         setupSpinner();
+        initUppercase();
+        hideErrorOnType(etPlatKendaraan, wrongPlat);
         ambilDataKendaraan();
         setupAction();
     }
@@ -68,44 +78,41 @@ public class PopupEditKendaraan extends Dialog {
     private void initView() {
         spinnerJenis = findViewById(R.id.spinner_kategori);
         spinnerModel = findViewById(R.id.spinner_model);
-        spinnerPemilik = findViewById(R.id.spinner_pemilik);
-
         btnUpdate = findViewById(R.id.update_kendaraan);
+        etPlatKendaraan = findViewById(R.id.et_plat_kendaraan);
         btnClose = findViewById(R.id.btn_batal);
+        wrongKategori = findViewById(R.id.wrongKategori);
+        wrongModel = findViewById(R.id.wrongModel);
+        wrongPlat = findViewById(R.id.wrongPlat);
+    }
+
+    private void initUppercase(){
+        etPlatKendaraan.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String upper = s.toString().toUpperCase();
+
+                if (!s.toString().equals(upper)) {
+                    etPlatKendaraan.removeTextChangedListener(this);
+                    etPlatKendaraan.setText(upper);
+                    etPlatKendaraan.setSelection(upper.length());
+                    etPlatKendaraan.addTextChangedListener(this);
+                }
+            }
+        });
     }
 
     private void setupSpinner() {
-        // ini untuk pemilik
-        List<String> listPemilik = new ArrayList<>();
-        listPemilik.add("Pribadi");
-        listPemilik.add("Orang Lain");
-
-        ArrayAdapter<String> adapterPemilik = new ArrayAdapter<>(
-                context,
-                android.R.layout.simple_spinner_dropdown_item,
-                listPemilik
-        );
-
-        spinnerPemilik.setAdapter(adapterPemilik);
-        if (dataKendaraan.getPemilikKendaraan().equalsIgnoreCase("Pribadi")) {
-            spinnerPemilik.setSelection(0);
-        } else {
-            spinnerPemilik.setSelection(1);
-        }
-
-        spinnerPemilik.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedPemilik = listPemilik.get(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
 
         // ini untuk jenis dan model kendaraan
         listJenis.clear();
-        listJenis.add("Loading...");
+        listJenis.add("Pilih Jenis Dulu");
         adapterJenis = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_dropdown_item,
                 listJenis);
@@ -192,13 +199,6 @@ public class PopupEditKendaraan extends Dialog {
 
         adapterModel.notifyDataSetChanged();
         spinnerModel.setSelection(0);
-//        String modelTerpilih = dataKendaraan.getModelMotor();
-//        int indexModel = listJenis.indexOf(modelTerpilih);
-//
-//        if(indexModel >= 0){
-//            spinnerModel.setSelection(indexModel);
-//        }
-
         spinnerModel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -236,26 +236,59 @@ public class PopupEditKendaraan extends Dialog {
         btnClose.setOnClickListener(v -> dismiss());
 
         btnUpdate.setOnClickListener(v -> {
+            String plat = etPlatKendaraan.getText().toString().trim();
 
-            if (selectedIdKendaraan == null) {
-                Toast.makeText(context, "Pilih kendaraan dulu", Toast.LENGTH_SHORT).show();
-                return;
+            wrongPlat.setVisibility(View.GONE);
+            wrongKategori.setVisibility(View.GONE);
+            wrongModel.setVisibility(View.GONE);
+
+            boolean isValid = true;
+
+            if (plat.isEmpty()) {
+                wrongPlat.setVisibility(View.VISIBLE);
+                isValid = false;
             }
 
-            updateKendaraan();
+            String kategori = spinnerJenis.getSelectedItem().toString();
+            if (kategori.equals("Pilih Jenis Motor") || kategori.equals("Pilih Jenis Dulu")) {
+                wrongKategori.setVisibility(View.VISIBLE);
+                isValid = false;
+            }
+
+            String model = spinnerModel.getSelectedItem().toString();
+            if (model.equals("Pilih Model") || model.equals("Pilih Jenis Dulu")) {
+                wrongModel.setVisibility(View.VISIBLE);
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            updateKendaraan(plat);
         });
     }
 
-    private void updateKendaraan() {
+
+    private void hideErrorOnType(EditText editText, TextView errorView) {
+        editText.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                errorView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
+    }
+
+    private void updateKendaraan(String plat) {
 
         SessionManager session = new SessionManager(context);
         String token = "Bearer " + session.getToken();
-        Log.d("EDIT_DEBUG", "ID LAMA: " + dataKendaraan.getId());
-        Log.d("EDIT_DEBUG", "ID BARU: " + selectedIdKendaraan);
-        Log.d("EDIT_DEBUG", "PEMILIK: " + selectedPemilik);
-
         EditKendaraanRequestModel request =
-                new EditKendaraanRequestModel(selectedIdKendaraan, selectedPemilik);
+                new EditKendaraanRequestModel(selectedIdKendaraan, plat);
 
         ApiService api = ApiClient.getClient().create(ApiService.class);
         api.updateKendaraan(token, dataKendaraan.getId(),request).enqueue(new Callback<ResponseBody>() {

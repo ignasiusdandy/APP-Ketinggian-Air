@@ -50,6 +50,10 @@ public class GantiKataSandiFragment extends Fragment {
         wrongNew = view.findViewById(R.id.wrongNewPass);
         wrongNewConf = view.findViewById(R.id.wrongNewPassConf);
         btn_ganti = view.findViewById(R.id.btn_update_pengaturan);
+        hideErrorOnType(kataSandiLama, wrongOld);
+        hideErrorOnType(kataSandiBaru, wrongNew);
+        hideErrorOnType(kataSandiBaruConf, wrongNewConf);
+
 
         btn_ganti.setOnClickListener(v -> {
             wrongOld.setVisibility(View.GONE);
@@ -58,34 +62,39 @@ public class GantiKataSandiFragment extends Fragment {
             String etSandiLama = kataSandiLama.getText().toString();
             String etSandiBaru = kataSandiBaru.getText().toString();
             String etSandiBaruConf = kataSandiBaruConf.getText().toString();
+            boolean isValid = true;
             if(etSandiLama.isEmpty()){
                 wrongOld.setVisibility(View.VISIBLE);
+                isValid = false;
             }
 
             if(etSandiBaru.isEmpty()){
                 wrongNew.setVisibility(View.VISIBLE);
+                isValid = false;
             } else if (etSandiBaru.length() < 8) {
                 wrongNew.setText("Password Baru minimal 8 karakter");
                 wrongNew.setVisibility(View.VISIBLE);
+                isValid = false;
             } else if (!etSandiBaru.equals(etSandiBaruConf) && !etSandiBaruConf.isEmpty()) {
                 wrongNew.setText("Password tidak sama");
                 wrongNew.setVisibility(View.VISIBLE);
+                isValid = false;
             }
 
             if(etSandiBaruConf.isEmpty()){
                 wrongNewConf.setVisibility(View.VISIBLE);
+                isValid = false;
             } else if (etSandiBaruConf.length() < 8) {
                 wrongNewConf.setText("Konfirmasi password minimal 8 karakter");
                 wrongNewConf.setVisibility(View.VISIBLE);
+                isValid = false;
             } else if (!etSandiBaru.equals(etSandiBaruConf) && !etSandiBaruConf.isEmpty()) {
                 wrongNewConf.setText("Password tidak sama");
                 wrongNewConf.setVisibility(View.VISIBLE);
+                isValid = false;
             }
 
-            btn_ganti.setEnabled(false);
-
-
-            if(!etSandiLama.isEmpty() && !etSandiBaru.isEmpty() && !etSandiBaruConf.isEmpty()){
+            if(isValid){
                 GantiKataSandiModel request = new GantiKataSandiModel(
                         etSandiLama,
                         etSandiBaru
@@ -147,5 +156,20 @@ public class GantiKataSandiFragment extends Fragment {
             }
         });
 
+    }
+
+    private void hideErrorOnType(EditText editText, TextView errorView) {
+        editText.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                errorView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
     }
 }

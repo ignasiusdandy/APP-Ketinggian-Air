@@ -6,19 +6,19 @@ public class EditKendaraanRequestModel {
     @SerializedName("id_kendaraan_baru")
     private String idKendaraanBaru;
 
-    @SerializedName("pemilik_kendaraan")
-    private String pemilikKendaraan;
+    @SerializedName("plat_kendaraan")
+    private String plat;
 
     public EditKendaraanRequestModel(String idKendaraanBaru, String pemilikKendaraan) {
         this.idKendaraanBaru = idKendaraanBaru;
-        this.pemilikKendaraan = pemilikKendaraan;
+        this.plat = plat;
     }
 
     public String getIdKendaraanBaru() {
         return idKendaraanBaru;
     }
 
-    public String getPemilikKendaraan() {
-        return pemilikKendaraan;
+    public String getPlat() {
+        return plat;
     }
 }

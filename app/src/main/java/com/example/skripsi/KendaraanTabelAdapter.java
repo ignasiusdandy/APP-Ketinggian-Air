@@ -18,11 +18,11 @@ public class KendaraanTabelAdapter extends RecyclerView.Adapter<KendaraanTabelAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvPemilik, tvKategori, tvModel, tvStatus;
+        TextView tvPlat, tvKategori, tvModel, tvStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvPemilik = itemView.findViewById(R.id.tvPemilik);
+            tvPlat = itemView.findViewById(R.id.tvPlat);
             tvKategori = itemView.findViewById(R.id.tvKategori);
             tvModel = itemView.findViewById(R.id.tvModel);
             tvStatus = itemView.findViewById(R.id.tvStatus);
@@ -40,16 +40,16 @@ public class KendaraanTabelAdapter extends RecyclerView.Adapter<KendaraanTabelAd
         public void onBindViewHolder(ViewHolder holder, int position) {
             KendaraanTabelModel k = list.get(position);
 
-            holder.tvPemilik.setText(k.getPemilik());
+            holder.tvPlat.setText(k.getPemilik());
             holder.tvKategori.setText(k.getKategori());
             holder.tvModel.setText(k.getModel());
             holder.tvStatus.setText( k.getStatus());
 
-            if(k.getPemilik().equals("Orang Lain")){
-                holder.tvPemilik.setTextColor(
-                        holder.itemView.getContext().getColor(R.color.tulisanabu)
-                );
-            }
+//            if(k.getPemilik().equals("Orang Lain")){
+//                holder.tvPlat.setTextColor(
+//                        holder.itemView.getContext().getColor(R.color.tulisanabu)
+//                );
+//            }
 
             if (k.getStatus().equals("Resiko Rendah")){
                 holder.tvStatus.setTextColor(

@@ -17,7 +17,7 @@
             android:orientation="vertical"
             android:background="@color/white">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:background="@drawable/header"
@@ -47,11 +47,17 @@
                     android:textSize="20sp" />
             </LinearLayout>
                 <ImageView
+                    android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/logout_icon"
-                    android:layout_marginTop="55dp"/>
-            </LinearLayout>
+                    android:layout_gravity="top|end"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginRight="30dp"/>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -119,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppinssemibold"
-                        android:text="AMAN"
+                        android:text="-"
                         android:textSize="15sp"
                         android:textColor="@color/hijauaman"/>
                 </LinearLayout>
@@ -160,7 +166,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="12dp"
                                 android:layout_marginTop="0dp"
-                                android:text="12 CM"
+                                android:text="-"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:textSize="16sp"
                                 android:textColor="@color/black"
@@ -205,7 +211,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="12dp"
                                     android:layout_marginTop="0dp"
-                                    android:text="24 MM"
+                                    android:text="-"
                                     android:fontFamily="@font/poppinsmedium"
                                     android:textSize="14sp"
                                     android:textColor="@color/black"
@@ -238,7 +244,7 @@
                         android:textColor="@color/blue6"
                         android:fontFamily="@font/poppins_regular"
                         android:textSize="10sp"
-                        android:text="08:00 WITA"
+                        android:text="- WITA"
                         android:layout_marginLeft="3dp"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -311,7 +317,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppinssemibold"
-                        android:text="AMAN"
+                        android:text="-"
                         android:textSize="14sp"
                         android:textColor="@color/hijauaman"/>
                 </LinearLayout>
@@ -352,7 +358,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="12dp"
                                     android:layout_marginTop="0dp"
-                                    android:text="12 CM"
+                                    android:text="-"
                                     android:fontFamily="@font/poppinsmedium"
                                     android:textSize="16sp"
                                     android:textColor="@color/black"
@@ -397,7 +403,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="12dp"
                                     android:layout_marginTop="0dp"
-                                    android:text="24 MM"
+                                    android:text="-"
                                     android:fontFamily="@font/poppinsmedium"
                                     android:textSize="14sp"
                                     android:textColor="@color/black"
@@ -430,7 +436,7 @@
                         android:textColor="@color/blue6"
                         android:fontFamily="@font/poppins_regular"
                         android:textSize="10sp"
-                        android:text="08:00 WITA"
+                        android:text="- WITA"
                         android:layout_marginLeft="3dp"/>
                     <TextView
                         android:layout_width="wrap_content"

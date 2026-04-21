@@ -47,11 +47,22 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
 
     private TextView tvTinggi, tvKecepatan, tvStatus, tvWaktu, tvStatusJam, tvRekomendasi, tvDeskripsiRekomendasi;
     private ImageView bulatStatus, arrowKecepatan, arrowTinggi, iconRekomendasi;
+    InternetHandler internetHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_status_pulang);
+
+        // cek internet
+        internetHandler = new InternetHandler(
+                this,
+                findViewById(R.id.layoutNoInternet),
+                findViewById(R.id.btn_reconnect),
+                findViewById(R.id.progressReconnect)
+        );
+        internetHandler.checkInternet();
 
         map = findViewById(R.id.mapDetailPulang);
         map.setMultiTouchControls(false);
@@ -106,6 +117,18 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
         loadStatusPulang();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        internetHandler.startAutoCheck();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        internetHandler.stopAutoCheck();
+    }
+
     private void loadKendaraan(RecyclerView tabelKendaraan) {
 
         SessionManager session = new SessionManager(this);
@@ -127,14 +150,14 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
 
                     for (KendaraanUserResponseModel.DataKendaraanUser item : data) {
 
-                        String pemilik = item.getPemilikKendaraan();
+                        String plat = item.getPlatKendaraan();
 
                         String kategori = item.getJenisMotor();
                         String model = item.getModelMotor();
                         String status = item.getStatus();
 
                         list.add(new KendaraanTabelModel(
-                                pemilik,
+                                plat,
                                 kategori,
                                 model,
                                 status

@@ -27,6 +27,7 @@ public class PopupPilihEditKendaraan extends Dialog {
     private ImageView arrowMotor, btnBatalPilih;
     private LinearLayout btnHapus, btnKonfirmHapus, btnBatal, btnEdit;
     private ApiService apiService;
+    private String plat;
     private ArrayAdapter<String> adapter;
     private String selectedIdKendaraan = null;
     private OnHapusListener listener;
@@ -202,6 +203,7 @@ public class PopupPilihEditKendaraan extends Dialog {
                 KendaraanUserResponseModel.DataKendaraanUser selected = listKendaraan.get(position-1);
                 selectedKendaraan = selected;
                 selectedIdKendaraan = selected.getId();
+                plat = selected.getPlatKendaraan();
                 Log.d("SLECTED_ID", selectedIdKendaraan);
             }
 
@@ -220,7 +222,7 @@ public class PopupPilihEditKendaraan extends Dialog {
         SessionManager session = new SessionManager(context);
         String token = "Bearer " + session.getToken();
 
-        apiService.hapusKendaraan(token, selectedIdKendaraan)
+        apiService.hapusKendaraan(token, selectedIdKendaraan, plat)
                 .enqueue(new Callback<ResponseBody>() {
 
                     @Override

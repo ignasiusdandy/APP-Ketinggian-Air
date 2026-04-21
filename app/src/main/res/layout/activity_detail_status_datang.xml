@@ -93,7 +93,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:fontFamily="@font/poppinsmedium"
                                     android:textSize="12sp"
-                                    android:text="Aman"
+                                    android:text="-"
                                     android:textColor="@color/hijauaman"/>
                             </LinearLayout>
                         </LinearLayout>
@@ -228,7 +228,7 @@
                                                 android:layout_marginTop="0dp"
                                                 android:layout_marginRight="4dp"
                                                 android:fontFamily="@font/poppinsmedium"
-                                                android:text="12 CM"
+                                                android:text="- cm"
                                                 android:textColor="@color/black"
                                                 android:textSize="16sp" />
 
@@ -273,7 +273,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="12dp"
                                                 android:layout_marginTop="0dp"
-                                                android:text="24 MM"
+                                                android:text="- cm/h"
                                                 android:fontFamily="@font/poppinsmedium"
                                                 android:textSize="14sp"
                                                 android:textColor="@color/black"
@@ -308,7 +308,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:textSize="9sp"
-                                android:text="Aman"
+                                android:text="Tidak Diketahui"
                                 android:textColor="@color/hijauaman"/>
 
                             <TextView
@@ -326,7 +326,7 @@
                                 android:fontFamily="@font/poppinsmedium"
                                 android:textColor="@color/black"
                                 android:textSize="9sp"
-                                android:text="21:30 WITA"/>
+                                android:text="- WITA"/>
 
                         </LinearLayout>
                     </LinearLayout>
@@ -347,7 +347,8 @@
                             android:layout_height="44dp"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:layout_marginTop="8dp">
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="20dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -357,6 +358,7 @@
                                 android:textStyle="bold"
                                 android:textSize="18sp"
                                 android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
                                 android:text="DAFTAR KENDARAAN &amp; STATUS"/>
                         </LinearLayout>
 
@@ -368,12 +370,13 @@
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_weight="1.2"
                                 android:gravity="center"
                                 android:textColor="@color/tulisanabu"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:textSize="13sp"
-                                android:text="Pemilik"
+                                android:paddingLeft="12dp"
+                                android:text="Plat"
                                 />
 
                             <TextView
@@ -384,6 +387,7 @@
                                 android:textColor="@color/tulisanabu"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:textSize="13sp"
+                                android:paddingLeft="10dp"
                                 android:text="Kategori"/>
 
                             <TextView
@@ -394,6 +398,7 @@
                                 android:textColor="@color/tulisanabu"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:textSize="13sp"
+                                android:paddingLeft="16dp"
                                 android:text="Model"/>
 
                             <TextView
@@ -404,7 +409,8 @@
                                 android:textColor="@color/tulisanabu"
                                 android:fontFamily="@font/poppinsmedium"
                                 android:textSize="13sp"
-                                android:text="Status"/>
+                                android:text="Status"
+                                android:paddingLeft="14dp"/>
 
                         </LinearLayout>
 
@@ -458,5 +464,8 @@
 
         </LinearLayout>
     </ScrollView>
+    <include
+        android:id="@+id/layoutNoInternet"
+        layout="@layout/layout_no_internet"/>
 
 </FrameLayout>

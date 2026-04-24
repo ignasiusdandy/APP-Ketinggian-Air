@@ -37,7 +37,9 @@ public class PopupEditKendaraan extends Dialog {
     private List<String> listModel = new ArrayList<>();
 
     private String selectedIdKendaraan = null;
-    private KendaraanUserResponseModel.DataKendaraanUser dataKendaraan;
+//    private KendaraanUserResponseModel.DataKendaraanUser dataKendaraan;
+
+    KendaraanTabelPengaturanModel data;
     private boolean isFirstLoad = true;
     private OnEditListener listener;
 
@@ -49,11 +51,21 @@ public class PopupEditKendaraan extends Dialog {
 
 
 
-    public PopupEditKendaraan(@NonNull Context context,
-                              KendaraanUserResponseModel.DataKendaraanUser data, OnEditListener listener) {
+//    public PopupEditKendaraan(@NonNull Context context,
+//                              KendaraanUserResponseModel.DataKendaraanUser data, OnEditListener listener) {
+//        super(context);
+//        this.context = context;
+//        this.dataKendaraan = data;
+//        this.listener = listener;
+//    }
+
+
+    public PopupEditKendaraan(Context context,
+                              KendaraanTabelPengaturanModel data,
+                              OnEditListener listener) {
         super(context);
         this.context = context;
-        this.dataKendaraan = data;
+        this.data = data;
         this.listener = listener;
     }
 
@@ -67,7 +79,7 @@ public class PopupEditKendaraan extends Dialog {
         setContentView(R.layout.form_edit_kendaraan_user);
 
         initView();
-        etPlatKendaraan.setText(dataKendaraan.getPlatKendaraan());
+        etPlatKendaraan.setText(data.getPlat());
         setupSpinner();
         initUppercase();
         hideErrorOnType(etPlatKendaraan, wrongPlat);
@@ -173,7 +185,7 @@ public class PopupEditKendaraan extends Dialog {
         listJenis.add("Pilih Jenis Motor");
         listJenis.addAll(KendaraanCache.getJenisList());
         adapterJenis.notifyDataSetChanged();
-        String jenisTerpilih = dataKendaraan.getJenisMotor();
+        String jenisTerpilih = data.getKategori();
         int indexJenis = listJenis.indexOf(jenisTerpilih);
 
         if(indexJenis >= 0){
@@ -215,7 +227,7 @@ public class PopupEditKendaraan extends Dialog {
         });
 
         if (isFirstLoad) {
-            String idModel = dataKendaraan.getId();
+            String idModel = data.getIdKendaraan();
 
             for (int i = 0; i < listModel.size(); i++) {
                 String model = listModel.get(i);
@@ -284,14 +296,13 @@ public class PopupEditKendaraan extends Dialog {
     }
 
     private void updateKendaraan(String plat) {
-
         SessionManager session = new SessionManager(context);
         String token = "Bearer " + session.getToken();
         EditKendaraanRequestModel request =
                 new EditKendaraanRequestModel(selectedIdKendaraan, plat);
 
         ApiService api = ApiClient.getClient().create(ApiService.class);
-        api.updateKendaraan(token, dataKendaraan.getId(),request).enqueue(new Callback<ResponseBody>() {
+        api.updateKendaraan(token, data.getIdKendaraan(),request).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 //                Log.d("EDIT_DEBUG", "CODE: " + response.code());
@@ -308,6 +319,8 @@ public class PopupEditKendaraan extends Dialog {
                     dialog.getWindow().setDimAmount(0.8f);
                     // bikin transparan agar bisa diliat corner radiusnya
                     dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    dialog.show();
+
                     LinearLayout lanjutanBerhasil = dialog.findViewById(R.id.lanjutanBerhasil);
                     lanjutanBerhasil.setOnClickListener(v -> {
                         dialog.dismiss();

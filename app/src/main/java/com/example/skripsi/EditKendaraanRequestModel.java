@@ -9,7 +9,7 @@ public class EditKendaraanRequestModel {
     @SerializedName("plat_kendaraan")
     private String plat;
 
-    public EditKendaraanRequestModel(String idKendaraanBaru, String pemilikKendaraan) {
+    public EditKendaraanRequestModel(String idKendaraanBaru, String plat) {
         this.idKendaraanBaru = idKendaraanBaru;
         this.plat = plat;
     }

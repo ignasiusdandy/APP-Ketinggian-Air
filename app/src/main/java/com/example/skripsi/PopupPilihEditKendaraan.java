@@ -31,11 +31,14 @@ public class PopupPilihEditKendaraan extends Dialog {
     private ArrayAdapter<String> adapter;
     private String selectedIdKendaraan = null;
     private OnHapusListener listener;
+    KendaraanTabelPengaturanModel data;
     private KendaraanUserResponseModel.DataKendaraanUser selectedKendaraan = null;
     List<KendaraanUserResponseModel.DataKendaraanUser> listKendaraan = new ArrayList<>();
 
 
-
+    public void setData(KendaraanTabelPengaturanModel data){
+        this.data = data;
+    }
 
     public interface OnHapusListener{
         void onBerhasilHapus();
@@ -85,38 +88,38 @@ public class PopupPilihEditKendaraan extends Dialog {
             showKonfirmasiHapus();
         });
 
-        btnEdit.setOnClickListener(v -> {
-            int position = spinnerKendaraanUser.getSelectedItemPosition();
-
-            if (position <= 0) {
-                Toast.makeText(context, "Pilih Kendaraan terlebih dahulu!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            KendaraanUserResponseModel.DataKendaraanUser selected = listKendaraan.get(position - 1);
-
-            PopupEditKendaraan dialogEdit = new PopupEditKendaraan(
-                    context,
-                    selected,
-                    () -> {
-                        if (listener != null) {
-                            listener.onBerhasilHapus();
-                        }
-                    }
-            );
-
-            dialogEdit.show();
-
-            dialogEdit.getWindow().setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-
-            dialogEdit.getWindow().setDimAmount(0.8f);
-            dialogEdit.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-            dismiss();
-        });
+//        btnEdit.setOnClickListener(v -> {
+//            int position = spinnerKendaraanUser.getSelectedItemPosition();
+//
+//            if (position <= 0) {
+//                Toast.makeText(context, "Pilih Kendaraan terlebih dahulu!", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            KendaraanUserResponseModel.DataKendaraanUser selected = listKendaraan.get(position - 1);
+//
+//            PopupEditKendaraan dialogEdit = new PopupEditKendaraan(
+//                    context,
+//                    selected,
+//                    () -> {
+//                        if (listener != null) {
+//                            listener.onBerhasilHapus();
+//                        }
+//                    }
+//            );
+//
+//            dialogEdit.show();
+//
+//            dialogEdit.getWindow().setLayout(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT
+//            );
+//
+//            dialogEdit.getWindow().setDimAmount(0.8f);
+//            dialogEdit.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//
+//            dismiss();
+//        });
     }
 
     private void initView(){

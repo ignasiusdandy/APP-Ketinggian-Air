@@ -12,6 +12,7 @@
 
         <!-- Row atas -->
         <LinearLayout
+            android:id="@+id/btn_kembali"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -25,8 +26,8 @@
                 android:layout_height="36dp"
                 android:background="@drawable/bg_plat"
                 android:padding="8dp"
-                android:src="@drawable/down_arrow"
-                android:tint="@android:color/black"/>
+                android:src="@drawable/kembaliicon"
+                android:tint="@android:color/black" />
 
             <!-- Title -->
             <LinearLayout
@@ -62,11 +63,22 @@
                 android:background="@drawable/bg_plat"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="45dp"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add_icon"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="add"
+                    android:text="Add"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="2dp"
                     />
         </LinearLayout>
 

@@ -31,8 +31,10 @@ public class ProfileFragment extends Fragment {
         });
 
         btnKendaraan.setOnClickListener(v -> {
-                setSelected(btnKendaraan);
-                loadInnerFragment(new KendaraanAkunFragment());
+//                setSelected(btnAkun);
+//                loadInnerFragment(new KendaraanAkunFragment());
+            Intent intent = new Intent(getActivity(), DaftarKendaraanUserActivity.class);
+            startActivity(intent);
         });
 
         btnPassword.setOnClickListener(v -> {

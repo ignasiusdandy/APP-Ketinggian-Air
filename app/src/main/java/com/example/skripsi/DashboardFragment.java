@@ -461,18 +461,12 @@ public class DashboardFragment extends Fragment {
         if(kecepatan > 0){
             imgArrow.setImageResource(R.drawable.up_arrow);
             imgArrow2.setImageResource(R.drawable.up_arrow);
-            tvKecepatan.setTextColor(getResources().getColor(R.color.hijauaman));
-            tvTinggi.setTextColor(getResources().getColor(R.color.hijauaman));
         } else if (kecepatan < 0){
             imgArrow.setImageResource(R.drawable.down_arrow);
             imgArrow2.setImageResource(R.drawable.down_arrow);
-            tvKecepatan.setTextColor(getResources().getColor(R.color.peringatan));
-            tvTinggi.setTextColor(getResources().getColor(R.color.peringatan));
         } else{
             imgArrow.setImageResource(R.drawable.arrow_stabil);
             imgArrow2.setImageResource(R.drawable.arrow_stabil);
-            tvKecepatan.setTextColor(getResources().getColor(R.color.black));
-            tvTinggi.setTextColor(getResources().getColor(R.color.black));
         }
     }
 }

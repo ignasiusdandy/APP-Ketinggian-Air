@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".PengaturanAkunFragment"
     android:padding="8dp">
 
@@ -97,8 +98,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="40dp"
-            android:backgroundTint="@color/blue6"
+            app:backgroundTint="@color/blue6"
+            app:rippleColor="@color/blue3"
             android:text="Perbaharui Data"
+            android:elevation="6dp"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textStyle="bold" />

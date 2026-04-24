@@ -208,7 +208,7 @@ public class PengaturanAkunFragment extends Fragment {
                                 namaKendaraan.add(k.getNamaLengkapMotor());
 
                                 if (k.isKendaraanUtama()) {
-                                    selectedIndex = i + 1;
+                                    selectedIndex = i;
                                 }
                             }
 

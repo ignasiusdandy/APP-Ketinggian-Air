@@ -416,13 +416,9 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
     private void setArrow(double kecepatan){
 
         if(kecepatan > 0){
-            tvTinggi.setTextColor(getResources().getColor(R.color.hijauaman));
-            tvKecepatan.setTextColor(getResources().getColor(R.color.hijauaman));
             arrowTinggi.setImageResource(R.drawable.up_arrow);
             arrowKecepatan.setImageResource(R.drawable.up_arrow);
         } else if(kecepatan < 0){
-            tvTinggi.setTextColor(getResources().getColor(R.color.peringatan));
-            tvKecepatan.setTextColor(getResources().getColor(R.color.peringatan));
             arrowKecepatan.setImageResource(R.drawable.down_arrow);
             arrowTinggi.setImageResource(R.drawable.down_arrow);
         } else{

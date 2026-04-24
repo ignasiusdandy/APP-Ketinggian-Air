@@ -96,15 +96,15 @@ public class KendaraanAkunFragment extends Fragment {
                         String kategori = item.getJenisMotor();
                         String model = item.getModelMotor();
 
-                        list.add(new KendaraanTabelPengaturanModel(
-                                plat,
-                                kategori,
-                                model
-                        ));
+//                        list.add(new KendaraanTabelPengaturanModel(
+//                                plat,
+//                                kategori,
+//                                model
+//                        ));
                     }
 
-                    KendaraanTabelPengaturanAdapter adapter = new KendaraanTabelPengaturanAdapter(list);
-                    tabelKendaraan.setAdapter(adapter);
+//                    KendaraanTabelPengaturanAdapter adapter = new KendaraanTabelPengaturanAdapter(list);
+//                    tabelKendaraan.setAdapter(adapter);
 
                 } else {
                     Toast.makeText(requireContext(),

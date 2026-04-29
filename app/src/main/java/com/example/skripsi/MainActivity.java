@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, navbar_utama.class));
             }
             else if ("Admin".equals(role)) {
-//                startActivity(new Intent(MainActivity.this, AdminActivity.class));
+                startActivity(new Intent(MainActivity.this, NavbarAdminActivity.class));
             }
 
             finish();

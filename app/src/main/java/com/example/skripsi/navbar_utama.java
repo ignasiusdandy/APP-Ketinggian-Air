@@ -40,6 +40,11 @@ public class navbar_utama extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navbar_utama);
 
+        // untuk notifikasi
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
+        }
+
         // INIT
         highlight = findViewById(R.id.highlight);
         menuDashboard = findViewById(R.id.menu_dashboard);

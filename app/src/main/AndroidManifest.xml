@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -17,6 +18,7 @@
         android:theme="@style/Theme.Skripsi"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustResize"
+
         tools:targetApi="31">
         <activity
             android:name=".DetailStatusPulangActivity"
@@ -33,6 +35,9 @@
             android:theme="@style/Theme.Skripsi" />
         <activity
             android:name=".navbar_utama"
+            android:exported="false" />
+        <activity
+            android:name=".NavbarAdminActivity"
             android:exported="false" />
         <activity
             android:name=".MapsActivity"

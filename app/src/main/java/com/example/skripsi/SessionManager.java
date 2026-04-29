@@ -75,4 +75,13 @@ public class SessionManager {
         editor.clear();
         editor.commit();
     }
+
+    public void setLastNotifTime(long time) {
+        editor.putLong("last_notif_time", time);
+        editor.apply();
+    }
+
+    public long getLastNotifTime() {
+        return pref.getLong("last_notif_time", 0);
+    }
 }

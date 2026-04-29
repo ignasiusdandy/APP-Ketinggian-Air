@@ -1,0 +1,51 @@
+package com.example.skripsi;
+
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class NavbarAdminActivity extends AppCompatActivity {
+    BottomNavigationView bottomNav;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.admin_navbar);
+
+        bottomNav = findViewById(R.id.bottomNav);
+
+        // default fragment
+        loadFragment(new DashboardFragment());
+
+        bottomNav.setOnItemSelectedListener(item -> {
+
+            Fragment selectedFragment = null;
+
+            if (item.getItemId() == R.id.nav_home) {
+                selectedFragment = new DashboardFragment();
+
+            } else if (item.getItemId() == R.id.nav_kendaraan) {
+//                selectedFragment = new KendaraanFragment();
+
+            } else if (item.getItemId() == R.id.nav_profile) {
+//                selectedFragment = new ProfileFragment();
+            }
+
+            return loadFragment(selectedFragment);
+        });
+    }
+
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frameContainer, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
+    }
+}

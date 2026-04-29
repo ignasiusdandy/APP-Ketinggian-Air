@@ -433,7 +433,7 @@
                                     android:text="22.2 cm/h"
                                     android:fontFamily="@font/poppinsmedium"
                                     android:textSize="14sp"
-                                    android:textColor="@color/hijautulisanaman"
+                                    android:textColor="@color/black"
                                     android:layout_marginRight="4dp"/>
 
                                 <ImageView

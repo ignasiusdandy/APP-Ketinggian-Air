@@ -42,6 +42,8 @@ public class DashboardFragment extends Fragment {
     private ApiService apiService;
     private LineChart lineChart;
     private ImageView bulatStatusDatang, bulatStatusPulang, arrowTinggiDatang, arrowKecepatanDatang, arrowTinggiPulang, arrowKecepatanPulang, btnKeluar;
+    boolean isDebugMode = true;
+    long startTime;
 
     // Ini untuk refresh tiap 5 menit
     private final android.os.Handler handler = new android.os.Handler();
@@ -54,6 +56,9 @@ public class DashboardFragment extends Fragment {
 
             // ulangi setiap 5 menit
             handler.postDelayed(this, 300000);
+
+//            // debug
+//            handler.postDelayed(this, 5000);
         }
     };
 
@@ -65,6 +70,9 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         apiService = ApiClient.getClient().create(ApiService.class);
+
+        // ini untuk debug
+        startTime = System.currentTimeMillis();
 
         // Untuk mendapatkan session managernya
         sessionManager = new SessionManager(requireContext());
@@ -175,6 +183,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+        handler.removeCallbacks(refreshRunnable);
         handler.post(refreshRunnable);
     }
 
@@ -350,6 +359,47 @@ public class DashboardFragment extends Fragment {
                         double tinggi = d.getTinggi();
                         double kecepatan = d.getKecepatan();
                         String risiko = d.getRisiko();
+
+                        // debug notifikasi
+//                        if (isDebugMode) {
+//                            long elapsed = System.currentTimeMillis() - startTime;
+//
+//                            if (elapsed < 30000) {
+//                                risiko = "Aman";
+//                            } else if (elapsed < 60000) {
+//                                risiko = "Resiko Rendah";
+//                            } else {
+//                                risiko = "Resiko Sedang";
+//                            }
+//                        }
+
+                        // Ini untuk notikasi
+                        String risikoLower = risiko.toLowerCase();
+                        long now = System.currentTimeMillis();
+                        long lastTime = sessionManager.getLastNotifTime();
+                        long waktu = 3600000; // 1 jam
+
+                        //debug
+//                        long waktu = 10000;
+//                        Log.d("NOTIF_DEBUG", "Risiko: " + risiko);
+//                        Log.d("NOTIF_DEBUG", "LastTime: " + lastTime);
+//                        Log.d("NOTIF_DEBUG", "Now: " + now);
+
+                        if (risikoLower.contains("resiko tinggi") ||
+                                risikoLower.contains("resiko sedang") ||
+                                risikoLower.contains("resiko rendah")){
+                            if(now - lastTime > waktu){
+                                NotifikasiHelper.showNotification(
+                                        requireContext(),
+                                        "Peringatan!",
+                                        "Kondisi sekarang: " + risiko
+                                );
+                                sessionManager.setLastNotifTime(now);
+                            }
+                        } else if (risikoLower.contains("aman")) {
+                            sessionManager.setLastNotifTime(0);
+                        }
+
                         String lastUpdate = d.getLastUpdate();
                         setArrow(kecepatan, arrowTinggiDatang, arrowKecepatanDatang, tvKecepatanDatang, tvTinggiDatang);
 
@@ -401,6 +451,7 @@ public class DashboardFragment extends Fragment {
                         double tinggi = d.getTinggi();
                         double kecepatan = d.getKecepatan();
                         String risiko = d.getRisiko();
+                        Log.d("KECEPATAN", String.valueOf(kecepatan));
                         String lastUpdate = d.getLastUpdate();
                         setArrow(kecepatan, arrowTinggiPulang, arrowKecepatanPulang, tvKecepatanPulang, tvTinggiPulang);
                         // Kita ubah waktu datangnya

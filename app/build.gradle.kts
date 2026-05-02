@@ -41,7 +41,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.google.android.material:material:1.11.0")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.navigation:navigation-fragment:2.8.4")
     implementation("androidx.navigation:navigation-ui:2.8.4")

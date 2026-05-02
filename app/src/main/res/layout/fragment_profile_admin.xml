@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F6">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <!-- Avatar -->
+        <TextView
+            android:id="@+id/tvAvatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:text="I"
+            android:textSize="28sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_circle_gradient"
+            android:layout_marginTop="32dp"/>
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ignasius Dandy"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="12dp"/>
+
+        <!-- Role -->
+        <TextView
+            android:id="@+id/tvRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="admin"
+            android:textColor="#4CAF50"
+            android:layout_marginTop="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_card">
+
+            <!-- NAMA -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_hijau"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_menu_myplaces"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nama"
+                        android:textColor="#888"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvNamaValue"
+                        android:text="Ignasius Dandy"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- GARIS PEMISAH -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEEEEE"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- EMAIL -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_hijau"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_dialog_email"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textColor="#888"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvEmail"
+                        android:text="email@gmail.com"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Ganti Password -->
+        <LinearLayout
+            android:id="@+id/btnChangePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_icon_hijau"
+                android:padding="8dp"
+                android:src="@android:drawable/ic_lock_idle_lock"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="Ganti Kata Sandi"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutChangePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="16dp"
+            android:visibility="gone"
+            android:layout_marginTop="8dp">
+
+            <!-- LABEL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kata Sandi Lama"
+                android:textSize="12sp"
+                android:textColor="#666"
+                android:layout_marginBottom="4dp"/>
+
+            <!-- INPUT -->
+            <EditText
+                android:id="@+id/etOldPassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_input"
+                android:hint="Masukkan kata sandi lama"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="13sp"
+                />
+
+            <TextView
+                android:id="@+id/tvErrorKataSandi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Masukkan Kata Sandi"
+                android:textColor="@color/peringatan"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"/>
+
+            <!-- LABEL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kata Sandi Baru"
+                android:textSize="12sp"
+                android:textColor="#666"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="12dp"/>
+
+            <EditText
+                android:id="@+id/etNewPassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_input"
+                android:hint="Masukkan kata sandi baru"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvErrorKataSandiBaru"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Masukkan Kata Sandi Baru"
+                android:textColor="@color/peringatan"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"/>
+
+            <!-- LABEL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Konfirmasi Kata Sandi Baru"
+                android:textSize="12sp"
+                android:textColor="#666"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="12dp"/>
+
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_input"
+                android:hint="Ulangi kata sandi baru"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="13sp"
+                />
+
+            <TextView
+                android:id="@+id/tvErrorKonfirmasiSandi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Masukkan Konfirmasi Kata Sandi Baru"
+                android:textColor="@color/peringatan"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"/>
+
+            <!-- BUTTON ROW -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <Button
+                    android:id="@+id/btnCancelPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Batal"
+                    android:textSize="13sp"
+                    android:background="@drawable/bg_outline"/>
+
+                <Button
+                    android:id="@+id/btnSavePassword"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Simpan"
+                    android:textSize="13sp"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="#1ABC9C"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Logout -->
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Keluar"
+            android:textColor="#F44336"
+            android:background="@drawable/bg_logout"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"/>
+
+    </LinearLayout>
+</ScrollView>

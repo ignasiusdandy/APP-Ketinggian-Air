@@ -138,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
                                     if (role.equals("User")) {
                                         startActivity(new Intent(MainActivity.this, navbar_utama.class));
                                         finish();
+                                    } else if (role.equals("Admin")) {
+                                        startActivity(new Intent(MainActivity.this, NavbarAdminActivity.class));
                                     }
                                 } else {
                                     showError(response.body().getMessage());

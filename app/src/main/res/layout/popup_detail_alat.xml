@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/popupRoot"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- CARD POPUP -->
+    <LinearLayout
+        android:id="@+id/popupCard"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_popup"
+        android:padding="16dp">
+
+        <!-- HEADER -->
+        <LinearLayout
+            android:id="@+id/headerPopup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Detail Alat"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/btnClose"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="✕"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- CARD INFO -->
+        <LinearLayout
+            android:id="@+id/cardInfo"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#E6F4EF"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/iconContainer"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bgtebal_icon_hijau"
+                android:gravity="center"
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/imgIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/cpu_icon"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/textContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/tvNamaAlat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jalan Datang"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvDeskripsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sensor Jalan Datang"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- KOORDINAT -->
+        <TextView
+            android:id="@+id/tvKoordinat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Koordinat: -3.2967, 114.5838"
+            android:layout_marginTop="10dp"/>
+
+        <!-- WAKTU -->
+        <TextView
+            android:id="@+id/tvWaktu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Terakhir aktif: 08:50"/>
+
+        <!-- STATUS -->
+        <LinearLayout
+            android:id="@+id/statusContainer"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/tvLabelStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Status Saat Ini"/>
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bgtebal_icon_hijau"
+                android:gravity="center"
+                android:text="Aktif"
+                android:textColor="@color/hijautulisanaman"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- BUTTON STATUS -->
+        <LinearLayout
+            android:id="@+id/buttonStatusContainer"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/btnAktif"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_btn_hijau"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/tvBtnAktif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aktif"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnNonAktif"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input"
+                android:gravity="center"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:id="@+id/tvBtnNonAktif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Non Aktif"
+                    android:textColor="@color/tulisanabu"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E5E7EB"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- BUTTON KALIBRASI -->
+        <LinearLayout
+            android:id="@+id/btnKalibrasi"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_button_outline"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgKalibrasi"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/kalibrasi_icon"
+                android:layout_marginRight="8dp"/>
+
+            <TextView
+                android:id="@+id/tvKalibrasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kalibrasi Alat"
+                android:textColor="@color/kalibrasi"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

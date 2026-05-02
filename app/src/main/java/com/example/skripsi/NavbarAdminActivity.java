@@ -18,20 +18,20 @@ public class NavbarAdminActivity extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottomNav);
 
         // default fragment
-        loadFragment(new DashboardFragment());
+        loadFragment(new DashboardAdminFragment());
 
         bottomNav.setOnItemSelectedListener(item -> {
 
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.nav_home) {
-                selectedFragment = new DashboardFragment();
+                selectedFragment = new DashboardAdminFragment();
 
             } else if (item.getItemId() == R.id.nav_kendaraan) {
 //                selectedFragment = new KendaraanFragment();
 
             } else if (item.getItemId() == R.id.nav_profile) {
-//                selectedFragment = new ProfileFragment();
+                selectedFragment = new ProfileFragmentAdmin();
             }
 
             return loadFragment(selectedFragment);

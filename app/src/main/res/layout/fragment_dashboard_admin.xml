@@ -19,35 +19,58 @@
 
             <!-- HEADER -->
             <LinearLayout
-                android:background="@drawable/bg_header_profile"
+                android:background="@drawable/bg_header_admin"
                 android:padding="16dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Admin Dashboard"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dash1_admin"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/dashboard_admin_icon"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="Admin Dashboard"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Pantau status alat jalan datang dan jalan pulang"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"/>
             </LinearLayout>
 
             <!-- CARD SUMMARY -->
             <LinearLayout
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="12dp"
                 android:orientation="horizontal"
                 android:weightSum="3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="4dp">
 
                 <!-- TOTAL -->
                 <LinearLayout
@@ -57,69 +80,81 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp">
 
                     <TextView
+                        android:id="@+id/tvTotal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="2"
                         android:textColor="#10B981"
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Total Alat"/>
+                        android:text="Total Alat"
+                        android:gravity="center"/>
                 </LinearLayout>
 
                 <!-- AKTIF -->
                 <LinearLayout
                     android:layout_weight="1"
-                    android:background="@drawable/bg_utama"
+                    android:background="@drawable/card_putih"
                     android:padding="12dp"
                     android:layout_marginHorizontal="6dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp">
 
                     <TextView
+                        android:id="@+id/tvAktif"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="1"
                         android:textColor="#10B981"
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:gravity="center"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Aktif"/>
+                        android:text="Aktif"
+                        android:gravity="center"/>
                 </LinearLayout>
 
                 <!-- NON AKTIF -->
                 <LinearLayout
                     android:layout_weight="1"
-                    android:background="@drawable/bg_utama"
+                    android:background="@drawable/card_putih"
                     android:padding="12dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp">
 
                     <TextView
+                        android:id="@+id/tvNonAktif"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="1"
                         android:textColor="#EF4444"
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:gravity="center"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Non Aktif"/>
+                        android:text="Non Aktif"
+                        android:gravity="center"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -134,57 +169,155 @@
 
             <!-- JALAN DATANG -->
             <LinearLayout
+                android:id="@+id/btnJalanDatang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_utama"
-                android:padding="12dp"
+                android:background="@drawable/card_putih"
+                android:elevation="2dp"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="15dp"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/bgDatangIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_icon_hijau"
+                        android:layout_marginRight="8dp">
+
+                        <ImageView
+                            android:id="@+id/datangAlatIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/cpu_icon" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="50dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jalan Datang"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvStatusDatang"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Status: Aktif"
+                            android:textColor="@color/hijautulisanaman"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/dotDatang"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/bulathijaukecil"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="#BDBDBD"/>
 
                 <TextView
+                    android:id="@+id/tvWaktuDatang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Jalan Datang"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Status: Aman"
-                    android:textColor="#10B981"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Terakhir berfungsi 08:50"
+                    android:text="Terakhir berfungsi pada 08:50"
                     android:textSize="12sp"/>
             </LinearLayout>
 
             <!-- JALAN PULANG -->
             <LinearLayout
+                android:id="@+id/btnJalanPulang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_utama"
-                android:padding="12dp"
+                android:background="@drawable/card_putih"
+                android:elevation="2dp"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="15dp"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/bgPulangIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_icon_merah"
+                        android:layout_marginRight="8dp">
+
+                        <ImageView
+                            android:id="@+id/pulangAlatIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/cpu_merah" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="50dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jalan Pulang"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvStatusPulang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Status: Non Aktif"
+                            android:textColor="@color/peringatan"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/dotPulang"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/bulatmerahkecil"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="#BDBDBD"/>
 
                 <TextView
+                    android:id="@+id/tvWaktuPulang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Jalan Pulang"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Status: Non Aktif"
-                    android:textColor="#EF4444"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Terakhir berfungsi 08:50"
+                    android:text="Terakhir berfungsi pada 08:50"
                     android:textSize="12sp"/>
             </LinearLayout>
 

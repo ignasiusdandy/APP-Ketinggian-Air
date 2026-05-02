@@ -92,4 +92,28 @@ public interface ApiService {
             @Body EditKendaraanRequestModel request
     );
 
+    // Admin endpoint
+    @GET("api/admin/statusAlat")
+    Call<StatusAlatResponseModel> getStatusAlat(
+            @Header("Authorization") String token
+    );
+
+    @PUT("api/admin/updateStatusAlat")
+    Call<ResponseStatusAlatModel> updateStatusAlat(
+            @Header("Authorization") String token,
+            @Body UpdateStatusAlatRequestModel request
+    );
+
+    @GET("api/admin/kalibrasiAlat/{id}")
+    Call<KalibrasiResponseModel> getKalibrasiDetail(
+            @Header("Authorization") String token,
+            @Path("id") String idAlat
+    );
+
+    @PUT("api/admin/kalibrasi")
+    Call<ResponseUpdateKalibrasiModel> updateKalibrasi(
+            @Header("Authorization") String token,
+            @Body UpdateKalibrasiRequest request
+    );
+
 }

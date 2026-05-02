@@ -18,7 +18,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:gravity="center"
-            android:text="I"
+            android:text=""
             android:textSize="28sp"
             android:textColor="@android:color/white"
             android:background="@drawable/bg_circle_gradient"
@@ -63,7 +63,7 @@
                     android:layout_height="40dp"
                     android:background="@drawable/bg_icon_hijau"
                     android:padding="8dp"
-                    android:src="@android:drawable/ic_menu_myplaces"/>
+                    android:src="@drawable/profile_admin"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                     android:layout_height="40dp"
                     android:background="@drawable/bg_icon_hijau"
                     android:padding="8dp"
-                    android:src="@android:drawable/ic_dialog_email"/>
+                    android:src="@drawable/email_icon"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/bg_icon_hijau"
                 android:padding="8dp"
-                android:src="@android:drawable/ic_lock_idle_lock"/>
+                android:src="@drawable/ganti_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -164,9 +164,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="gone"
             android:background="@drawable/bg_card"
             android:padding="16dp"
-            android:visibility="gone"
             android:layout_marginTop="8dp">
 
             <!-- LABEL -->
@@ -268,39 +268,74 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp">
 
-                <Button
+                <LinearLayout
                     android:id="@+id/btnCancelPassword"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Batal"
-                    android:textSize="13sp"
-                    android:background="@drawable/bg_outline"/>
+                    android:background="@drawable/bg_batal"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                <Button
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Batal"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/btnSavePassword"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Simpan"
-                    android:textSize="13sp"
-                    android:textColor="@android:color/white"
-                    android:backgroundTint="#1ABC9C"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_add_admin"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Simpan"
+                        android:textSize="13sp"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
 
         <!-- Logout -->
-        <Button
+        <LinearLayout
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Keluar"
-            android:textColor="#F44336"
+            android:layout_height="48dp"
             android:background="@drawable/bg_logout"
+            android:gravity="center"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="50dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/logout_icon"
+                android:tint="#F44336"
+                android:layout_marginRight="4dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Keluar"
+                android:textColor="#F44336"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

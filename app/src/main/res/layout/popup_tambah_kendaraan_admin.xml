@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:id="@+id/scrollView">
+
+    <LinearLayout
+        android:id="@+id/layoutRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@drawable/bg_popup">
+
+    <!-- TITLE -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tambah Kendaraan"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- JENIS -->
+    <AutoCompleteTextView
+        android:id="@+id/etJenis"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Pilih jenis kendaraan"
+        android:background="@drawable/bg_outline"
+        android:paddingHorizontal="12dp"
+        android:gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/tvErrorJenis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jenis wajib diisi"
+        android:textColor="#F44336"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:layout_marginTop="2dp"/>
+
+    <!-- JENIS BARU -->
+    <EditText
+        android:id="@+id/etJenisBaru"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Masukkan jenis baru"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_outline"
+        android:paddingHorizontal="12dp"
+        android:gravity="center_vertical"/>
+
+    <!-- MODEL -->
+    <AutoCompleteTextView
+        android:id="@+id/etModel"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Pilih model kendaraan"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_outline"
+        android:paddingHorizontal="12dp"
+        android:gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/tvErrorModel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Model wajib diisi"
+        android:textColor="#F44336"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:layout_marginTop="2dp"/>
+
+    <!-- MODEL BARU -->
+    <EditText
+        android:id="@+id/etModelBaru"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Masukkan model baru"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_outline"
+        android:paddingHorizontal="12dp"
+        android:gravity="center_vertical"/>
+
+    <!-- BATAS -->
+    <EditText
+        android:id="@+id/etBatas"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Batas kendaraan (cm)"
+        android:layout_marginTop="12dp"
+        android:inputType="numberDecimal"
+        android:background="@drawable/bg_outline"
+        android:paddingHorizontal="12dp"
+        android:gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/tvErrorBatas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Batas wajib diisi"
+        android:textColor="#F44336"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:layout_marginTop="2dp"/>
+
+    <!-- BUTTON -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/btnBatal"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Batal"
+            android:textColor="#777"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/btnSimpan"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/bg_add"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simpan"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

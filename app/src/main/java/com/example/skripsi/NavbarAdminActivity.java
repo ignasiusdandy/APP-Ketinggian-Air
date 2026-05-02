@@ -28,7 +28,7 @@ public class NavbarAdminActivity extends AppCompatActivity {
                 selectedFragment = new DashboardAdminFragment();
 
             } else if (item.getItemId() == R.id.nav_kendaraan) {
-//                selectedFragment = new KendaraanFragment();
+                selectedFragment = new KendaraanAdminFragment();
 
             } else if (item.getItemId() == R.id.nav_profile) {
                 selectedFragment = new ProfileFragmentAdmin();

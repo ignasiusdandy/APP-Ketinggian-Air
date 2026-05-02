@@ -16,15 +16,16 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.HashMap;
+
 public class ProfileFragmentAdmin extends Fragment {
 
     private TextView tvName, tvEmail;
     private LinearLayout btnChangePassword;
-    private Button btnLogout;
 
     private LinearLayout layoutChangePassword;
     private EditText etOldPassword, etNewPassword, etConfirmPassword;
-    private Button btnCancelPassword, btnSavePassword;
+    private LinearLayout btnCancelPassword, btnSavePassword, btnLogout;
 
     // 🔥 ERROR TEXT
     private TextView tvErrorOld, tvErrorNew, tvErrorConfirm;
@@ -65,8 +66,22 @@ public class ProfileFragmentAdmin extends Fragment {
         hideErrorOnType(etConfirmPassword, tvErrorConfirm);
 
         // DATA
-        tvName.setText("Ignasius Dandy");
-        tvEmail.setText("ignasiusdandy123@gmail.com");
+        HashMap<String, String> user = sessionManager.getUserDetails();
+
+        String nama = user.get(SessionManager.KEY_NAMA);
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+        tvName.setText(nama != null ? nama : "-");
+        tvEmail.setText(email != null ? email : "-");
+
+        TextView tvAvatar = view.findViewById(R.id.tvAvatar);
+
+        if (nama != null && !nama.trim().isEmpty()) {
+            String initial = nama.trim().substring(0, 1).toUpperCase();
+            tvAvatar.setText(initial);
+        } else {
+            tvAvatar.setText("?");
+        }
 
         // TOGGLE FORM
         btnChangePassword.setOnClickListener(v -> {

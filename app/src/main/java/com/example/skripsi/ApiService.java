@@ -116,4 +116,21 @@ public interface ApiService {
             @Body UpdateKalibrasiRequest request
     );
 
+    @GET("api/admin/kendaraanPabrik")
+    Call<KendaraanAdminResponseModel> getKendaraanAdmin(
+            @Header("Authorization") String token
+    );
+
+    @DELETE("api/admin/hapusKendaraan/{id_kendaraan}")
+    Call<ResponseBody> deleteKendaraan(
+            @Header("Authorization") String token,
+            @Path("id_kendaraan") String id
+    );
+
+    @POST("api/admin/tambahKendaraan")
+    Call<ResponseBody> tambahKendaraanAdmin(
+            @Header("Authorization") String token,
+            @Body TambahKendaraanAdminRequest request
+    );
+
 }

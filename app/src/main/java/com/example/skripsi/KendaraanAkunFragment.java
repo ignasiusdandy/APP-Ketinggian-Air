@@ -25,6 +25,8 @@ public class KendaraanAkunFragment extends Fragment {
         super(R.layout.fragment_kendaraan_user);
     }
     private RecyclerView tabelKendaraan;
+    private LinearLayout btnHapus, btnKonfirmHapus, btnBatal;
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

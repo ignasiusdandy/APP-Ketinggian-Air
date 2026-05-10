@@ -133,4 +133,11 @@ public interface ApiService {
             @Body TambahKendaraanAdminRequest request
     );
 
+    @PUT("api/admin/updateKendaraan/{id}")
+    Call<ResponseBody> updateKendaraanAdmin(
+            @Header("Authorization") String token,
+            @Path("id") String id,
+            @Body EditKendaraanAdminRequestModel request
+    );
+
 }

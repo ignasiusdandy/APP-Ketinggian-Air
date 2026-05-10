@@ -163,8 +163,20 @@ public class DaftarKendaraanUserActivity extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
 
                 } else {
-                    Toast.makeText(DaftarKendaraanUserActivity.this,
-                            "Gagal Load Kendaraan", Toast.LENGTH_SHORT).show();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        Log.d("API_ERROR", errorBody);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d("API_CODE", String.valueOf(response.code()));
+
+                    Toast.makeText(
+                            DaftarKendaraanUserActivity.this,
+                            "Gagal Load Kendaraan (" + response.code() + ")",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 

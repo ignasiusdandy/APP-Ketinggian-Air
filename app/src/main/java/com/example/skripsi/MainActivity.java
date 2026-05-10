@@ -8,10 +8,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.app.Dialog;
 import android.content.Intent; // Import wajib untuk pindah halaman
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     Dialog loadingDialog;
     ScrollView scrollView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +56,61 @@ public class MainActivity extends AppCompatActivity {
         EditText etEmail = findViewById(R.id.et_email);
         EditText etPassword = findViewById(R.id.et_password);
 
+        Window window = getWindow();
+
+        window.setStatusBarColor(Color.TRANSPARENT);
+
+        window.getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        );
+
+        
+
+        scrollView = findViewById(R.id.scrollView);
+
+        final View rootView = getWindow().getDecorView().getRootView();
+
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+
+                        Rect rect = new Rect();
+                        rootView.getWindowVisibleDisplayFrame(rect);
+
+                        int screenHeight = rootView.getHeight();
+                        int keypadHeight = screenHeight - rect.bottom;
+
+                        // jika keyboard terbuka
+                        if (keypadHeight > screenHeight * 0.15) {
+
+                            scrollView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scrollView.fullScroll(View.FOCUS_DOWN);
+                                }
+                            });
+                        }
+                    }
+                });
+
         // Saat edit
         wrongEmail = findViewById(R.id.wrongEmail);
         wrongPass = findViewById(R.id.wrongPass);
         hideErrorOnType(etEmail, wrongEmail);
         hideErrorOnType(etPassword, wrongPass);
+
+        scrollView = findViewById(R.id.scrollView);
+
+
+        etEmail.setOnFocusChangeListener((v3, hasFocus) -> {
+            if (hasFocus) scrollToView(v3);
+        });
+
+        etPassword.setOnFocusChangeListener((v3, hasFocus) -> {
+            if (hasFocus) scrollToView(v3);
+        });
 
 
         SessionManager sessionManager = new SessionManager(this);
@@ -169,6 +222,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private void scrollToView(View view) {
+        scrollView.post(() -> {
+            scrollView.smoothScrollTo(0, view.getTop() + 300);
+        });
+    }
+
     private void showError(String message) {
         pesanValidasi.clearAnimation();
         pesanValidasi.animate().cancel();
@@ -200,12 +260,12 @@ public class MainActivity extends AppCompatActivity {
         pesanValidasi.setTranslationY(-300f);
         pesanValidasi.animate().translationY(0).setDuration(300).start();
 
-        // hilang setelah 5 detik
+        // hilang setelah 2 detik
         new Handler().postDelayed(() -> {
             pesanValidasi.animate().translationY(-300f).setDuration(300).withEndAction(() -> {
                 pesanValidasi.setVisibility(View.GONE);
             }).start();
-        }, 5000);
+        }, 2000);
     }
 
     private void hideErrorOnType(EditText editText, TextView errorView) {

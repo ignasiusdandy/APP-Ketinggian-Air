@@ -22,10 +22,19 @@ public class KendaraanAdminAdapter extends RecyclerView.Adapter<KendaraanAdminAd
 
     private List<KendaraanAdminModel> list;
     private Context context;
+    private OnEditClickListener editListener;
 
     public KendaraanAdminAdapter(Context context, List<KendaraanAdminModel> list) {
         this.context = context;
         this.list = list;
+    }
+
+    public interface OnEditClickListener {
+        void onEdit(KendaraanAdminModel data);
+    }
+
+    public void setOnEditClickListener(OnEditClickListener listener) {
+        this.editListener = listener;
     }
 
     @NonNull
@@ -41,26 +50,25 @@ public class KendaraanAdminAdapter extends RecyclerView.Adapter<KendaraanAdminAd
 
         KendaraanAdminModel data = list.get(position);
 
-        // 🔹 NAMA KENDARAAN
         holder.tvNama.setText(data.getNamaKendaraan());
-
-        // 🔹 JENIS (opsional kalau mau ditampilkan)
         holder.tvJenis.setText(data.getJenisKendaraan());
         holder.tvBatas.setText("Batas: " + data.getBatasKendaraan() + " cm");
 
-        // 🔹 ICON INISIAL
         if (data.getNamaKendaraan() != null && !data.getNamaKendaraan().isEmpty()) {
             holder.tvIcon.setText(data.getNamaKendaraan().substring(0,1).toUpperCase());
         } else {
             holder.tvIcon.setText("?");
         }
 
-        // 🔥 CLICK EDIT
+        // CLICK EDIT
         holder.btnEdit.setOnClickListener(v -> {
-            // nanti sambung ke edit
+            if (editListener != null) {
+                editListener.onEdit(data);
+            }
         });
 
-        // 🔥 CLICK DELETE
+
+        // CLICK DELETE
         holder.btnDelete.setOnClickListener(v -> {
 
             int pos = holder.getAdapterPosition();
@@ -80,10 +88,10 @@ public class KendaraanAdminAdapter extends RecyclerView.Adapter<KendaraanAdminAd
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             dialog.show();
 
-            // 🔥 BATAL
+            // BATAL
             btnBatal.setOnClickListener(v1 -> dialog.dismiss());
 
-            // 🔥 KONFIRM HAPUS
+            // KONFIRM HAPUS
             btnHapus.setOnClickListener(v1 -> {
 
                 SessionManager sessionManager = new SessionManager(context);
@@ -163,7 +171,6 @@ public class KendaraanAdminAdapter extends RecyclerView.Adapter<KendaraanAdminAd
         }
     }
 
-    // 🔥 OPTIONAL: update data tanpa recreate adapter
     public void updateData(List<KendaraanAdminModel> newList) {
         this.list = newList;
         notifyDataSetChanged();
@@ -203,6 +210,4 @@ public class KendaraanAdminAdapter extends RecyclerView.Adapter<KendaraanAdminAd
             }
         });
     }
-
-
 }

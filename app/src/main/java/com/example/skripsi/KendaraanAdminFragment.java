@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
@@ -22,9 +23,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,8 +64,6 @@ public class KendaraanAdminFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_kendaraan_admin, container, false);
 
-
-        // 🔹 INIT VIEW
         rvKendaraan = view.findViewById(R.id.rvKendaraan);
         layoutFilter = view.findViewById(R.id.layoutFilter);
         tvJumlah = view.findViewById(R.id.tvJumlah);
@@ -71,15 +74,17 @@ public class KendaraanAdminFragment extends Fragment {
 
         apiService = ApiClient.getClient().create(ApiService.class);
         sessionManager = new SessionManager(getContext());
-
-        // 🔥 INIT ADAPTER SEKALI SAJA
         adapter = new KendaraanAdminAdapter(getContext(), filteredList);
 
         adapter.setOnDataChangedListener(() -> {
-            loadKendaraan(); // 🔥 refresh setelah delete
+            loadKendaraan();
         });
 
         rvKendaraan.setAdapter(adapter);
+
+        adapter.setOnEditClickListener(data -> {
+            showPopupEditKendaraan(data);
+        });
 
         // 🔥 SEARCH
         etSearch.addTextChangedListener(new android.text.TextWatcher() {
@@ -93,7 +98,6 @@ public class KendaraanAdminFragment extends Fragment {
             @Override public void afterTextChanged(android.text.Editable s) {}
         });
 
-        // 🔥 LOAD DATA AWAL
         loadKendaraan();
 
         btnTambah.setOnClickListener(v -> showPopupTambahKendaraan());
@@ -101,14 +105,13 @@ public class KendaraanAdminFragment extends Fragment {
         return view;
     }
 
-    // 🔥 AUTO REFRESH
+    // AUTO REFRESH
     @Override
     public void onResume() {
         super.onResume();
         loadKendaraan();
     }
 
-    // 🔥 LOAD DATA DARI API
     private void loadKendaraan() {
 
         String token = "Bearer " + sessionManager.getToken();
@@ -137,17 +140,11 @@ public class KendaraanAdminFragment extends Fragment {
                                 ));
                             }
 
-                            // 🔥 COPY KE FILTER LIST
                             filteredList.clear();
                             filteredList.addAll(originalList);
 
-                            // 🔥 UPDATE ADAPTER
                             adapter.updateData(filteredList);
-
-                            // 🔥 JUMLAH DATA
                             tvJumlah.setText(filteredList.size() + " kendaraan terdaftar");
-
-                            // 🔥 SET FILTER
                             setupFilter();
 
                         } else {
@@ -166,7 +163,6 @@ public class KendaraanAdminFragment extends Fragment {
                 });
     }
 
-    // 🔥 SEARCH + FILTER
     private void searchData(String keyword) {
 
         filteredList.clear();
@@ -195,7 +191,6 @@ public class KendaraanAdminFragment extends Fragment {
         tvJumlah.setText(filteredList.size() + " kendaraan terdaftar");
     }
 
-    // 🔥 SETUP FILTER
     private void setupFilter() {
 
         layoutFilter.removeAllViews();
@@ -264,109 +259,33 @@ public class KendaraanAdminFragment extends Fragment {
         selected.setTextColor(getResources().getColor(android.R.color.white));
     }
 
-    // 🔥 DP HELPER
     private int dpToPx(int dp) {
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
     private void showPopupTambahKendaraan() {
 
-        Dialog dialog = new Dialog(getContext());
+        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.popup_tambah_kendaraan_admin);
+        dialog.show();
+
         ScrollView scrollView = dialog.findViewById(R.id.scrollView);
 
         AutoCompleteTextView etJenis = dialog.findViewById(R.id.etJenis);
         AutoCompleteTextView etModel = dialog.findViewById(R.id.etModel);
-
-        EditText etJenisBaru = dialog.findViewById(R.id.etJenisBaru);
-        EditText etModelBaru = dialog.findViewById(R.id.etModelBaru);
         EditText etBatas = dialog.findViewById(R.id.etBatas);
-
-        boolean[] isFormatting = {false};
-
-        etJenis.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (isFormatting[0]) return;
-
-                isFormatting[0] = true;
-
-                int cursorPos = etJenis.getSelectionStart(); // 🔥 simpan posisi cursor
-
-                String formatted = formatText(s.toString());
-
-                if (!formatted.equals(s.toString())) {
-
-                    etJenis.setText(formatted);
-
-                    int newPos = Math.min(cursorPos, formatted.length());
-                    etJenis.setSelection(newPos);
-                }
-
-                isFormatting[0] = false;
-            }
-
-            @Override public void afterTextChanged(Editable s) {}
-        });
-
-        etModel.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (isFormatting[0]) return;
-
-                isFormatting[0] = true;
-
-                int cursorPos = etModel.getSelectionStart();
-
-                String formatted = formatText(s.toString());
-
-                if (!formatted.equals(s.toString())) {
-
-                    etModel.setText(formatted);
-
-                    int newPos = Math.min(cursorPos, formatted.length());
-                    etModel.setSelection(newPos);
-                }
-
-                isFormatting[0] = false;
-            }
-
-            @Override public void afterTextChanged(Editable s) {}
-        });
-
-        etJenis.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                etJenis.setText(formatText(etJenis.getText().toString()));
-            }
-        });
-
-        etModel.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                etModel.setText(formatText(etModel.getText().toString()));
-            }
-        });
 
         TextView btnBatal = dialog.findViewById(R.id.btnBatal);
         LinearLayout btnSimpan = dialog.findViewById(R.id.btnSimpan);
 
-
-        dialog.getWindow().setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.show();
+        boolean[] isFormatting = {false};
+        boolean[] isFromDropdown = {false};
+        etModel.setAdapter(null);
 
         // =========================
-        // 🔥 AMBIL DATA DARI originalList (TANPA API LAGI)
+        // 🔥 AMBIL DATA
         // =========================
-        Set<String> jenisSet = new HashSet<>();
+        Set<String> jenisSet = new LinkedHashSet<>();
         Map<String, List<String>> mapModel = new HashMap<>();
 
         for (KendaraanAdminModel item : originalList) {
@@ -386,11 +305,6 @@ public class KendaraanAdminFragment extends Fragment {
         }
 
         List<String> jenisList = new ArrayList<>(jenisSet);
-        jenisList.add("Tambah baru...");
-
-        // =========================
-        // 🔥 SET DROPDOWN JENIS
-        // =========================
         ArrayAdapter<String> adapterJenis =
                 new ArrayAdapter<>(getContext(),
                         android.R.layout.simple_dropdown_item_1line,
@@ -401,101 +315,97 @@ public class KendaraanAdminFragment extends Fragment {
 
         etJenis.setOnItemClickListener((parent, view, position, id) -> {
 
-            String selectedJenis = jenisList.get(position);
+            String selectedJenis = (String) parent.getItemAtPosition(position);
 
-            if (selectedJenis.equals("Tambah baru...")) {
-                etJenisBaru.setVisibility(View.VISIBLE);
-                etModel.setAdapter(null);
-                return;
-            }
-
-            etJenisBaru.setVisibility(View.GONE);
+            isFromDropdown[0] = true;
+            etJenis.setText(selectedJenis, false);
+            etJenis.setSelection(etJenis.getText().length());
 
             List<String> modelList = mapModel.get(selectedJenis);
 
             if (modelList == null) modelList = new ArrayList<>();
-
-            modelList.add("Tambah baru...");
 
             ArrayAdapter<String> adapterModel =
                     new ArrayAdapter<>(getContext(),
                             android.R.layout.simple_dropdown_item_1line,
                             modelList);
 
-            etModel.setAdapter(adapterModel);
-            etModel.setOnClickListener(v -> etModel.showDropDown());
         });
 
-        // =========================
-        // 🔥 MODEL BARU
-        // =========================
-        etModel.setOnItemClickListener((parent, view, position, id) -> {
+        etJenis.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            String selected = (String) parent.getItemAtPosition(position);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            if (selected.equals("Tambah baru...")) {
-                etModelBaru.setVisibility(View.VISIBLE);
-                etModelBaru.requestFocus();
-            } else {
-                etModelBaru.setVisibility(View.GONE);
+                if (isFormatting[0]) return;
+
+                if (isFromDropdown[0]) {
+                    isFromDropdown[0] = false;
+                    return; //
+                }
+
+                isFormatting[0] = true;
+
+                int cursor = etJenis.getSelectionStart();
+
+                String formatted = formatText(s.toString());
+
+                if (!formatted.equals(s.toString())) {
+                    etJenis.setText(formatted);
+                    etJenis.setSelection(Math.min(cursor, formatted.length()));
+                }
+
+                isFormatting[0] = false;
+                isFromDropdown[0] = false;
             }
+
+            @Override public void afterTextChanged(Editable s) {}
         });
 
-        // =========================
-        // 🔥 BUTTON
-        // =========================
+        etModel.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (isFormatting[0]) return;
+
+                if (isFromDropdown[0]) {
+                    return;
+                }
+
+                isFormatting[0] = true;
+
+                int cursor = etModel.getSelectionStart();
+
+                String formatted = formatText(s.toString());
+
+                if (!formatted.equals(s.toString())) {
+                    etModel.setText(formatted);
+                    etModel.setSelection(Math.min(cursor, formatted.length()));
+                }
+
+                isFormatting[0] = false;
+                isFromDropdown[0] = false;
+            }
+
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
         btnBatal.setOnClickListener(v -> dialog.dismiss());
 
         btnSimpan.setOnClickListener(v -> {
+
             TextView tvErrorJenis = dialog.findViewById(R.id.tvErrorJenis);
             TextView tvErrorModel = dialog.findViewById(R.id.tvErrorModel);
             TextView tvErrorBatas = dialog.findViewById(R.id.tvErrorBatas);
 
-            TextWatcher watcher = new TextWatcher() {
-                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    tvErrorJenis.setVisibility(View.GONE);
-                    tvErrorModel.setVisibility(View.GONE);
-                    tvErrorBatas.setVisibility(View.GONE);
-                }
-
-                @Override public void afterTextChanged(Editable s) {}
-            };
-
-            etJenis.addTextChangedListener(watcher);
-            etModel.addTextChangedListener(watcher);
-            etBatas.addTextChangedListener(watcher);
-
-            etJenis.setOnItemClickListener((p,v2,pos,id)-> tvErrorJenis.setVisibility(View.GONE));
-            etModel.setOnItemClickListener((p,v2,pos,id)-> tvErrorModel.setVisibility(View.GONE));
-
-            String jenis;
-            String model;
-            if (etJenisBaru.getVisibility() == View.VISIBLE) {
-                jenis = etJenisBaru.getText().toString().trim();
-            } else {
-                jenis = etJenis.getText().toString().trim();
-            }
-
-            if (etModelBaru.getVisibility() == View.VISIBLE) {
-                model = etModelBaru.getText().toString().trim();
-            } else {
-                model = etModel.getText().toString().trim();
-            }
+            String jenis = etJenis.getText().toString().trim();
+            String model = etModel.getText().toString().trim();
 
             jenis = formatText(jenis);
             model = formatText(model);
-
-
-            if (etJenisBaru.getVisibility() == View.VISIBLE) {
-                jenis = etJenisBaru.getText().toString().trim();
-            }
-
-            if (etModelBaru.getVisibility() == View.VISIBLE) {
-                model = etModelBaru.getText().toString().trim();
-            }
 
             String batasStr = etBatas.getText().toString().trim();
 
@@ -524,18 +434,37 @@ public class KendaraanAdminFragment extends Fragment {
                 isValid = false;
             }
 
-            if (!isValid) {
+            boolean modelSudahAda = false;
 
+            for (KendaraanAdminModel item : originalList) {
+
+                if (item.getJenisKendaraan() != null &&
+                        item.getNamaKendaraan() != null &&
+                        item.getJenisKendaraan().equalsIgnoreCase(jenis) &&
+                        item.getNamaKendaraan().equalsIgnoreCase(model)) {
+
+                    modelSudahAda = true;
+                    break;
+                }
+            }
+
+            if (modelSudahAda) {
+                tvErrorModel.setText("Model sudah ada");
+                tvErrorModel.setVisibility(View.VISIBLE);
+
+                if (firstError == null) firstError = etModel;
+
+                isValid = false;
+            }
+
+            if (!isValid) {
                 if (firstError != null) {
                     firstError.requestFocus();
-
-                    final View targetView = firstError;
-
+                    final View target = firstError;
                     scrollView.post(() ->
-                            scrollView.smoothScrollTo(0, targetView.getTop())
+                            scrollView.smoothScrollTo(0, target.getTop())
                     );
                 }
-
                 return;
             }
 
@@ -543,6 +472,16 @@ public class KendaraanAdminFragment extends Fragment {
 
             tambahKendaraanAPI(jenis, model, batas, dialog);
         });
+
+        dialog.getWindow().setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+        );
+        dialog.show();
     }
 
     private void tambahKendaraanAPI(String jenis, String model, double batas, Dialog dialog) {
@@ -562,11 +501,28 @@ public class KendaraanAdminFragment extends Fragment {
 
                             dialog.dismiss();
 
-                            Toast.makeText(getContext(),
-                                    "Berhasil tambah kendaraan",
-                                    Toast.LENGTH_SHORT).show();
+                            Dialog dialogSukses = new Dialog(requireContext());
+                            dialogSukses.setContentView(R.layout.popup_berhasil_tambah);
 
-                            loadKendaraan();
+                            if (dialogSukses.getWindow() != null) {
+                                dialogSukses.getWindow().setLayout(
+                                        ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT
+                                );
+                                dialogSukses.getWindow().setDimAmount(0.8f);
+                                dialogSukses.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                            }
+
+                            LinearLayout lanjutanBerhasil = dialogSukses.findViewById(R.id.lanjutanBerhasil);
+
+                            if (lanjutanBerhasil != null) {
+                                lanjutanBerhasil.setOnClickListener(v -> {
+                                    dialogSukses.dismiss(); // Menutup dialog sukses
+                                    loadKendaraan(); // Refresh list setelah user klik lanjut
+                                });
+                            }
+
+                            dialogSukses.show();
 
                         } else {
                             Toast.makeText(getContext(),
@@ -582,6 +538,185 @@ public class KendaraanAdminFragment extends Fragment {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void updateKendaraanAPI(
+            String id,
+            String jenis,
+            String model,
+            double batas,
+            Dialog dialog,
+            View loadingOverlay,
+            TextView btnText
+    ) {
+
+        String token = "Bearer " + sessionManager.getToken();
+
+        EditKendaraanAdminRequestModel request =
+                new EditKendaraanAdminRequestModel(jenis, model, batas);
+
+        // 🔥 SHOW LOADING
+        showLoading(loadingOverlay, btnText);
+
+        apiService.updateKendaraanAdmin(token, id, request)
+                .enqueue(new Callback<ResponseBody>() {
+
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        hideLoading(loadingOverlay, btnText);
+
+                        if (response.isSuccessful()) {
+
+                            dialog.dismiss();
+
+                            Dialog dialogSukses = new Dialog(requireContext());
+                            dialogSukses.setContentView(R.layout.popup_berhasil_tambah);
+
+                            if (dialogSukses.getWindow() != null) {
+                                dialogSukses.getWindow().setLayout(
+                                        ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT
+                                );
+                                dialogSukses.getWindow().setDimAmount(0.8f);
+                                dialogSukses.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                            }
+
+                            LinearLayout lanjutanBerhasil = dialogSukses.findViewById(R.id.lanjutanBerhasil);
+
+                            if (lanjutanBerhasil != null) {
+                                lanjutanBerhasil.setOnClickListener(v -> {
+                                    dialogSukses.dismiss(); // Menutup dialog sukses
+                                    loadKendaraan(); // Refresh list setelah user klik lanjut
+                                });
+                            }
+
+                            dialogSukses.show();
+
+                        } else {
+
+                            try {
+                                String error = response.errorBody().string();
+                                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Toast.makeText(getContext(), "Gagal update", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        hideLoading(loadingOverlay, btnText);
+
+                        Toast.makeText(getContext(),
+                                "Error: " + t.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void showLoading(View overlay, TextView btnText) {
+        overlay.setAlpha(0f);
+        overlay.setVisibility(View.VISIBLE);
+        overlay.animate().alpha(1f).setDuration(200).start();
+
+        btnText.setText("Loading...");
+    }
+
+    private void hideLoading(View overlay, TextView btnText) {
+        overlay.animate().alpha(0f).setDuration(200).withEndAction(() -> {
+            overlay.setVisibility(View.GONE);
+        }).start();
+
+        btnText.setText("Simpan");
+    }
+
+    private void showPopupEditKendaraan(KendaraanAdminModel data) {
+
+        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+        dialog.setContentView(R.layout.popup_tambah_kendaraan_admin);
+        dialog.show();
+
+        TextView tvTitle = dialog.findViewById(R.id.tvTitle);
+
+        AutoCompleteTextView etJenis = dialog.findViewById(R.id.etJenis);
+        AutoCompleteTextView etModel = dialog.findViewById(R.id.etModel);
+        EditText etBatas = dialog.findViewById(R.id.etBatas);
+
+        TextView tvErrorJenis = dialog.findViewById(R.id.tvErrorJenis);
+        TextView tvErrorModel = dialog.findViewById(R.id.tvErrorModel);
+        TextView tvErrorBatas = dialog.findViewById(R.id.tvErrorBatas);
+
+        TextView btnBatal = dialog.findViewById(R.id.btnBatal);
+        LinearLayout btnSimpan = dialog.findViewById(R.id.btnSimpan);
+        TextView tvBtnSimpan = dialog.findViewById(R.id.tvBtnSimpan);
+
+        View loadingOverlay = dialog.findViewById(R.id.loadingOverlay);
+        tvTitle.setText("Edit Kendaraan");
+
+        etJenis.setText(data.getJenisKendaraan());
+        etModel.setText(data.getNamaKendaraan());
+        etBatas.setText(String.valueOf(data.getBatasKendaraan()));
+        etJenis.setEnabled(false);
+        etJenis.setFocusable(false);
+        etJenis.setClickable(false);
+
+        TextWatcher watcher = new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvErrorJenis.setVisibility(View.GONE);
+                tvErrorModel.setVisibility(View.GONE);
+                tvErrorBatas.setVisibility(View.GONE);
+            }
+
+            @Override public void afterTextChanged(Editable s) {}
+        };
+
+        etModel.addTextChangedListener(watcher);
+        etBatas.addTextChangedListener(watcher);
+        btnBatal.setOnClickListener(v -> dialog.dismiss());
+        btnSimpan.setOnClickListener(v -> {
+
+            String jenis = etJenis.getText().toString().trim();
+            String model = etModel.getText().toString().trim();
+            String batasStr = etBatas.getText().toString().trim();
+
+            boolean isValid = true;
+
+            if (jenis.isEmpty()) {
+                tvErrorJenis.setVisibility(View.VISIBLE);
+                isValid = false;
+            }
+
+            if (model.isEmpty()) {
+                tvErrorModel.setVisibility(View.VISIBLE);
+                isValid = false;
+            }
+
+            if (batasStr.isEmpty()) {
+                tvErrorBatas.setVisibility(View.VISIBLE);
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            double batas = Double.parseDouble(batasStr);
+
+            showLoading(loadingOverlay, tvBtnSimpan);
+
+            updateKendaraanAPI(
+                    data.getIdKendaraan(),
+                    jenis,
+                    model,
+                    batas,
+                    dialog,
+                    loadingOverlay,
+                    tvBtnSimpan
+            );
+        });
     }
 
     private String formatText(String input) {

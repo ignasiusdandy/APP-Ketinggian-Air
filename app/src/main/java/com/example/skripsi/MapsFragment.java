@@ -59,7 +59,7 @@ public class MapsFragment extends Fragment {
                 TextView tvStatus = mView.findViewById(R.id.tvInfoStatus);
                 TextView btndetail = mView.findViewById(R.id.btn_detail);
                 tvtittle.setText("Jalan Datang");
-                loadStatus(tvinfotinggi, tvStatus);
+                loadStatus(tvinfotinggi, tvStatus, "datang");
 
                 btndetail.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), DetailStatusDatangActivity.class);
@@ -102,10 +102,10 @@ public class MapsFragment extends Fragment {
 
                 tvtittle.setText("Jalan Pulang");
                 imageStatus.setImageResource(R.drawable.jalan_pulang);
-                loadStatus(tvinfotinggi, tvStatus);
+                loadStatus(tvinfotinggi, tvStatus, "pulang");
 
                 btndetail.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), DetailStatusDatangActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailStatusPulangActivity.class);
                     startActivity(intent);
                 });
 
@@ -153,7 +153,7 @@ public class MapsFragment extends Fragment {
     }
 
 
-    private void loadStatus(TextView tvinfotinggi, TextView tvStatus){
+    private void loadStatus(TextView tvinfotinggi, TextView tvStatus, String tipe){
 
         SessionManager session = new SessionManager(requireContext());
         String token = "Bearer " + session.getToken();
@@ -167,11 +167,16 @@ public class MapsFragment extends Fragment {
 
                 if(response.isSuccessful() && response.body() != null){
 
-                    StatusUtamaResponseModel.Lokasi lokasi = response.body().getDatang();
+                    StatusUtamaResponseModel.Lokasi lokasiData;
+                    if (tipe.equals("datang")) {
+                        lokasiData = response.body().getDatang();
+                    } else {
+                        lokasiData = response.body().getPulang(); // Asumsi ada method getPulang() di model kamu
+                    }
 
-                    if(lokasi != null && lokasi.getData() != null){
+                    if(lokasiData != null && lokasiData.getData() != null){
 
-                        StatusUtamaResponseModel.Data d = lokasi.getData();
+                        StatusUtamaResponseModel.Data d = lokasiData.getData();
 
                         double tinggi = d.getTinggi();
                         String risiko = d.getRisiko();

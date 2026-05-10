@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/card_putih">
+    android:background="@drawable/card_putih"
+    android:layout_marginHorizontal="20dp">
 
 
     <ImageView
@@ -38,7 +39,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:layout_marginLeft="40dp"
-            android:padding="10dp"
+            android:padding="6dp"
             android:background="@drawable/bg_batal">
 
             <TextView
@@ -62,7 +63,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_hapus"
-            android:padding="10dp"
+            android:padding="6dp"
             android:gravity="center"
             android:layout_marginRight="40dp">
             <TextView

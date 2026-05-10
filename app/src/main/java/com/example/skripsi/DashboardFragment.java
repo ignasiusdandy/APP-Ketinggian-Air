@@ -54,8 +54,8 @@ public class DashboardFragment extends Fragment {
             loadChartData();
             loadStatus();
 
-            // ulangi setiap 5 menit
-            handler.postDelayed(this, 300000);
+            // ulangi setiap 1 menit
+            handler.postDelayed(this, 60000);
 
 //            // debug
 //            handler.postDelayed(this, 5000);
@@ -456,6 +456,28 @@ public class DashboardFragment extends Fragment {
                         setArrow(kecepatan, arrowTinggiPulang, arrowKecepatanPulang, tvKecepatanPulang, tvTinggiPulang);
                         // Kita ubah waktu datangnya
                         tvWaktuPulang.setText(lastUpdate + " WITA");
+
+                        String risikoPulang = d.getRisiko();
+                        String risikoLowerPulang = risikoPulang.toLowerCase();
+
+                        long now = System.currentTimeMillis();
+                        long lastTime = sessionManager.getLastNotifTime();
+                        long waktu = 3600000;
+
+                        if (risikoLowerPulang.contains("resiko tinggi") ||
+                                risikoLowerPulang.contains("resiko sedang") ||
+                                risikoLowerPulang.contains("resiko rendah")) {
+
+                            if(now - lastTime > waktu){
+                                NotifikasiHelper.showNotification(
+                                        requireContext(),
+                                        "Peringatan Pulang!",
+                                        "Kondisi pulang: " + risikoPulang
+                                );
+                                sessionManager.setLastNotifTime(now);
+                            }
+                        }
+
 
                         if (risiko.toLowerCase().contains("aman")){
                             tvTinggiPulang.setText((double) tinggi + " cm");

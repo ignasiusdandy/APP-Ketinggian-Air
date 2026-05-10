@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -51,6 +52,11 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
     private TextView tvTinggi, tvKecepatan, tvStatus, tvWaktu, tvStatusJam, tvRekomendasi, tvDeskripsiRekomendasi;
     private ImageView bulatStatus, arrowKecepatan, arrowTinggi, iconRekomendasi;
     InternetHandler internetHandler;
+
+    // Ini untuk refresh
+    Handler handler = new Handler();
+    Runnable runnable;
+    int interval = 60000;
 
 
     @Override
@@ -126,16 +132,41 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
     protected void onResume(){
         super.onResume();
         internetHandler.startAutoCheck();
+        startAutoRefresh();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         internetHandler.stopAutoCheck();
+        stopAutoRefresh();
+    }
+
+
+    private void startAutoRefresh() {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                loadStatusDatang();
+                loadChartData();
+                handler.postDelayed(this, interval);
+            }
+        };
+
+        handler.post(runnable);
+    }
+
+    private void stopAutoRefresh() {
+        if (handler != null && runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
     }
 
 

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +14,7 @@ import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -49,16 +52,22 @@ public class RegisterActivity extends AppCompatActivity {
     // List String untuk ditampilkan di Spinner
     private final List<String> listNamaJenis = new ArrayList<>();
     private final List<String> listNamaModel = new ArrayList<>();
+    ScrollView scrollView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registrasi_akun);
 
-//        getWindow().setFlags(
-//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-//        );
+        Window window = getWindow();
+
+        window.setStatusBarColor(Color.TRANSPARENT);
+
+        window.getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        );
 
         EditText etNama = findViewById(R.id.et_nama);
         EditText etEmail = findViewById(R.id.et_email);
@@ -81,6 +90,51 @@ public class RegisterActivity extends AppCompatActivity {
         hideErrorOnType(etPasswordConf, wrongPassConf);
         hideErrorOnType(etPlatKendaraan, wrongPlat);
         initUppercase();
+
+
+        // Ini untuk view saat keyboard
+        scrollView = findViewById(R.id.scrollView);
+        etEmail.setOnFocusChangeListener((v3, hasFocus) -> {
+            if (hasFocus) scrollToView(v3);
+        });
+
+        etPassword.setOnFocusChangeListener((v3, hasFocus) -> {
+            if (hasFocus) scrollToView(v3);
+        });
+        etPasswordConf.setOnFocusChangeListener((v3, hasFocus) -> {
+            if (hasFocus) scrollToView(v3);
+        });
+
+        etPlatKendaraan.setOnFocusChangeListener((v3, hasFocus) -> {
+            if (hasFocus) scrollToView(v3);
+        });
+        View rootView = findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+
+            Rect r = new Rect();
+            rootView.getWindowVisibleDisplayFrame(r);
+
+            int screenHeight = rootView.getRootView().getHeight();
+            int keypadHeight = screenHeight - r.bottom;
+
+            // kalau keyboard muncul
+            if (keypadHeight > screenHeight * 0.15) {
+
+                ViewGroup.MarginLayoutParams params =
+                        (ViewGroup.MarginLayoutParams) btnDaftar.getLayoutParams();
+
+                params.bottomMargin = dpToPx(320); // 🔥 naikkan margin
+                btnDaftar.setLayoutParams(params);
+
+            } else {
+                // keyboard hilang
+                ViewGroup.MarginLayoutParams params =
+                        (ViewGroup.MarginLayoutParams) btnDaftar.getLayoutParams();
+
+                params.bottomMargin = dpToPx(120); // balik normal
+                btnDaftar.setLayoutParams(params);
+            }
+        });
 
         CustomSpinner spinnerMotor = findViewById(R.id.spinner_motor);
         CustomSpinner spinnerModel = findViewById(R.id.spinner_model_motor);
@@ -253,6 +307,17 @@ public class RegisterActivity extends AppCompatActivity {
             prosesRegister(nama, email, pass, idKendaraanYangAkanDikirim, plat, motor, model);
         });
     }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
+    private void scrollToView(View view) {
+        scrollView.post(() -> {
+            scrollView.smoothScrollTo(0, view.getTop() + 400);
+        });
+    }
+
 
     private void initUppercase(){
         EditText etPlatKendaraan = findViewById(R.id.etPlatKendaraan);

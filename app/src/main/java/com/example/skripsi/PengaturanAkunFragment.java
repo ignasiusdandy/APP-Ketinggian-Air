@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ public class PengaturanAkunFragment extends Fragment {
 
     List<KendaraanUserResponseModel.DataKendaraanUser> listKendaraan = new ArrayList<>();
     ArrayAdapter<String> adapter;
+    Handler handler = new Handler();
+    Runnable runnable;
 
     public PengaturanAkunFragment() {
         super(R.layout.fragment_pengaturan_akun);
@@ -190,7 +193,21 @@ public class PengaturanAkunFragment extends Fragment {
 
         CustomSpinner spinner = getView().findViewById(R.id.spinner_kendaraan_utama);
 
-        refreshData(apiService, token, spinner);
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                refreshData(apiService, token, spinner);
+                handler.postDelayed(this, 60000); // 1 menit
+            }
+        };
+
+        handler.post(runnable);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
     }
 
     private void refreshData(ApiService apiService, String token, CustomSpinner spinner) {

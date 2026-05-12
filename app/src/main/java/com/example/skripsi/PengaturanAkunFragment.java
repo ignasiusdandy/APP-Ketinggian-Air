@@ -213,11 +213,37 @@ public class PengaturanAkunFragment extends Fragment {
     private void refreshData(ApiService apiService, String token, CustomSpinner spinner) {
 
         // reset adapter
-        adapter = new ArrayAdapter<>(
+        adapter = new ArrayAdapter<String>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
                 new ArrayList<>()
-        );
+        ) {
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+
+                TextView text = view.findViewById(android.R.id.text1);
+
+                text.setTextSize(14); // ukuran text
+                text.setFontFeatureSettings("poppins");
+                text.setTextColor(getResources().getColor(R.color.black));
+
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+
+                TextView text = view.findViewById(android.R.id.text1);
+
+                text.setTextSize(14); // dropdown text
+                text.setTextColor(getResources().getColor(R.color.black));
+
+                return view;
+            }
+        };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 

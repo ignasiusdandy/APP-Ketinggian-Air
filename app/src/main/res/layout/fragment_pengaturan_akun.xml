@@ -19,7 +19,7 @@
             android:fontFamily="@font/poppinssemibold"
             android:text="Pengaturan Akun"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,14 +28,14 @@
             android:fontFamily="@font/poppinsmedium"
             android:text="Nama"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
 
         <EditText
             android:id="@+id/nama_pengaturan_akun"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/bg_input"
             android:backgroundTint="@null"
             android:fontFamily="@font/poppinsmedium"
@@ -54,7 +54,7 @@
             android:fontFamily="@font/poppinsmedium"
             android:text="Kendaraan Utama"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <FrameLayout
             android:id="@+id/wrapper_spinner_1"
@@ -78,7 +78,8 @@
                 android:popupBackground="@color/white"
                 android:overlapAnchor="false"
                 android:spinnerMode="dropdown"
-                android:background="@null"/>
+                android:background="@null"
+                />
 
             <ImageView
                 android:id="@+id/iv_arrow_motor"

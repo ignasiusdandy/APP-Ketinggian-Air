@@ -230,12 +230,12 @@
                                                 android:fontFamily="@font/poppinsmedium"
                                                 android:text="- cm"
                                                 android:textColor="@color/black"
-                                                android:textSize="16sp" />
+                                                android:textSize="14sp" />
 
                                             <ImageView
                                                 android:id="@+id/arrowTinggiDetail"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                                android:layout_width="18dp"
+                                                android:layout_height="20dp"
                                                 android:src="@drawable/down_arrow" />
 
                                         </LinearLayout>
@@ -281,8 +281,8 @@
 
                                             <ImageView
                                                 android:id="@+id/arrowKecepatanDetail"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                                android:layout_width="18dp"
+                                                android:layout_height="20dp"
                                                 android:src="@drawable/up_arrow" />
 
                                         </LinearLayout>
@@ -357,60 +357,117 @@
                                 android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
-                                android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
                                 android:text="DAFTAR KENDARAAN &amp; STATUS"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_height="40dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
 
-                            <TextView
+                            <!-- PLAT -->
+                            <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1.2"
-                                android:gravity="center"
-                                android:textColor="@color/tulisanabu"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textSize="13sp"
-                                android:paddingLeft="12dp"
-                                android:text="Plat"
-                                />
+                                android:orientation="horizontal"
+                                android:gravity="center">
 
-                            <TextView
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:src="@drawable/plat_icon"
+                                    android:layout_marginEnd="5dp"
+                                    android:scaleType="fitCenter"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Plat"
+                                    android:textSize="12sp"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/tulisanabu"
+                                    android:fontFamily="@font/poppinsmedium"/>
+                            </LinearLayout>
+
+                            <!-- KATEGORI -->
+                            <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:gravity="center"
-                                android:textColor="@color/tulisanabu"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textSize="13sp"
-                                android:paddingLeft="10dp"
-                                android:text="Kategori"/>
+                                android:orientation="horizontal"
+                                android:gravity="center">
 
-                            <TextView
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/kategori_icon"
+                                    android:layout_marginEnd="5dp"
+                                    android:scaleType="fitCenter"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kategori"
+                                    android:textSize="12sp"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/tulisanabu"
+                                    android:fontFamily="@font/poppinsmedium"/>
+                            </LinearLayout>
+
+                            <!-- MODEL -->
+                            <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1.4"
+                                android:orientation="horizontal"
                                 android:gravity="center"
-                                android:textColor="@color/tulisanabu"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textSize="13sp"
-                                android:paddingLeft="16dp"
-                                android:text="Model"/>
+                                android:paddingLeft="6dp">
 
-                            <TextView
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:src="@drawable/model_icon"
+                                    android:layout_marginEnd="5dp"
+                                    android:scaleType="fitCenter"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Model"
+                                    android:textSize="12sp"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/tulisanabu"
+                                    android:fontFamily="@font/poppinsmedium"/>
+                            </LinearLayout>
+
+                            <!-- STATUS -->
+                            <LinearLayout
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1.2"
+                                android:orientation="horizontal"
                                 android:gravity="center"
-                                android:textColor="@color/tulisanabu"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textSize="13sp"
-                                android:text="Status"
-                                android:paddingLeft="14dp"/>
+                                android:paddingLeft="6dp">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/statustabel_icon"
+                                    android:layout_marginEnd="5dp"
+                                    android:scaleType="fitCenter"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Status"
+                                    android:textSize="12sp"
+                                    android:includeFontPadding="false"
+                                    android:textColor="@color/tulisanabu"
+                                    android:fontFamily="@font/poppinsmedium"/>
+                            </LinearLayout>
 
                         </LinearLayout>
 

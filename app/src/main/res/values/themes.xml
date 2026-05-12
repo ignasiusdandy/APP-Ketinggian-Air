@@ -10,11 +10,12 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="bottomNavigationStyle">@style/Widget.BottomNav.NoIndicator</item>
+        <item name="android:windowSplashScreenBackground">#F3F0F5</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/launcher_logo</item>
     </style>
     <style name="Widget.BottomNav.NoIndicator" parent="Widget.Material3.BottomNavigationView">
         <item name="itemActiveIndicatorStyle">@null</item>
     </style>
 
     <style name="Theme.Skripsi" parent="Base.Theme.Skripsi" />
-
 </resources>

@@ -71,46 +71,11 @@ public class MainActivity extends AppCompatActivity {
 
         final View rootView = getWindow().getDecorView().getRootView();
 
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-
-                        Rect rect = new Rect();
-                        rootView.getWindowVisibleDisplayFrame(rect);
-
-                        int screenHeight = rootView.getHeight();
-                        int keypadHeight = screenHeight - rect.bottom;
-
-                        // jika keyboard terbuka
-                        if (keypadHeight > screenHeight * 0.15) {
-
-                            scrollView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    scrollView.fullScroll(View.FOCUS_DOWN);
-                                }
-                            });
-                        }
-                    }
-                });
-
         // Saat edit
         wrongEmail = findViewById(R.id.wrongEmail);
         wrongPass = findViewById(R.id.wrongPass);
         hideErrorOnType(etEmail, wrongEmail);
         hideErrorOnType(etPassword, wrongPass);
-
-        scrollView = findViewById(R.id.scrollView);
-
-
-        etEmail.setOnFocusChangeListener((v3, hasFocus) -> {
-            if (hasFocus) scrollToView(v3);
-        });
-
-        etPassword.setOnFocusChangeListener((v3, hasFocus) -> {
-            if (hasFocus) scrollToView(v3);
-        });
 
 
         SessionManager sessionManager = new SessionManager(this);
@@ -220,13 +185,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-
-    private void scrollToView(View view) {
-        scrollView.post(() -> {
-            scrollView.smoothScrollTo(0, view.getTop() + 300);
-        });
     }
 
     private void showError(String message) {

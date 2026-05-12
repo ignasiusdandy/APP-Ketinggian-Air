@@ -80,6 +80,7 @@ public class MapsFragment extends Fragment {
             );
 
             map.getController().animateTo(offset);
+            m.getInfoWindow().getView().setBackground(null);
             m.showInfoWindow();
             return true;
         });
@@ -124,6 +125,7 @@ public class MapsFragment extends Fragment {
             );
 
             map.getController().animateTo(offset);
+            m.getInfoWindow().getView().setBackground(null);
             m.showInfoWindow();
             return true;
         });

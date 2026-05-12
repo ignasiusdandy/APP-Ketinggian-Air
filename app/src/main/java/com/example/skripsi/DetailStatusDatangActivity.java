@@ -15,6 +15,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -77,6 +78,15 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
                 findViewById(R.id.progressReconnect)
         );
         internetHandler.checkInternet();
+
+        Window window = getWindow();
+
+        window.setStatusBarColor(Color.TRANSPARENT);
+
+        window.getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        );
 
         map = findViewById(R.id.mapDetailDatang);
         map.setMultiTouchControls(false);

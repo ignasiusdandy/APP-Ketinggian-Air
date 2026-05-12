@@ -18,17 +18,17 @@ public class ProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        btnAkun = view.findViewById(R.id.pengaturan_akun);
+//        btnAkun = view.findViewById(R.id.pengaturan_akun);
         btnPassword = view.findViewById(R.id.ubah_kata_sandi);
         btnKendaraan = view.findViewById(R.id.kendaraanUser);
 
-        loadInnerFragment(new PengaturanAkunFragment());
+        loadInnerFragment(new GantiKataSandiFragment());
         setSelected(btnAkun);
 
-        btnAkun.setOnClickListener(v -> {
-            setSelected(btnAkun);
-            loadInnerFragment(new PengaturanAkunFragment());
-        });
+//        btnAkun.setOnClickListener(v -> {
+//            setSelected(btnAkun);
+//            loadInnerFragment(new PengaturanAkunFragment());
+//        });
 
         btnKendaraan.setOnClickListener(v -> {
 //                setSelected(btnAkun);

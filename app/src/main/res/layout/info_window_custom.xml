@@ -9,7 +9,7 @@
     <!-- CARD -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="380dp"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
         app:cardCornerRadius="20dp"
@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:paddingHorizontal="12dp"
+            android:paddingTop="12dp">
 
             <!-- TITLE -->
             <TextView
@@ -150,6 +151,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/waktu_terakhir"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

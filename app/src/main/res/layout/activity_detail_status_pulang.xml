@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="-220dp"
+                android:layout_marginTop="-200dp"
                 android:gravity="center">
 
                 <LinearLayout
@@ -101,8 +101,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/putih"
-                android:layout_marginTop="60dp"
+                android:background="@drawable/bg_cardkirikananatasrounded"
+                android:layout_marginTop="55dp"
                 android:orientation="vertical">
 
                 <LinearLayout

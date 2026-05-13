@@ -54,8 +54,8 @@ public class DashboardFragment extends Fragment {
             loadChartData();
             loadStatus();
 
-            // ulangi setiap 1 menit
-            handler.postDelayed(this, 60000);
+            // ulangi setiap 10 menit
+            handler.postDelayed(this, 10 * 60 * 1000);
 
 //            // debug
 //            handler.postDelayed(this, 5000);
@@ -184,7 +184,7 @@ public class DashboardFragment extends Fragment {
     public void onResume(){
         super.onResume();
         handler.removeCallbacks(refreshRunnable);
-        handler.post(refreshRunnable);
+        handler.postDelayed(refreshRunnable, 1000);
     }
 
     @Override
@@ -247,7 +247,38 @@ public class DashboardFragment extends Fragment {
                         return;
                     }
 
-                    setupChart(datang,pulang);
+                    List<ChartItem> filterDatang;
+                    List<ChartItem> filterPulang;
+
+                    if (datang.size() > 6) {
+
+                        filterDatang =
+                                datang.subList(
+                                        datang.size() - 6,
+                                        datang.size()
+                                );
+
+                    } else {
+
+                        filterDatang = datang;
+
+                    }
+
+                    if (pulang.size() > 6) {
+
+                        filterPulang =
+                                pulang.subList(
+                                        pulang.size() - 6,
+                                        pulang.size()
+                                );
+
+                    } else {
+
+                        filterPulang = pulang;
+
+                    }
+
+                    setupChart(filterDatang, filterPulang);
                 }
             }
 
@@ -259,91 +290,242 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupChart(List<ChartItem> datang, List<ChartItem> pulang){
+
         ArrayList<Entry> dataDatang = new ArrayList<>();
         ArrayList<Entry> dataPulang = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
-        // MAP untuk sinkronisasi waktu
-        Map<String, Float> mapDatang = new HashMap<>();
-        Map<String, Float> mapPulang = new HashMap<>();
-        List<String> allWaktu = new ArrayList<>();
+        int size = Math.min(datang.size(), pulang.size());
 
-        // isi data datang
-        for (ChartItem d : datang) {
-            mapDatang.put(d.getWaktu(), d.getNilai());
-            if (!allWaktu.contains(d.getWaktu())) {
-                allWaktu.add(d.getWaktu());
-            }
+        for (int i = 0; i < size; i++) {
+
+            ChartItem d = datang.get(i);
+            ChartItem p = pulang.get(i);
+
+            // titik biru
+            dataDatang.add(
+                    new Entry(i, d.getNilai())
+            );
+
+            // titik ungu
+            dataPulang.add(
+                    new Entry(i, p.getNilai())
+            );
+
+            // label waktu
+            labels.add(d.getWaktu());
         }
 
-        // isi data pulang
-        for (ChartItem p : pulang) {
-            mapPulang.put(p.getWaktu(), p.getNilai());
-            if (!allWaktu.contains(p.getWaktu())) {
-                allWaktu.add(p.getWaktu());
-            }
-        }
+        // =========================
+        // BLUE LINE
+        // =========================
 
-        // URUTKAN waktu
-        Collections.sort(allWaktu);
+        LineDataSet set1 =
+                new LineDataSet(dataDatang,
+                        "Jalan Datang");
 
-        // mapping ke Entry
-        for (int i = 0; i < allWaktu.size(); i++) {
-            String waktu = allWaktu.get(i);
-            labels.add(waktu);
+        set1.setColor(Color.parseColor("#2563FF"));
 
-            if (mapDatang.containsKey(waktu)) {
-                dataDatang.add(new Entry(i, mapDatang.get(waktu)));
-            }
-
-            if (mapPulang.containsKey(waktu)) {
-                dataPulang.add(new Entry(i, mapPulang.get(waktu)));
-            }
-        }
-
-
-        LineDataSet set1 = new LineDataSet(dataDatang, "Jalan Datang");
-        set1.setColor(Color.BLUE);
-        set1.setDrawCircles(false);
-        set1.setDrawValues(false);
         set1.setLineWidth(3f);
+
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        LineDataSet set2 = new LineDataSet(dataPulang, "Jalan Pulang");
-        set2.setColor(Color.parseColor("#B42D9B"));
-        set2.setDrawValues(false);
-        set2.setDrawCircles(false);
-        set2.setLineWidth(3f);
+        set1.setDrawValues(false);
+
+        set1.setDrawFilled(true);
+
+        set1.setFillColor(Color.parseColor("#2563FF"));
+
+        set1.setFillAlpha(25);
+
+        set1.setDrawCircles(false);
+
+        set1.setHighLightColor(Color.TRANSPARENT);
+
+        set1.setDrawHorizontalHighlightIndicator(false);
+
+        set1.setDrawVerticalHighlightIndicator(false);
+
+        // titik terakhir
+        set1.setDrawCircles(true);
+
+        set1.setCircleRadius(4f);
+
+        set1.setCircleColor(Color.parseColor("#2563FF"));
+
+        // =========================
+        // PURPLE LINE
+        // =========================
+
+        LineDataSet set2 =
+                new LineDataSet(dataPulang,
+                        "Jalan Pulang");
+
+        set2.setColor(Color.parseColor("#C026FF"));
+
+        set2.setLineWidth(3.5f);
+
         set2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f);
-        xAxis.setDrawGridLines(false);
-        xAxis.setAxisMinimum(-0.5f);
+        set2.setDrawValues(false);
 
-        // paksa semuanya agar tampil dan textnya menyesuaikan
+        set2.setDrawFilled(true);
+
+        set2.setFillColor(Color.parseColor("#C026FF"));
+
+        set2.setFillAlpha(18);
+
+        set2.setDrawCircles(true);
+
+        set2.setCircleColor(Color.parseColor("#C026FF"));
+
+        set2.setCircleRadius(0f);
+
+        set2.setHighLightColor(Color.TRANSPARENT);
+
+        set2.setDrawHorizontalHighlightIndicator(false);
+
+        set2.setDrawVerticalHighlightIndicator(false);
+        set2.setCircleRadius(4f);
+
+
+        // =========================
+        // CHART
+        // =========================
+
+        lineChart.setBackgroundColor(Color.WHITE);
+
+        lineChart.setDrawGridBackground(false);
+
+        lineChart.setDrawBorders(false);
+
+        lineChart.getDescription().setEnabled(false);
+
+        lineChart.setTouchEnabled(false);
+
+        lineChart.setDragEnabled(false);
+
+        lineChart.setScaleEnabled(false);
+
+        lineChart.setPinchZoom(false);
+
+        lineChart.setExtraTopOffset(12f);
+        lineChart.setMinOffset(0f);
+
+//        lineChart.setExtraLeftOffset(8f);
+//
+//        lineChart.setExtraRightOffset(8f);
+
+        lineChart.setExtraBottomOffset(16f);
+
+        // =========================
+        // X AXIS
+        // =========================
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMaximum(labels.size() - 1);
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        xAxis.setDrawGridLines(false);
+
+        xAxis.setDrawAxisLine(false);
+
+        xAxis.setTextColor(Color.parseColor("#7B8190"));
+
+        xAxis.setTextSize(10f);
+        xAxis.setYOffset(10f);
+
+        xAxis.setGranularityEnabled(true);
+        xAxis.setGranularity(1f);
+
         xAxis.setLabelCount(labels.size(), true);
-        xAxis.setTextSize(9f);
-        xAxis.setLabelCount(10, false);
+        xAxis.setCenterAxisLabels(false);
+        xAxis.setAvoidFirstLastClipping(false);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+
+        xAxis.setValueFormatter(
+                new IndexAxisValueFormatter(labels)
+        );
+
+        // =========================
+        // LEFT AXIS
+        // =========================
+
+        lineChart.getAxisLeft().setTextColor(
+                Color.parseColor("#7B8190")
+        );
+
+        lineChart.getAxisLeft().setTextSize(11f);
+
+        lineChart.getAxisLeft().setDrawAxisLine(false);
+
+        lineChart.getAxisLeft().setGridColor(
+                Color.parseColor("#EEF1F6")
+        );
+
+        lineChart.getAxisLeft().setGridLineWidth(1f);
+
+        lineChart.getAxisLeft().setAxisMinimum(0f);
+
+        // =========================
+        // RIGHT AXIS
+        // =========================
 
         lineChart.getAxisRight().setEnabled(false);
-        lineChart.getDescription().setEnabled(false);
-        lineChart.animateX(1000);
-        lineChart.invalidate();
-        lineChart.animateX(1000);
-        lineChart.setExtraBottomOffset(15f);
+        lineChart.setExtraRightOffset(12f);
 
+        lineChart.getAxisRight().setTextColor(
+                Color.parseColor("#7B8190")
+        );
+
+
+        // =========================
+        // LEGEND
+        // =========================
+
+        Legend legend = lineChart.getLegend();
+
+        legend.setEnabled(true);
+
+        legend.setTextSize(12f);
+
+        legend.setTextColor(Color.parseColor("#111827"));
+
+        legend.setForm(Legend.LegendForm.CIRCLE);
+
+        legend.setFormSize(12f);
+
+        legend.setXEntrySpace(28f);
+
+        legend.setHorizontalAlignment(
+                Legend.LegendHorizontalAlignment.RIGHT
+        );
+
+        legend.setVerticalAlignment(
+                Legend.LegendVerticalAlignment.BOTTOM
+        );
+
+        legend.setOrientation(
+                Legend.LegendOrientation.HORIZONTAL
+        );
+
+        legend.setDrawInside(false);
+        legend.setYOffset(12f);
+
+        // =========================
+        // SET DATA
+        // =========================
 
         LineData lineData = new LineData(set1, set2);
+
         lineChart.setData(lineData);
 
-        // memidahkan keterangan dibawah jalan datang dan pulang
-        Legend legend = lineChart.getLegend();
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        legend.setXEntrySpace(25f);
+        lineChart.animateX(800);
 
+        lineChart.invalidate();
     }
 
     private void loadStatus(){

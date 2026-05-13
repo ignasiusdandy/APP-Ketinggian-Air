@@ -162,7 +162,7 @@ public class navbar_utama extends AppCompatActivity {
 
         dashboardIcon.setImageResource(R.drawable.dashboard_icon_putih);
         mapsIcon.setImageResource(R.drawable.maps_icon_putih);
-        profileIcon.setImageResource(R.drawable.profile_icon_putih);
+        profileIcon.setImageResource(R.drawable.profile_admin_putih);
 
         animateFade(selectedText);
         selectedText.setVisibility(View.VISIBLE);
@@ -172,7 +172,7 @@ public class navbar_utama extends AppCompatActivity {
         } else if (selectedMenu == menuMaps) {
             mapsIcon.setImageResource(R.drawable.maps_icon);
         } else {
-            profileIcon.setImageResource(R.drawable.profile_icon);
+            profileIcon.setImageResource(R.drawable.profile_biru_icon);
         }
 
         moveHighlight(selectedMenu);

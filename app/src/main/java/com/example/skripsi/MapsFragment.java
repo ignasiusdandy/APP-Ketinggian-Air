@@ -58,8 +58,9 @@ public class MapsFragment extends Fragment {
                 TextView tvinfotinggi = mView.findViewById(R.id.tvInfoTinggi);
                 TextView tvStatus = mView.findViewById(R.id.tvInfoStatus);
                 TextView btndetail = mView.findViewById(R.id.btn_detail);
+                TextView tvWaktu = mView.findViewById(R.id.waktu_terakhir);
                 tvtittle.setText("Jalan Datang");
-                loadStatus(tvinfotinggi, tvStatus, "datang");
+                loadStatus(tvinfotinggi, tvStatus, "datang", tvWaktu);
 
                 btndetail.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), DetailStatusDatangActivity.class);
@@ -100,10 +101,12 @@ public class MapsFragment extends Fragment {
                 TextView btndetail = mView.findViewById(R.id.btn_detail);
                 ImageView imageStatus = mView.findViewById(R.id.image_status);
                 TextView tvStatus = mView.findViewById(R.id.tvInfoStatus);
+                TextView tvWaktu = mView.findViewById(R.id.waktu_terakhir);
+
 
                 tvtittle.setText("Jalan Pulang");
                 imageStatus.setImageResource(R.drawable.jalan_pulang);
-                loadStatus(tvinfotinggi, tvStatus, "pulang");
+                loadStatus(tvinfotinggi, tvStatus, "pulang", tvWaktu);
 
                 btndetail.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), DetailStatusPulangActivity.class);
@@ -155,7 +158,7 @@ public class MapsFragment extends Fragment {
     }
 
 
-    private void loadStatus(TextView tvinfotinggi, TextView tvStatus, String tipe){
+    private void loadStatus(TextView tvinfotinggi, TextView tvStatus, String tipe, TextView tvWaktu){
 
         SessionManager session = new SessionManager(requireContext());
         String token = "Bearer " + session.getToken();
@@ -173,17 +176,20 @@ public class MapsFragment extends Fragment {
                     if (tipe.equals("datang")) {
                         lokasiData = response.body().getDatang();
                     } else {
-                        lokasiData = response.body().getPulang(); // Asumsi ada method getPulang() di model kamu
+                        lokasiData = response.body().getPulang(); 
                     }
 
                     if(lokasiData != null && lokasiData.getData() != null){
 
                         StatusUtamaResponseModel.Data d = lokasiData.getData();
+                        String lastUpdate = d.getLastUpdate();
 
                         double tinggi = d.getTinggi();
                         String risiko = d.getRisiko();
                         tvinfotinggi.setText(tinggi + " Cm");
                         tvStatus.setText(risiko);
+                        tvWaktu.setText("Update terakhir: " + lastUpdate + " WITA");
+
 
                         if (risiko.toLowerCase().equals("aman")){
                             tvStatus.setTextColor(getResources().getColor(R.color.hijauaman));
@@ -201,6 +207,7 @@ public class MapsFragment extends Fragment {
                         risiko = "-";
                         tvinfotinggi.setText("- Cm");
                         tvStatus.setText(risiko);
+                        tvWaktu.setText("Update terakhir: -");
                     }
                 }
             }

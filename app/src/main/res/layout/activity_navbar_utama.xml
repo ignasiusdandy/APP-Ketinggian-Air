@@ -122,7 +122,7 @@
                     android:id="@+id/profile_icon"
                     android:layout_width="25dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/profile_icon_putih"/>
+                    android:src="@drawable/profile_admin_putih"/>
 
                 <TextView
                     android:id="@+id/text_profile"

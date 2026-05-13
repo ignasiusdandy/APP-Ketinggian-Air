@@ -496,32 +496,50 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_putih"
-                android:paddingLeft="26dp"
-                android:paddingRight="26dp"
-                android:paddingBottom="16dp"
-                android:paddingTop="8dp"
-                android:elevation="6dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="50dp"
-                >
+                android:orientation="vertical"
+                android:padding="18dp"
+                android:elevation="6dp"
+                android:background="@drawable/card_putih">
 
+                <!-- TITLE -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppinssemibold"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
                     android:text="Grafik Perubahan 1 Jam Terakhir"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="1dp"/>
+                    android:textColor="#111827"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/poppinssemibold"/>
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lineChart"
+                <!-- WRAPPER CHART -->
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="230dp"/>
+                    android:layout_height="250dp"
+                    android:layout_marginTop="12dp">
+
+                    <!-- SATUAN KIRI -->
+                    <TextView
+                        android:id="@+id/tvSatuanKiri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="cm"
+                        android:textColor="#6B7280"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:layout_gravity="top|start"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="6dp"/>
+
+                    <!-- CHART -->
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="18dp"/>
+
+                </FrameLayout>
 
             </LinearLayout>
         </LinearLayout>

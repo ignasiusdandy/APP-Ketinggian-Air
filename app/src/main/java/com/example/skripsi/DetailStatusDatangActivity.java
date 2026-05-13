@@ -57,7 +57,7 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
     // Ini untuk refresh
     Handler handler = new Handler();
     Runnable runnable;
-    int interval = 60000;
+    int interval = 10 * 60 * 1000;
 
 
     @Override
@@ -259,72 +259,196 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
     }
 
     private void setupChart(List<ChartItem> datang){
+
         ArrayList<Entry> dataDatang = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
-        // MAP untuk sinkronisasi waktu
-        Map<String, Float> mapDatang = new HashMap<>();
-        List<String> allWaktu = new ArrayList<>();
+        int size = datang.size();
 
-        // isi data datang
-        for (ChartItem d : datang) {
-            mapDatang.put(d.getWaktu(), d.getNilai());
-            if (!allWaktu.contains(d.getWaktu())) {
-                allWaktu.add(d.getWaktu());
-            }
+        for (int i = 0; i < size; i++) {
+
+            ChartItem d = datang.get(i);
+            // titik biru
+            dataDatang.add(
+                    new Entry(i, d.getNilai())
+            );
+
+            // label waktu
+            labels.add(d.getWaktu());
         }
 
+        // =========================
+        // BLUE LINE
+        // =========================
 
-        // URUTKAN waktu
-        Collections.sort(allWaktu);
+        LineDataSet set1 =
+                new LineDataSet(dataDatang,
+                        "Jalan Datang");
 
-        // mapping ke Entry
-        for (int i = 0; i < allWaktu.size(); i++) {
-            String waktu = allWaktu.get(i);
-            labels.add(waktu);
+        set1.setColor(Color.parseColor("#2563FF"));
 
-            if (mapDatang.containsKey(waktu)) {
-                dataDatang.add(new Entry(i, mapDatang.get(waktu)));
-            }
-
-        }
-
-
-        LineDataSet set1 = new LineDataSet(dataDatang, "Jalan Datang");
-        set1.setColor(Color.BLUE);
-        set1.setDrawCircles(false);
-        set1.setDrawValues(false);
         set1.setLineWidth(3f);
+
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f);
-        xAxis.setDrawGridLines(false);
-        xAxis.setAxisMinimum(-0.5f);
+        set1.setDrawValues(false);
 
-        // paksa semuanya agar tampil dan textnya menyesuaikan
+        set1.setDrawFilled(true);
+
+        set1.setFillColor(Color.parseColor("#2563FF"));
+
+        set1.setFillAlpha(25);
+
+        set1.setDrawCircles(false);
+
+        set1.setHighLightColor(Color.TRANSPARENT);
+
+        set1.setDrawHorizontalHighlightIndicator(false);
+
+        set1.setDrawVerticalHighlightIndicator(false);
+
+        // titik terakhir
+        set1.setDrawCircles(true);
+
+        set1.setCircleRadius(4f);
+
+        set1.setCircleColor(Color.parseColor("#2563FF"));
+
+
+        // =========================
+        // CHART
+        // =========================
+
+        lineChart.setBackgroundColor(Color.WHITE);
+
+        lineChart.setDrawGridBackground(false);
+
+        lineChart.setDrawBorders(false);
+
+        lineChart.getDescription().setEnabled(false);
+
+        lineChart.setTouchEnabled(false);
+
+        lineChart.setDragEnabled(false);
+
+        lineChart.setScaleEnabled(false);
+
+        lineChart.setPinchZoom(false);
+
+        lineChart.setExtraTopOffset(12f);
+        lineChart.setMinOffset(0f);
+
+
+        lineChart.setExtraBottomOffset(16f);
+
+        // =========================
+        // X AXIS
+        // =========================
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMaximum(labels.size() - 1);
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        xAxis.setDrawGridLines(false);
+
+        xAxis.setDrawAxisLine(false);
+
+        xAxis.setTextColor(Color.parseColor("#7B8190"));
+
+        xAxis.setTextSize(10f);
+        xAxis.setYOffset(10f);
+
+        xAxis.setGranularityEnabled(true);
+        xAxis.setGranularity(1f);
+
         xAxis.setLabelCount(labels.size(), true);
-        xAxis.setTextSize(9f);
-        xAxis.setLabelCount(10, false);
+        xAxis.setCenterAxisLabels(false);
+        xAxis.setAvoidFirstLastClipping(false);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+
+        xAxis.setValueFormatter(
+                new IndexAxisValueFormatter(labels)
+        );
+
+        // =========================
+        // LEFT AXIS
+        // =========================
+
+        lineChart.getAxisLeft().setTextColor(
+                Color.parseColor("#7B8190")
+        );
+
+        lineChart.getAxisLeft().setTextSize(11f);
+
+        lineChart.getAxisLeft().setDrawAxisLine(false);
+
+        lineChart.getAxisLeft().setGridColor(
+                Color.parseColor("#EEF1F6")
+        );
+
+        lineChart.getAxisLeft().setGridLineWidth(1f);
+
+        lineChart.getAxisLeft().setAxisMinimum(0f);
+
+        // =========================
+        // RIGHT AXIS
+        // =========================
 
         lineChart.getAxisRight().setEnabled(false);
-        lineChart.getDescription().setEnabled(false);
-        lineChart.animateX(1000);
-        lineChart.invalidate();
-        lineChart.animateX(1000);
-        lineChart.setExtraBottomOffset(15f);
+        lineChart.setExtraRightOffset(12f);
 
+        lineChart.getAxisRight().setTextColor(
+                Color.parseColor("#7B8190")
+        );
+
+
+        // =========================
+        // LEGEND
+        // =========================
+
+        Legend legend = lineChart.getLegend();
+
+        legend.setEnabled(true);
+
+        legend.setTextSize(12f);
+
+        legend.setTextColor(Color.parseColor("#111827"));
+
+        legend.setForm(Legend.LegendForm.CIRCLE);
+
+        legend.setFormSize(12f);
+
+        legend.setXEntrySpace(28f);
+
+        legend.setHorizontalAlignment(
+                Legend.LegendHorizontalAlignment.RIGHT
+        );
+
+        legend.setVerticalAlignment(
+                Legend.LegendVerticalAlignment.BOTTOM
+        );
+
+        legend.setOrientation(
+                Legend.LegendOrientation.HORIZONTAL
+        );
+
+        legend.setDrawInside(false);
+        legend.setYOffset(12f);
+
+        // =========================
+        // SET DATA
+        // =========================
 
         LineData lineData = new LineData(set1);
+
         lineChart.setData(lineData);
 
-        // memidahkan keterangan dibawah jalan datang
-        Legend legend = lineChart.getLegend();
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        legend.setXEntrySpace(25f);
+        lineChart.animateX(800);
 
+        lineChart.invalidate();
     }
 
     private void showPopupBerhasil(){

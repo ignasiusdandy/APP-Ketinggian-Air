@@ -24,7 +24,7 @@ import retrofit2.Response;
 public class ProfileFragment extends Fragment {
 
     // MENU
-    LinearLayout btnPassword, btnKendaraan, layoutPassword,
+    LinearLayout btnPassword, btnTentang, layoutPassword,
             btnLogout, btnSavePassword;
 
     ImageView iconExpand;
@@ -52,6 +52,7 @@ public class ProfileFragment extends Fragment {
                 container,
                 false);
 
+
         // API
         apiService = ApiClient.getClient().create(ApiService.class);
 
@@ -71,7 +72,7 @@ public class ProfileFragment extends Fragment {
         // MENU
         btnPassword = view.findViewById(R.id.ubah_kata_sandi);
 
-        btnKendaraan = view.findViewById(R.id.kendaraanUser);
+        btnTentang = view.findViewById(R.id.tentang);
 
         btnLogout = view.findViewById(R.id.btnLogout);
 
@@ -108,13 +109,10 @@ public class ProfileFragment extends Fragment {
         hideErrorOnType(edtPasswordConfirm, wrongNewConf);
 
         // DAFTAR KENDARAAN
-        btnKendaraan.setOnClickListener(v -> {
-
+        btnTentang.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(),
-                    DaftarKendaraanUserActivity.class);
-
+                    TentangAplikasiActivity.class);
             startActivity(intent);
-
         });
 
         // EXPAND PASSWORD
@@ -360,7 +358,10 @@ public class ProfileFragment extends Fragment {
 
         // LOGOUT
         btnLogout.setOnClickListener(v -> {
-
+            sessionManager.logoutUser();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().finish();
         });
 
         return view;

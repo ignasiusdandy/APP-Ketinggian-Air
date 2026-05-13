@@ -7,139 +7,242 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F5F7FB">
 
-    <!-- CONTAINER FRAGMENT -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/navbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <!-- ============================== -->
+        <!-- FRAGMENT CONTAINER -->
+        <!-- ============================== -->
 
-    <!-- NAVBAR -->
-    <FrameLayout
-        android:id="@+id/navbar"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="1dp"
-        android:background="@drawable/bg_navbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
-
-        <View
-            android:id="@+id/highlight"
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="6dp"
-            android:background="@drawable/menu_rounded"/>
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/navbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/bottomNav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center">
+        <!-- ============================== -->
+        <!-- NAVBAR -->
+        <!-- ============================== -->
+
+        <FrameLayout
+            android:id="@+id/navbar"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_navbar"
+            android:elevation="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- ACTIVE MENU BACKGROUND -->
+
+            <View
+                android:id="@+id/highlight"
+                android:layout_width="78dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/menu_rounded"/>
+
+            <!-- ============================== -->
+            <!-- MENU CONTAINER -->
+            <!-- ============================== -->
 
             <LinearLayout
-                android:id="@+id/menu_dashboard"
-                android:layout_width="wrap_content"
+                android:id="@+id/bottomNav"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:clickable="true"
-                android:focusable="true">
+                android:gravity="center"
+                android:weightSum="4"
+                android:paddingHorizontal="6dp">
 
-                <ImageView
-                    android:id="@+id/dashboard_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/dashboard_icon"/>
+                <!-- ============================== -->
+                <!-- HOME -->
+                <!-- ============================== -->
 
-                <TextView
-                    android:id="@+id/text_dashboard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppinsmedium"
-                    android:textColor="@color/blue6"
-                    android:text="Home"
-                    android:textSize="14sp"
+                <LinearLayout
+                    android:id="@+id/menu_dashboard"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                    android:layout_marginStart="6dp"/>
+                    <ImageView
+                        android:id="@+id/dashboard_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/dashboard_icon_putih"/>
+
+                    <TextView
+                        android:id="@+id/text_dashboard_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:text="Home"
+                        android:textColor="@android:color/white"
+                        android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/text_dashboard_active"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="Home"
+                        android:textColor="@color/blue6"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <!-- ============================== -->
+                <!-- VEHICLE -->
+                <!-- ============================== -->
+
+                <LinearLayout
+                    android:id="@+id/menu_vehicle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/vehicle_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/kendaraanputih_icon"/>
+
+                    <TextView
+                        android:id="@+id/text_vehicle_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:text="Vehicle"
+                        android:textColor="@android:color/white"
+                        android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/text_vehicle_active"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="Vehicle"
+                        android:textColor="@color/blue6"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <!-- ============================== -->
+                <!-- MAPS -->
+                <!-- ============================== -->
+
+                <LinearLayout
+                    android:id="@+id/menu_maps"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/maps_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/maps_icon_putih"/>
+
+                    <TextView
+                        android:id="@+id/text_maps_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:text="Maps"
+                        android:textColor="@android:color/white"
+                        android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/text_maps_active"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="Maps"
+                        android:textColor="@color/blue6"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <!-- ============================== -->
+                <!-- PROFILE -->
+                <!-- ============================== -->
+
+                <LinearLayout
+                    android:id="@+id/menu_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/profile_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/profile_admin_putih"/>
+
+                    <TextView
+                        android:id="@+id/text_profile_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppinsmedium"
+                        android:text="Profile"
+                        android:textColor="@android:color/white"
+                        android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/text_profile_active"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="Profile"
+                        android:textColor="@color/blue6"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/menu_maps"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_marginLeft="16dp">
+        </FrameLayout>
 
-                <ImageView
-                    android:id="@+id/maps_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/maps_icon_putih"/>
-
-                <TextView
-                    android:id="@+id/text_maps"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppinsmedium"
-                    android:text="Maps"
-                    android:textSize="15sp"
-                    android:textColor="@color/blue6"
-                    android:layout_marginStart="6dp"
-                    android:visibility="gone"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/menu_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_marginLeft="16dp">
-
-                <ImageView
-                    android:id="@+id/profile_icon"
-                    android:layout_width="25dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/profile_admin_putih"/>
-
-                <TextView
-                    android:id="@+id/text_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppinsmedium"
-                    android:text="Profile"
-                    android:textSize="15sp"
-                    android:textColor="@color/blue6"
-                    android:layout_marginStart="6dp"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ============================== -->
+    <!-- NO INTERNET -->
+    <!-- ============================== -->
+
     <include
         android:id="@+id/layoutNoInternet"
         layout="@layout/layout_no_internet"/>
+
 </FrameLayout>

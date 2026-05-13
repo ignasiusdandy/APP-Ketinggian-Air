@@ -20,14 +20,14 @@
             android:layout_marginTop="40dp">
 
             <!-- Tombol back -->
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_plat"
-                android:padding="8dp"
-                android:src="@drawable/kembaliicon"
-                android:tint="@android:color/black" />
+<!--            <ImageView-->
+<!--                android:id="@+id/btnBack"-->
+<!--                android:layout_width="36dp"-->
+<!--                android:layout_height="36dp"-->
+<!--                android:background="@drawable/bg_plat"-->
+<!--                android:padding="8dp"-->
+<!--                android:src="@drawable/kembaliicon"-->
+<!--                android:tint="@android:color/black" />-->
 
             <!-- Title -->
             <LinearLayout

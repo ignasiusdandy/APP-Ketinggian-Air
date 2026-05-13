@@ -378,9 +378,6 @@ public class DashboardFragment extends Fragment {
         set2.setDrawCircles(true);
 
         set2.setCircleColor(Color.parseColor("#C026FF"));
-
-        set2.setCircleRadius(0f);
-
         set2.setHighLightColor(Color.TRANSPARENT);
 
         set2.setDrawHorizontalHighlightIndicator(false);
@@ -522,9 +519,6 @@ public class DashboardFragment extends Fragment {
         LineData lineData = new LineData(set1, set2);
 
         lineChart.setData(lineData);
-
-        lineChart.animateX(800);
-
         lineChart.invalidate();
     }
 

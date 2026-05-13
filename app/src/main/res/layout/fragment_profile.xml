@@ -212,57 +212,7 @@
                     android:textSize="16sp"
                     android:fontFamily="@font/poppinssemibold"/>
 
-                <!-- DAFTAR KENDARAAN -->
-                <LinearLayout
-                    android:id="@+id/kendaraanUser"
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_marginTop="18dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:clickable="true"
-                    android:focusable="true">
 
-                    <!-- ICON BG -->
-                    <LinearLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:background="@drawable/bg_icon_blue_soft"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/mobil_biru_icon"/>
-
-                    </LinearLayout>
-
-                    <!-- TEXT -->
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:text="Daftar Kendaraan"
-                        android:textColor="#111827"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/poppinsmedium"/>
-
-                    <!-- ARROW -->
-                    <ImageView
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:src="@drawable/ic_arrow_right"/>
-
-                </LinearLayout>
-
-                <!-- DIVIDER -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="#F1F2F6"/>
 
                 <!-- UBAH PASSWORD -->
                 <LinearLayout
@@ -272,7 +222,8 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:layout_marginTop="18dp">
 
                     <!-- ICON BG -->
                     <LinearLayout
@@ -308,7 +259,7 @@
 
                 </LinearLayout>
 
-                <!-- PASSWORD EXPAND -->
+                // Expand password
                 <LinearLayout
                     android:id="@+id/layoutPassword"
                     android:layout_width="match_parent"
@@ -455,6 +406,57 @@
                             android:textSize="14sp"/>
 
                     </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- DIVIDER -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="#F1F2F6"/>
+
+                <!-- DAFTAR KENDARAAN -->
+                <LinearLayout
+                    android:id="@+id/tentang"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- ICON BG -->
+                    <LinearLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_icon_blue_soft"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/tentang_icon"/>
+
+                    </LinearLayout>
+
+                    <!-- TEXT -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:text="Tentang Aplikasi"
+                        android:textColor="#111827"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/poppinsmedium"/>
+
+                    <!-- ARROW -->
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@drawable/ic_arrow_right"/>
 
                 </LinearLayout>
 

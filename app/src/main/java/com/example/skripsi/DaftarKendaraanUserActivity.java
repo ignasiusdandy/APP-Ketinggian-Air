@@ -57,7 +57,7 @@ public class DaftarKendaraanUserActivity extends AppCompatActivity {
         loadKendaraan();
         btnKembali.setOnClickListener(v -> finish());
 
-        btnAdd = findViewById(R.id.btn_tambah);
+        btnAdd = findViewById(R.id.btnTambah);
         btnAdd.setOnClickListener(v -> {
             PopupTambahKendaraan dialog = new PopupTambahKendaraan(this);
             dialog.show();

@@ -14,16 +14,6 @@
         android:orientation="vertical"
         android:background="@color/blue6">
 
-
-        <LinearLayout
-            android:id="@+id/topMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
-            android:orientation="vertical"
-            android:visibility="gone"
-            >
-
         <LinearLayout
             android:id="@+id/bg_validasi"
             android:layout_width="match_parent"
@@ -50,7 +40,7 @@
                 android:text="Email/password yang anda masukkan tidak sesuai"
                 android:textSize="14sp" />
         </LinearLayout>
-        </LinearLayout>
+
 
 
     <ImageView

@@ -73,7 +73,12 @@ public class RegisterActivity extends AppCompatActivity {
         EditText etEmail = findViewById(R.id.et_email);
         EditText etPassword = findViewById(R.id.et_password);
         EditText etPasswordConf = findViewById(R.id.et_passwordConfirm);
-        EditText etPlatKendaraan = findViewById(R.id.etPlatKendaraan);
+        EditText etPlatKendaraan = findViewById(R.id.et_plat_kendaraan);
+        LinearLayout layoutPlat = findViewById(R.id.layoutPlat);
+        TextView tvInfo = findViewById(R.id.tvInfoPlat);
+        TextView tvCounter = findViewById(R.id.tvCounterPlat);
+        ImageView imgStatus = findViewById(R.id.imgStatusPlat);
+        ImageView imgInfo = findViewById(R.id.imgInfoPlat);
         MaterialButton btnDaftar = findViewById(R.id.btn_daftar);
 
         // Ketika salah
@@ -83,13 +88,19 @@ public class RegisterActivity extends AppCompatActivity {
         TextView wrongPassConf = findViewById(R.id.wrongPassConf);
         TextView wrongJenis = findViewById(R.id.wrongJenis);
         TextView wrongModel = findViewById(R.id.wrongModel);
-        TextView wrongPlat = findViewById(R.id.wrongPlat);
         hideErrorOnType(etNama, wrongNama);
         hideErrorOnType(etEmail, wrongEmail);
         hideErrorOnType(etPassword, wrongPass);
         hideErrorOnType(etPasswordConf, wrongPassConf);
-        hideErrorOnType(etPlatKendaraan, wrongPlat);
         initUppercase();
+        setupPlatValidation(
+                etPlatKendaraan,
+                layoutPlat,
+                tvInfo,
+                tvCounter,
+                imgStatus,
+                imgInfo
+        );
 
 
         // Ini untuk view saat keyboard
@@ -105,9 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
             if (hasFocus) scrollToView(v3);
         });
 
-        etPlatKendaraan.setOnFocusChangeListener((v3, hasFocus) -> {
-            if (hasFocus) scrollToView(v3);
-        });
         View rootView = findViewById(android.R.id.content);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
 
@@ -219,7 +227,6 @@ public class RegisterActivity extends AppCompatActivity {
             wrongPassConf.setVisibility(View.GONE);
             wrongJenis.setVisibility(View.GONE);
             wrongModel.setVisibility(View.GONE);
-            wrongPlat.setVisibility(View.GONE);
             View firstErrorView = null;
 
             if (nama.isEmpty()) {
@@ -264,9 +271,14 @@ public class RegisterActivity extends AppCompatActivity {
                 if (firstErrorView == null) firstErrorView = etPasswordConf;
             }
 
-            if (plat.isEmpty()) {
-                wrongPlat.setVisibility(View.VISIBLE);
-                if (firstErrorView == null) firstErrorView = etPlatKendaraan;
+            String regex =
+                    "^[A-Z]{1,2}\\s\\d{1,4}\\s[A-Z]{1,3}$";
+
+            if (!plat.matches(regex)) {
+
+                if (firstErrorView == null) {
+                    firstErrorView = etPlatKendaraan;
+                }
             }
 
             if (motor.contains("Pilih")) {
@@ -282,13 +294,8 @@ public class RegisterActivity extends AppCompatActivity {
             ScrollView scrollView = findViewById(R.id.scrollView);
 
             if (firstErrorView != null) {
-                final View targetView = firstErrorView;
+                firstErrorView.requestFocus();
 
-                scrollView.post(() -> {
-                    scrollView.smoothScrollTo(0, targetView.getTop());
-                });
-
-                targetView.requestFocus();
                 return;
             }
 
@@ -320,7 +327,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void initUppercase(){
-        EditText etPlatKendaraan = findViewById(R.id.etPlatKendaraan);
+        EditText etPlatKendaraan = findViewById(R.id.et_plat_kendaraan);
 
         etPlatKendaraan.addTextChangedListener(new TextWatcher() {
             @Override
@@ -340,6 +347,121 @@ public class RegisterActivity extends AppCompatActivity {
                     etPlatKendaraan.addTextChangedListener(this);
                 }
             }
+        });
+    }
+
+    private void setupPlatValidation(
+            EditText etPlat,
+            LinearLayout layoutPlat,
+            TextView tvInfo,
+            TextView tvCounter,
+            ImageView imgStatus,
+            ImageView imgInfo
+    ) {
+
+        etPlat.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s,
+                                          int start,
+                                          int count,
+                                          int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s,
+                                      int start,
+                                      int before,
+                                      int count) {
+
+                String plat = s.toString()
+                        .trim()
+                        .toUpperCase();
+
+                String cleanPlat =
+                        plat.replace(" ", "");
+
+                tvCounter.setText(
+                        cleanPlat.length() + "/9"
+                );
+
+                String regex =
+                        "^[A-Z]{1,2}\\s\\d{1,4}\\s[A-Z]{1,3}$";
+
+                // NORMAL
+                if (plat.isEmpty()) {
+
+                    layoutPlat.setBackgroundResource(
+                            R.drawable.bg_plat_normal
+                    );
+
+                    imgStatus.setImageResource(
+                            R.drawable.tentang_icon
+                    );
+
+                    imgInfo.setImageResource(
+                            R.drawable.tentang_icon
+                    );
+
+                    tvInfo.setTextColor(
+                            Color.parseColor("#2563EB")
+                    );
+
+                    tvInfo.setText(
+                            "Format: 2 huruf - 4 angka - 3 huruf"
+                    );
+                }
+
+                // VALID
+                else if (plat.matches(regex)) {
+
+                    layoutPlat.setBackgroundResource(
+                            R.drawable.bg_plat_success
+                    );
+
+                    imgStatus.setImageResource(
+                            R.drawable.aman_icon
+                    );
+
+                    imgInfo.setImageResource(
+                            R.drawable.aman_icon
+                    );
+
+                    tvInfo.setTextColor(
+                            Color.parseColor("#22C55E")
+                    );
+
+                    tvInfo.setText(
+                            "Format plat kendaraan valid"
+                    );
+                }
+
+                // ERROR
+                else {
+
+                    layoutPlat.setBackgroundResource(
+                            R.drawable.bg_plat_error
+                    );
+
+                    imgStatus.setImageResource(
+                            R.drawable.peringatan_icon
+                    );
+
+                    imgInfo.setImageResource(
+                            R.drawable.peringatan_icon
+                    );
+
+                    tvInfo.setTextColor(
+                            Color.parseColor("#EF4444")
+                    );
+
+                    tvInfo.setText(
+                            "Format plat tidak valid. Gunakan format: DA 1234 XYZ"
+                    );
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
     }
 

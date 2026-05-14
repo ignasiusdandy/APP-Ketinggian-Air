@@ -48,17 +48,12 @@ public class PopupEditKendaraan extends Dialog {
     private ImageView btnClose;
     private TextView wrongPlat, wrongKategori, wrongModel;
     private EditText etPlatKendaraan;
+    private boolean isPlatValid = false;
 
+    private LinearLayout layoutPlat;
+    private ImageView imgInfo, imgStatus;
 
-
-//    public PopupEditKendaraan(@NonNull Context context,
-//                              KendaraanUserResponseModel.DataKendaraanUser data, OnEditListener listener) {
-//        super(context);
-//        this.context = context;
-//        this.dataKendaraan = data;
-//        this.listener = listener;
-//    }
-
+    private TextView tvCounter, tvInfo;
 
     public PopupEditKendaraan(Context context,
                               KendaraanTabelPengaturanModel data,
@@ -80,9 +75,20 @@ public class PopupEditKendaraan extends Dialog {
 
         initView();
         etPlatKendaraan.setText(data.getPlat());
+        String platAwal = data.getPlat().trim().toUpperCase();
+        String regex =
+                "^[A-Z]{1,2}\\s\\d{1,4}\\s[A-Z]{1,3}$";
+
+        isPlatValid =
+                platAwal.matches(regex);
         setupSpinner();
         initUppercase();
-        hideErrorOnType(etPlatKendaraan, wrongPlat);
+        setupPlatValidation();
+        etPlatKendaraan.setText(
+                etPlatKendaraan.getText().toString()
+        );
+        updateButtonState();
+//        hideErrorOnType(etPlatKendaraan, wrongPlat);
         ambilDataKendaraan();
         setupAction();
     }
@@ -95,7 +101,14 @@ public class PopupEditKendaraan extends Dialog {
         btnClose = findViewById(R.id.btn_batal);
         wrongKategori = findViewById(R.id.wrongKategori);
         wrongModel = findViewById(R.id.wrongModel);
-        wrongPlat = findViewById(R.id.wrongPlat);
+//        wrongPlat = findViewById(R.id.wrongPlat);
+        layoutPlat = findViewById(R.id.layoutPlat);
+        tvCounter = findViewById(R.id.tvCounterPlat);
+        tvInfo = findViewById(R.id.tvInfoPlat);
+        imgStatus = findViewById(R.id.imgStatusPlat);
+        imgInfo = findViewById(R.id.imgInfoPlat);
+        btnUpdate.setEnabled(false);
+        btnUpdate.setAlpha(0.5f);
     }
 
     private void initUppercase(){
@@ -120,6 +133,165 @@ public class PopupEditKendaraan extends Dialog {
         });
     }
 
+    private void setupPlatValidation() {
+
+        etPlatKendaraan.addTextChangedListener(
+                new TextWatcher() {
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s,
+                                                  int start,
+                                                  int count,
+                                                  int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s,
+                                              int start,
+                                              int before,
+                                              int count) {
+
+                        String plat =
+                                s.toString()
+                                        .trim()
+                                        .toUpperCase();
+
+                        String cleanPlat =
+                                plat.replace(" ", "");
+
+                        tvCounter.setText(
+                                cleanPlat.length() + "/9"
+                        );
+
+                        String regex =
+                                "^[A-Z]{1,2}\\s\\d{1,4}\\s[A-Z]{1,3}$";
+
+                        // KOSONG
+                        if (plat.isEmpty()) {
+
+                            isPlatValid = false;
+
+                            layoutPlat.setBackgroundResource(
+                                    R.drawable.bg_plat_normal
+                            );
+
+                            imgStatus.setImageResource(
+                                    R.drawable.tentang_icon
+                            );
+
+                            imgInfo.setImageResource(
+                                    R.drawable.tentang_icon
+                            );
+
+                            tvInfo.setTextColor(
+                                    android.graphics.Color.parseColor("#2563EB")
+                            );
+
+                            tvInfo.setText(
+                                    "Format: 2 huruf - 4 angka - 3 huruf"
+                            );
+                        }
+
+                        // VALID
+                        else if (plat.matches(regex)) {
+
+                            isPlatValid = true;
+
+                            layoutPlat.setBackgroundResource(
+                                    R.drawable.bg_plat_success
+                            );
+
+                            imgStatus.setImageResource(
+                                    R.drawable.aman_icon
+                            );
+
+                            imgInfo.setImageResource(
+                                    R.drawable.aman_icon
+                            );
+
+                            tvInfo.setTextColor(
+                                    android.graphics.Color.parseColor("#22C55E")
+                            );
+
+                            tvInfo.setText(
+                                    "Format plat kendaraan valid"
+                            );
+                        }
+
+                        // ERROR
+                        else {
+
+                            isPlatValid = false;
+
+                            layoutPlat.setBackgroundResource(
+                                    R.drawable.bg_plat_error
+                            );
+
+                            imgStatus.setImageResource(
+                                    R.drawable.peringatan_icon
+                            );
+
+                            imgInfo.setImageResource(
+                                    R.drawable.peringatan_icon
+                            );
+
+                            tvInfo.setTextColor(
+                                    android.graphics.Color.parseColor("#EF4444")
+                            );
+
+                            tvInfo.setText(
+                                    "Format plat tidak valid. Gunakan format: DA 1234 XYZ"
+                            );
+                        }
+
+                        updateButtonState();
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+    }
+
+    private void updateButtonState() {
+
+        if (spinnerJenis.getSelectedItem() == null
+                || spinnerModel.getSelectedItem() == null) {
+
+            btnUpdate.setEnabled(false);
+            btnUpdate.setAlpha(0.5f);
+            return;
+        }
+
+        String kategori =
+                spinnerJenis.getSelectedItem().toString();
+
+        String model =
+                spinnerModel.getSelectedItem().toString();
+
+        boolean kategoriValid =
+                !kategori.equals("Pilih Jenis Motor")
+                        && !kategori.equals("Pilih Jenis Dulu")
+                        && !kategori.equals("Loading...");
+
+        boolean modelValid =
+                !model.equals("Pilih Model")
+                        && !model.equals("Pilih Jenis Dulu");
+
+        boolean enableButton =
+                isPlatValid
+                        && kategoriValid
+                        && modelValid;
+
+        btnUpdate.setEnabled(enableButton);
+
+        btnUpdate.setAlpha(
+                enableButton ? 1f : 0.5f
+        );
+    }
+
     private void setupSpinner() {
 
         // ini untuk jenis dan model kendaraan
@@ -142,6 +314,7 @@ public class PopupEditKendaraan extends Dialog {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String jenis = spinnerJenis.getSelectedItem().toString();
                 loadModel(jenis);
+                updateButtonState();
             }
 
             @Override
@@ -220,6 +393,7 @@ public class PopupEditKendaraan extends Dialog {
                 if (!model.equals("Pilih Model")) {
                     selectedIdKendaraan = KendaraanCache.getIdByModel(model);
                 }
+                updateButtonState();
             }
 
             @Override
@@ -250,16 +424,16 @@ public class PopupEditKendaraan extends Dialog {
         btnUpdate.setOnClickListener(v -> {
             String plat = etPlatKendaraan.getText().toString().trim();
 
-            wrongPlat.setVisibility(View.GONE);
+//            wrongPlat.setVisibility(View.GONE);
             wrongKategori.setVisibility(View.GONE);
             wrongModel.setVisibility(View.GONE);
 
             boolean isValid = true;
 
-            if (plat.isEmpty()) {
-                wrongPlat.setVisibility(View.VISIBLE);
-                isValid = false;
-            }
+//            if (plat.isEmpty()) {
+//                wrongPlat.setVisibility(View.VISIBLE);
+//                isValid = false;
+//            }
 
             String kategori = spinnerJenis.getSelectedItem().toString();
             if (kategori.equals("Pilih Jenis Motor") || kategori.equals("Pilih Jenis Dulu")) {
@@ -279,21 +453,6 @@ public class PopupEditKendaraan extends Dialog {
         });
     }
 
-
-    private void hideErrorOnType(EditText editText, TextView errorView) {
-        editText.addTextChangedListener(new android.text.TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                errorView.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void afterTextChanged(android.text.Editable s) {}
-        });
-    }
 
     private void updateKendaraan(String plat) {
         SessionManager session = new SessionManager(context);

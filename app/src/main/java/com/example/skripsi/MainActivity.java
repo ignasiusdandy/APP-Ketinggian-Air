@@ -35,7 +35,7 @@ import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
-    LinearLayout pesanValidasi, bgValidasi;
+    LinearLayout bgValidasi;
     TextView tvMessage, wrongEmail, wrongPass;
     ImageView iconValidasi;
     ProgressBar progressBar;
@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        pesanValidasi = findViewById(R.id.topMessage);
         tvMessage = findViewById(R.id.tvMessage);
         bgValidasi = findViewById(R.id.bg_validasi);
         iconValidasi = findViewById(R.id.icon_validasi);
@@ -92,10 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
             finish();
             return;
-        }
-
-        if (getIntent().getBooleanExtra("REGISTER_SUKSES", false)) {
-            showTrue("Data berhasil disimpan");
         }
 
         buttonDaftar.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +155,10 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(new Intent(MainActivity.this, NavbarAdminActivity.class));
                                     }
                                 } else {
-                                    showError(response.body().getMessage());
+                                    wrongEmail.setVisibility(View.VISIBLE);
+                                    wrongEmail.setText(
+                                            response.body().getMessage()
+                                    );
                                 }
 
                             } else {
@@ -169,15 +167,16 @@ public class MainActivity extends AppCompatActivity {
                                     wrongEmail.setText("Email/Password yang anda masukkan salah!");
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    showError("Terjadi kesalahan");
+                                    wrongEmail.setVisibility(View.VISIBLE);
+                                    wrongEmail.setText("Terjadi kesalahan");
                                 }
                             }
                         }
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
-                            showError("Tidak bisa konek ke server");
-
+                            wrongEmail.setVisibility(View.VISIBLE);
+                            wrongEmail.setText("Tidak bisa konek ke server");
                         }
                     });
                 }
@@ -186,46 +185,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    private void showError(String message) {
-        pesanValidasi.clearAnimation();
-        pesanValidasi.animate().cancel();
-        pesanValidasi.setVisibility(View.VISIBLE);
-        tvMessage.setText(message);
-
-        // animasi turun
-        pesanValidasi.setTranslationY(-300f);
-        pesanValidasi.animate().translationY(0).setDuration(300).start();
-
-        // hilang setelah 5 detik
-        new Handler().postDelayed(() -> {
-            pesanValidasi.animate().translationY(-300f).setDuration(300).withEndAction(() -> {
-                pesanValidasi.setVisibility(View.GONE);
-            }).start();
-        }, 5000);
-    }
-
-    private void showTrue(String message) {
-        pesanValidasi.clearAnimation();
-        pesanValidasi.animate().cancel();
-        pesanValidasi.setVisibility(View.VISIBLE);
-        tvMessage.setText(message);
-        bgValidasi.setBackgroundColor(getResources().getColor(R.color.backgroundvalidasibenar));
-        tvMessage.setTextColor(getResources().getColor(R.color.hijautulisanaman));
-        iconValidasi.setImageResource(R.drawable.berhasil_icon);
-
-        // animasi turun
-        pesanValidasi.setTranslationY(-300f);
-        pesanValidasi.animate().translationY(0).setDuration(300).start();
-
-        // hilang setelah 2 detik
-        new Handler().postDelayed(() -> {
-            pesanValidasi.animate().translationY(-300f).setDuration(300).withEndAction(() -> {
-                pesanValidasi.setVisibility(View.GONE);
-            }).start();
-        }, 2000);
-    }
-
     private void hideErrorOnType(EditText editText, TextView errorView) {
         editText.addTextChangedListener(new android.text.TextWatcher() {
             @Override

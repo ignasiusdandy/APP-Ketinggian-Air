@@ -38,44 +38,126 @@
         android:textSize="14sp"
         android:text="Perbaiki data kendaraan anda" />
 
+    <!-- LABEL -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppinsmedium"
-        android:textColor="@color/black"
-        android:textSize="14sp"
         android:text="Plat Kendaraan"
-        android:layout_marginTop="32dp"/>
+        android:textColor="#111827"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_marginTop="24dp"/>
 
-    <EditText
-        android:id="@+id/et_plat_kendaraan"
+    <!-- CONTAINER -->
+    <LinearLayout
+        android:id="@+id/layoutPlat"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/bg_spinner"
-        android:padding="10dp"
-        android:hint="Contoh: DA 1234 XYZ"
-        android:textColor="@color/black"
-        android:textSize="14sp"/>
+        android:layout_height="72dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_plat_normal">
 
-    <TextView
-        android:id="@+id/wrongPlat"
-        android:layout_width="match_parent"
+        <!-- LEFT -->
+        <LinearLayout
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:src="@drawable/plat_biru_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID"
+                android:textStyle="bold"
+                android:textColor="@color/blue6"
+                android:textSize="20sp"
+                android:layout_marginTop="0dp"/>
+        </LinearLayout>
+
+        <!-- INPUT -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/et_plat_kendaraan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="Contoh: DA 1234 XYZ"
+                android:textColor="#111827"
+                android:textColorHint="#B5B5B5"
+                android:textSize="15sp"
+                android:paddingStart="18dp"
+                android:paddingEnd="70dp"
+                android:maxLength="11"
+                android:inputType="textCapCharacters"
+                android:fontFamily="@font/poppinsmedium"/>
+
+            <!-- COUNTER -->
+            <TextView
+                android:id="@+id/tvCounterPlat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/9"
+                android:textColor="#9CA3AF"
+                android:textSize="14sp"
+                android:layout_gravity="end|bottom"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"/>
+
+            <!-- STATUS ICON -->
+            <ImageView
+                android:id="@+id/imgStatusPlat"
+                android:layout_width="21dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/tentang_icon"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- INFO -->
+    <LinearLayout
+        android:id="@+id/layoutInfoPlat"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:textSize="14sp"
-        android:textColor="@color/peringatan"
-        android:text="Plat kendaraan tidak boleh kosong!"
-        android:layout_marginTop="4dp"
-        android:visibility="gone"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp">
 
+        <ImageView
+            android:id="@+id/imgInfoPlat"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/tentang_icon"/>
+
+        <TextView
+            android:id="@+id/tvInfoPlat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Format: 2 huruf - 4 angka - 3 huruf"
+            android:textColor="#2563EB"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsmedium"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textSize="15sp"
         android:text="Kategori"
         android:layout_marginTop="32dp"/>
 
@@ -123,7 +205,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsmedium"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:text="Model"
         android:layout_marginTop="32dp"/>
 

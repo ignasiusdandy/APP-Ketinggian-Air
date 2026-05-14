@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bg_popup">
+    android:background="@drawable/bg_popup"
+    android:layout_marginHorizontal="25dp">
 
     <ImageView
         android:layout_marginTop="32dp"

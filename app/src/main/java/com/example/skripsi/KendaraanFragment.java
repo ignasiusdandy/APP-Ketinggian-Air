@@ -81,6 +81,10 @@ public class KendaraanFragment extends Fragment {
                 );
 
                 dialog.getWindow().setDimAmount(0.8f);
+                dialog.getWindow()
+                        .setBackgroundDrawableResource(
+                                android.R.color.transparent
+                        );
             }
 
             dialog.setOnDismissListener(d -> {

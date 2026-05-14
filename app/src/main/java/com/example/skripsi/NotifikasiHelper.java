@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat;
 
 public class NotifikasiHelper {
 
-    private static final String CHANNEL_ID = "alert_channel_v2";
+    private static final String CHANNEL_ID = "alert_channel_v3";
 
     public static void showNotification(Context context, String title, String message){
 

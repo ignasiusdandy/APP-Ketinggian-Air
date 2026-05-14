@@ -548,6 +548,18 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
             tvDeskripsiRekomendasi.setText("Kondisi diperkiran akan surut. Disarankan menunggu hingga kondisi lebih aman");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.kuningrendah));
             params.weight = 0.6f;
+        } else if(risiko.toLowerCase().contains("waspada")){
+            tvStatusJam.setText("Waspada");
+            tvStatusJam.setTextColor(getResources().getColor(R.color.kuningrendah));
+            tvStatus.setText("Waspada");
+            tvStatus.setTextColor(getResources().getColor(R.color.kuningrendah));
+            bulatStatus.setImageResource(R.drawable.bulatkuningkecil);
+            bgRekomendasi.setBackgroundColor(getResources().getColor(R.color.kuningbackgroundrendah));
+            iconRekomendasi.setImageResource(R.drawable.resikorendah_icon);
+            tvRekomendasi.setText("Motor Honda Beat 150 anda Beresiko untuk melintasi jalur ini");
+            tvDeskripsiRekomendasi.setText("Kondisi berpotensi berbahaya. Disarankan menunggu hingga kondisi lebih aman atau gunakan alternatif lain");
+            tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.kuningrendah));
+            params.weight = 0.6f;
         } else if(risiko.toLowerCase().contains("resiko sedang")){
             tvStatusJam.setText("Resiko Sedang");
             tvStatusJam.setTextColor(getResources().getColor(R.color.orensedang));
@@ -573,7 +585,18 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
             tvDeskripsiRekomendasi.setText("Kondisi sangat berbahaya, Ketinggian air sangat berisiko menyebabkan motor mogok dan bahkan risiko kerusakan pada kendaraan");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.peringatan));
             params.weight = 0.6f;
-
+        } else if(risiko.toLowerCase().contains("bahaya")){
+            tvStatusJam.setText("Bahaya");
+            tvStatusJam.setTextColor(getResources().getColor(R.color.peringatan));
+            tvStatus.setText("Bahaya");
+            tvStatus.setTextColor(getResources().getColor(R.color.peringatan));
+            bulatStatus.setImageResource(R.drawable.bulatmerahkecil);
+            bgRekomendasi.setBackgroundColor(getResources().getColor(R.color.merahbackgroundtinggi));
+            iconRekomendasi.setImageResource(R.drawable.resikotinggi_icon);
+            tvRekomendasi.setText("Motor Honda Beat 150 anda Berbahaya untuk melintasi jalur ini ");
+            tvDeskripsiRekomendasi.setText("Kondisi sangat berbahaya, sangat tidak dianjurkan untuk melewati tempat ini. Ketinggian air sangat berisiko menyebabkan motor mogok dan bahkan berisiko kerusakan pada kendaraan");
+            tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.peringatan));
+            params.weight = 0.6f;
         }
     }
 
@@ -597,12 +620,16 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
     private void setDeskripsiStatus(String kendaraan, String risiko){
         if (risiko.equals("Aman")){
             risiko = "Aman";
-        } else if(risiko.equals("Resiko Rendah")){
+        } else if(risiko.equals("Waspada")){
+            risiko = "Beresiko";
+        }else if(risiko.equals("Resiko Rendah")){
             risiko = "Beresiko Rendah";
         } else if(risiko.equals("Resiko Sedang")){
             risiko = "Beresiko Sedang";
         } else if(risiko.equals("Resiko Tinggi")){
             risiko = "Beresiko Tinggi";
+        } else if(risiko.equals("Bahaya")){
+            risiko = "Berbahaya";
         }
         String fullText = "Motor " + kendaraan + " anda " + risiko + " untuk melintasi jalur ini";
         SpannableString spannable = new SpannableString(fullText);
@@ -628,7 +655,11 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
             warna = getResources().getColor(R.color.orensedang);
         } else if (risiko.toLowerCase().contains("resiko rendah")){
             warna = getResources().getColor(R.color.kuningrendah);
-        } else {
+        } else if (risiko.toLowerCase().contains("beresiko")){
+            warna = getResources().getColor(R.color.kuningrendah);
+        }else if (risiko.toLowerCase().contains("bahaya")){
+            warna = getResources().getColor(R.color.peringatan);
+        }else {
             warna = getResources().getColor(R.color.hijauaman);
         }
 

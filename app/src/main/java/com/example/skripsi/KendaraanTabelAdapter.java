@@ -55,7 +55,11 @@ public class KendaraanTabelAdapter extends RecyclerView.Adapter<KendaraanTabelAd
                 holder.tvStatus.setTextColor(
                         holder.itemView.getContext().getColor(R.color.kuningrendah)
                 );
-            } else if(k.getStatus().equals("Resiko Sedang")){
+            } if (k.getStatus().equals("Waspada")){
+                holder.tvStatus.setTextColor(
+                        holder.itemView.getContext().getColor(R.color.kuningrendah)
+                );
+            }else if(k.getStatus().equals("Resiko Sedang")){
                 holder.tvStatus.setTextColor(
                         holder.itemView.getContext().getColor(R.color.orensedang)
                 );
@@ -63,7 +67,12 @@ public class KendaraanTabelAdapter extends RecyclerView.Adapter<KendaraanTabelAd
                 holder.tvStatus.setTextColor(
                         holder.itemView.getContext().getColor(R.color.merahtinggi)
                 );
-            } else {
+            } else if(k.getStatus().equals("Bahaya")){
+                holder.tvStatus.setTextColor(
+                        holder.itemView.getContext().getColor(R.color.merahtinggi)
+                );
+            }
+            else {
                 holder.tvStatus.setTextColor(
                         holder.itemView.getContext().getColor(R.color.hijauaman)
                 );

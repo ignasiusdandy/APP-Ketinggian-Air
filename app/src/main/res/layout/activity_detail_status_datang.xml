@@ -450,7 +450,7 @@
                                 android:layout_weight="1.2"
                                 android:orientation="horizontal"
                                 android:gravity="center"
-                                android:paddingLeft="6dp">
+                                android:paddingLeft="12dp">
 
                                 <ImageView
                                     android:layout_width="14dp"
@@ -472,7 +472,7 @@
                         </LinearLayout>
 
                         <View
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="2dp"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@color/tulisanabu"

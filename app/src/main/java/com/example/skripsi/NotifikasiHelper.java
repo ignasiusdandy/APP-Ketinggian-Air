@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat;
 
 public class NotifikasiHelper {
 
-    private static final String CHANNEL_ID = "alert_channel_v3";
+    private static final String CHANNEL_ID = "alert_channel_v4";
 
     public static void showNotification(Context context, String title, String message){
 
@@ -54,11 +54,13 @@ public class NotifikasiHelper {
         );
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.sapida_icon)
+                .setSmallIcon(R.drawable.baingat)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent);
 
         manager.notify((int) System.currentTimeMillis(), builder.build());

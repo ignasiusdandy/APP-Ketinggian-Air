@@ -355,7 +355,7 @@
                     android:textColor="#1E1E1E"
                     android:textColorHint="#B0B0B0"
                     android:textSize="14sp"
-                    android:maxLength="10"
+                    android:maxLength="11"
                     android:inputType="textCapCharacters"
                     android:fontFamily="sans-serif-medium"/>
 

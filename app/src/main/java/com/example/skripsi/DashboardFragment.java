@@ -557,13 +557,15 @@ public class DashboardFragment extends Fragment {
 
                         //debug
 //                        long waktu = 10000;
-//                        Log.d("NOTIF_DEBUG", "Risiko: " + risiko);
-//                        Log.d("NOTIF_DEBUG", "LastTime: " + lastTime);
-//                        Log.d("NOTIF_DEBUG", "Now: " + now);
+                        Log.d("NOTIF_DEBUG", "Risiko: " + risiko);
+                        Log.d("NOTIF_DEBUG", "LastTime: " + lastTime);
+                        Log.d("NOTIF_DEBUG", "Now: " + now);
 
                         if (risikoLower.contains("resiko tinggi") ||
                                 risikoLower.contains("resiko sedang") ||
-                                risikoLower.contains("resiko rendah")){
+                                risikoLower.contains("resiko rendah") ||
+                                risikoLower.contains("waspada") ||
+                                risikoLower.contains("bahaya")){
                             if(now - lastTime > waktu){
                                 NotifikasiHelper.showNotification(
                                         requireContext(),
@@ -594,13 +596,18 @@ public class DashboardFragment extends Fragment {
                             tvStatusDatang.setText(risiko);
                             tvStatusDatang.setTextColor(getResources().getColor(R.color.kuningrendah));
                             bulatStatusDatang.setImageResource(R.drawable.bulatkuningkecil);
+                        } else if (risiko.toLowerCase().contains("waspada")){
+                            tvTinggiDatang.setText((double) tinggi + " cm");
+                            tvKecepatanDatang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.kuningrendah));
+                            bulatStatusDatang.setImageResource(R.drawable.bulatkuningkecil);
                         } else if (risiko.toLowerCase().contains("resiko sedang")){
                             tvTinggiDatang.setText((double) tinggi + " cm");
                             tvKecepatanDatang.setText((double) kecepatan + " cm/h");
                             tvStatusDatang.setText(risiko);
                             tvStatusDatang.setTextColor(getResources().getColor(R.color.orensedang));
                             bulatStatusDatang.setImageResource(R.drawable.bulatorenkecil);
-
                         } else if (risiko.toLowerCase().contains("resiko tinggi")){
                             tvTinggiDatang.setText((double) tinggi + " cm");
                             tvKecepatanDatang.setText((double) kecepatan + " cm/h");
@@ -608,7 +615,14 @@ public class DashboardFragment extends Fragment {
                             tvStatusDatang.setTextColor(getResources().getColor(R.color.peringatan));
                             bulatStatusDatang.setImageResource(R.drawable.bulatmerahkecil);
 
-                        } else {
+                        } else if (risiko.toLowerCase().contains("bahaya")){
+                            tvTinggiDatang.setText((double) tinggi + " cm");
+                            tvKecepatanDatang.setText((double) kecepatan + " cm/h");
+                            tvStatusDatang.setText(risiko);
+                            tvStatusDatang.setTextColor(getResources().getColor(R.color.peringatan));
+                            bulatStatusDatang.setImageResource(R.drawable.bulatmerahkecil);
+
+                        }else {
                             tvTinggiDatang.setText("-");
                             tvKecepatanDatang.setText("-");
                             tvStatusDatang.setText("Error");
@@ -642,7 +656,9 @@ public class DashboardFragment extends Fragment {
 
                         if (risikoLowerPulang.contains("resiko tinggi") ||
                                 risikoLowerPulang.contains("resiko sedang") ||
-                                risikoLowerPulang.contains("resiko rendah")) {
+                                risikoLowerPulang.contains("resiko rendah") ||
+                                risikoLowerPulang.contains("waspada") ||
+                                risikoLowerPulang.contains("bahaya")){
 
                             if(now - lastTime > waktu){
                                 NotifikasiHelper.showNotification(
@@ -667,7 +683,13 @@ public class DashboardFragment extends Fragment {
                             tvStatusPulang.setText(risiko);
                             tvStatusPulang.setTextColor(getResources().getColor(R.color.kuningrendah));
                             bulatStatusPulang.setImageResource(R.drawable.bulatkuningkecil);
-                        } else if (risiko.toLowerCase().contains("resiko sedang")){
+                        } else if (risiko.toLowerCase().contains("waspada")){
+                            tvTinggiPulang.setText((double) tinggi + " cm");
+                            tvKecepatanPulang.setText((double) kecepatan + " cm/h");
+                            tvStatusPulang.setText(risiko);
+                            tvStatusPulang.setTextColor(getResources().getColor(R.color.kuningrendah));
+                            bulatStatusPulang.setImageResource(R.drawable.bulatkuningkecil);
+                        }else if (risiko.toLowerCase().contains("resiko sedang")){
                             tvTinggiPulang.setText((double) tinggi + " cm");
                             tvKecepatanPulang.setText((double) kecepatan + " cm/h");
                             tvStatusPulang.setText(risiko);
@@ -680,7 +702,12 @@ public class DashboardFragment extends Fragment {
                             tvStatusPulang.setText(risiko);
                             tvStatusPulang.setTextColor(getResources().getColor(R.color.merahtinggi));
                             bulatStatusPulang.setImageResource(R.drawable.bulatmerahkecil);
-
+                        } else if (risiko.toLowerCase().contains("bahaya")) {
+                            tvTinggiPulang.setText((double) tinggi + " cm");
+                            tvKecepatanPulang.setText((double) kecepatan + " cm/h");
+                            tvStatusPulang.setText(risiko);
+                            tvStatusPulang.setTextColor(getResources().getColor(R.color.merahtinggi));
+                            bulatStatusPulang.setImageResource(R.drawable.bulatmerahkecil);
                         } else {
                             tvTinggiPulang.setText("-");
                             tvKecepatanPulang.setText("-");

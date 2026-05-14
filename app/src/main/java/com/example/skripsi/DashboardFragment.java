@@ -8,14 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -43,6 +46,8 @@ public class DashboardFragment extends Fragment {
     private LineChart lineChart;
     private ImageView bulatStatusDatang, bulatStatusPulang, arrowTinggiDatang, arrowKecepatanDatang, arrowTinggiPulang, arrowKecepatanPulang, btnKeluar;
     boolean isDebugMode = true;
+    private ShimmerFrameLayout shimmerLayout;
+    private ScrollView scrollView2;
     long startTime;
 
     // Ini untuk refresh tiap 5 menit
@@ -78,6 +83,11 @@ public class DashboardFragment extends Fragment {
         sessionManager = new SessionManager(requireContext());
         String nama = sessionManager.getUserDetails().get(SessionManager.KEY_NAMA);
         String token = sessionManager.getToken();
+        shimmerLayout = view.findViewById(R.id.shimmerLayout);
+        scrollView2 = view.findViewById(R.id.scrollView2);
+        scrollView2.setAlpha(0f);
+        shimmerLayout.setVisibility(View.VISIBLE);
+        shimmerLayout.startShimmer();
 
         //ini untuk perkenalan nama
         tvPerkenalanNama = view.findViewById(R.id.haiNamaUser);
@@ -719,15 +729,17 @@ public class DashboardFragment extends Fragment {
                         tvStatusPulang.setText("-");
                         tvWaktuPulang.setText("-");
                     }
-
+                    showContent();
                 } else {
                     Log.d("DASHBOARD", "Response gagal: " + response.code());
+                    showContent();
                 }
             }
 
             @Override
             public void onFailure(Call<StatusUtamaResponseModel> call, Throwable t) {
                 Log.d("DASHBOARD", "Error: " + t.getMessage());
+                showContent();
             }
         });
 
@@ -744,5 +756,28 @@ public class DashboardFragment extends Fragment {
             imgArrow.setImageResource(R.drawable.arrow_stabil);
             imgArrow2.setImageResource(R.drawable.arrow_stabil);
         }
+    }
+
+    private void showContent(){
+        new Handler().postDelayed(() -> {
+
+            shimmerLayout.stopShimmer();
+
+            shimmerLayout.animate()
+                    .alpha(0f)
+                    .setDuration(250)
+                    .withEndAction(() -> {
+
+                        shimmerLayout.setVisibility(View.GONE);
+
+                    })
+                    .start();
+
+            scrollView2.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .start();
+
+        }, 1500);
     }
 }

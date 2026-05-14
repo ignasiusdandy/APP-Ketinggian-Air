@@ -1,17 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
+    <!-- ===================== -->
+    <!-- SHIMMER LOADING -->
+    <!-- ===================== -->
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:shimmer_auto_start="true"
-        app:shimmer_duration="1200">
+        app:shimmer_duration="1500"
+        app:shimmer_base_alpha="0.7"
+        app:shimmer_highlight_alpha="1.0"
+        app:shimmer_direction="left_to_right"
+        app:shimmer_width_ratio="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+            <!-- HEADER PLACEHOLDER -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:background="#E5E7EB">
+
+                <View
+                    android:layout_width="180dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="40dp"
+                    android:background="#D1D5DB"/>
+
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#D1D5DB"/>
+
+            </LinearLayout>
+
+            <!-- KENDARAAN -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="#D1D5DB"/>
+
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="16dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#D1D5DB"/>
+
+            </LinearLayout>
+
+            <!-- CARD 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:background="#D1D5DB"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:background="#D1D5DB"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="10dp"
+                        android:background="#D1D5DB"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:background="#D1D5DB"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- CARD 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:background="#D1D5DB"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:background="#D1D5DB"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="10dp"
+                        android:background="#D1D5DB"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:background="#D1D5DB"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- CHART -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_margin="16dp"
+                android:background="#D1D5DB"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="180dp"
+                    android:layout_height="20dp"
+                    android:background="#D1D5DB"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#D1D5DB"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- ===================== -->
+    <!-- CONTENT ASLI -->
+    <!-- ===================== -->
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -551,6 +717,5 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

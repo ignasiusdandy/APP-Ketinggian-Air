@@ -18,9 +18,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -52,6 +54,8 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
 
     private TextView tvTinggi, tvKecepatan, tvStatus, tvWaktu, tvStatusJam, tvRekomendasi, tvDeskripsiRekomendasi;
     private ImageView bulatStatus, arrowKecepatan, arrowTinggi, iconRekomendasi;
+    private ShimmerFrameLayout shimmerLayout;
+    private ScrollView contentScroll;
     InternetHandler internetHandler;
 
     // Ini untuk refresh
@@ -78,6 +82,10 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
                 findViewById(R.id.progressReconnect)
         );
         internetHandler.checkInternet();
+        shimmerLayout = findViewById(R.id.shimmerLayout);
+        contentScroll = findViewById(R.id.contentScroll);
+        contentScroll.setAlpha(0f);
+        shimmerLayout.startShimmer();
 
         Window window = getWindow();
 
@@ -508,7 +516,7 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
                         setStatusUI(risiko);
                         setArrow(kecepatan);
                         setDeskripsiStatus(kendaraan, risiko);
-
+                        showContent();
                     }
                 }
             }
@@ -516,6 +524,7 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<StatusUtamaResponseModel> call, Throwable t) {
                 Log.e("API_ERROR", "Gagal Ambil Response Status");
+                showContent();
             }
         });
     }
@@ -671,5 +680,24 @@ public class DetailStatusDatangActivity extends AppCompatActivity {
         );
 
         tvRekomendasi.setText(spannable);
+    }
+
+    private void showContent(){
+        new Handler().postDelayed(() -> {
+            shimmerLayout.stopShimmer();
+            shimmerLayout.animate()
+                    .alpha(0f)
+                    .setDuration(250)
+                    .withEndAction(() -> {
+                        shimmerLayout.setVisibility(View.GONE);
+                    })
+                    .start();
+
+            contentScroll.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .start();
+
+        }, 1500);
     }
 }

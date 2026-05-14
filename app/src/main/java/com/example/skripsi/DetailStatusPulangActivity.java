@@ -17,9 +17,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -53,6 +55,8 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
     InternetHandler internetHandler;
     Handler handler = new Handler();
     Runnable runnable;
+    private ShimmerFrameLayout shimmerLayout;
+    private ScrollView contentScroll;
     int interval = 10 * 60 * 1000;
 
 
@@ -78,6 +82,11 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
+
+        shimmerLayout = findViewById(R.id.shimmerLayout);
+        contentScroll = findViewById(R.id.contentScroll);
+        contentScroll.setAlpha(0f);
+        shimmerLayout.startShimmer();
 
         map = findViewById(R.id.mapDetailPulang);
         map.setMultiTouchControls(false);
@@ -487,6 +496,7 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
                         setStatusUI(risiko);
                         setArrow(kecepatan);
                         setDeskripsiStatus(kendaraan, risiko);
+                        showContent();
 
                     }
                 }
@@ -495,6 +505,7 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<StatusUtamaResponseModel> call, Throwable t) {
                 Log.e("API_ERROR", "Gagal Ambil Response Status");
+                showContent();
             }
         });
     }
@@ -651,5 +662,24 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
         );
 
         tvRekomendasi.setText(spannable);
+    }
+
+    private void showContent(){
+        new Handler().postDelayed(() -> {
+            shimmerLayout.stopShimmer();
+            shimmerLayout.animate()
+                    .alpha(0f)
+                    .setDuration(250)
+                    .withEndAction(() -> {
+                        shimmerLayout.setVisibility(View.GONE);
+                    })
+                    .start();
+
+            contentScroll.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .start();
+
+        }, 1500);
     }
 }

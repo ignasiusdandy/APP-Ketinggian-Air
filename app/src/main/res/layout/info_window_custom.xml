@@ -1,196 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#F5F7FA">
+    android:layout_marginHorizontal="20dp"
+    android:foregroundGravity="center"
+    android:background="@android:color/transparent">
 
-    <!-- CARD -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="16dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
-        app:cardUseCompatPadding="false"
-        app:cardPreventCornerOverlap="false"
-        app:cardBackgroundColor="#FFFFFF">
+    <!-- ========================= -->
+    <!-- SHIMMER -->
+    <!-- ========================= -->
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="370dp"
+        android:layout_height="match_parent"
+        app:shimmer_auto_start="true"
+        app:shimmer_duration="1200"
+        app:shimmer_base_alpha="0.85"
+        app:shimmer_highlight_alpha="1"
+        android:layout_gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="12dp"
-            android:paddingTop="12dp">
+            android:orientation="vertical">
 
-            <!-- TITLE -->
-            <TextView
-                android:id="@+id/tvTittle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Jalan Datang"
-                android:textSize="18sp"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/black"
-                android:paddingStart="16dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="8dp"/>
-
-            <!-- INFO -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <!-- BOX 1 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_div_maps"
-                    android:padding="12dp"
-                    android:layout_marginEnd="6dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/tinggi_air_icon"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tinggi Air"
-                            android:textSize="12sp"
-                            android:textColor="#777"/>
-
-                        <TextView
-                            android:id="@+id/tvInfoTinggi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 cm"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/poppinssemibold"
-                            android:textColor="@color/black"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- BOX 2 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_div_maps"
-                    android:padding="12dp"
-                    android:layout_marginStart="6dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/aman_icon"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Status"
-                            android:textSize="12sp"
-                            android:textColor="#777"/>
-
-                        <TextView
-                            android:id="@+id/tvInfoStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Aman"
-                            android:textSize="15sp"
-                            android:fontFamily="@font/poppinssemibold"
-                            android:textColor="@color/hijauaman"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- IMAGE -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginTop="4dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/image_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/jalan_datang"/>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- FOOTER -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/waktu_terakhir"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Update terakhir: 11.15 WIB"
-                    android:textSize="12sp"
-                    android:textColor="#888"/>
+                android:layout_height="380dp"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:background="@drawable/bg_klik_putih"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:clickable="true"
-                    android:focusable="true">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/btn_detail"
-                        android:layout_width="wrap_content"
+                    <View
+                        android:layout_width="140dp"
+                        android:layout_height="20dp"
+                        android:background="#DADADA"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Lihat Detail"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/poppinsmedium"
-                        android:textColor="#3B82F6"/>
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="16dp"
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="70dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:background="#DADADA"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="70dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:background="#DADADA"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginTop="20dp"
+                        android:background="#DADADA"/>
+
+                    <View
+                        android:layout_width="160dp"
                         android:layout_height="16dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="-2dp"
-                        android:src="@drawable/ic_arrow_right"
-                        android:tint="#3B82F6"/>
+                        android:layout_marginTop="20dp"
+                        android:background="#DADADA"/>
+
                 </LinearLayout>
-            </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
-</LinearLayout>
+    <!-- ========================= -->
+    <!-- CONTENT -->
+    <!-- ========================= -->
+
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:alpha="0">
+
+            <!-- CARD -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="380dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="false"
+                app:cardPreventCornerOverlap="false"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="12dp"
+                    android:paddingTop="12dp">
+
+                    <!-- TITLE -->
+                    <TextView
+                        android:id="@+id/tvTittle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jalan Datang"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:textColor="@color/black"
+                        android:paddingStart="16dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="8dp"/>
+
+                    <!-- INFO -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- BOX 1 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_div_maps"
+                            android:padding="12dp"
+                            android:layout_marginEnd="6dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/tinggi_air_icon"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="8dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tinggi Air"
+                                    android:textSize="12sp"
+                                    android:textColor="#777"/>
+
+                                <TextView
+                                    android:id="@+id/tvInfoTinggi"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0 cm"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/poppinssemibold"
+                                    android:textColor="@color/black"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- BOX 2 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_div_maps"
+                            android:padding="12dp"
+                            android:layout_marginStart="6dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/iconStatus"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/aman_icon"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginStart="8dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Status"
+                                    android:textSize="12sp"
+                                    android:textColor="#777"/>
+
+                                <TextView
+                                    android:id="@+id/tvInfoStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Aman"
+                                    android:textSize="15sp"
+                                    android:fontFamily="@font/poppinssemibold"
+                                    android:textColor="@color/hijauaman"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- IMAGE -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginTop="4dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/image_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/jalan_datang"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- FOOTER -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/waktu_terakhir"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Update terakhir: 11.15 WIB"
+                            android:textSize="12sp"
+                            android:textColor="#888"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:background="@drawable/bg_klik_putih"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <TextView
+                                android:id="@+id/btn_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Lihat Detail"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/poppinsmedium"
+                                android:textColor="#3B82F6"/>
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginTop="-2dp"
+                                android:src="@drawable/ic_arrow_right"
+                                android:tint="#3B82F6"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+</FrameLayout>

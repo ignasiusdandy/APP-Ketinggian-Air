@@ -26,8 +26,7 @@ public class KendaraanTabelPengaturanAdapter extends RecyclerView.Adapter<Kendar
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvNama, tvPlat;
         ImageView btnUtama;
-        Button btnEdit, btnDelete;
-        LinearLayout layoutStatus;
+        LinearLayout btnEdit, btnDelete, layoutStatus;
 
 
         public ViewHolder(@NonNull View itemView) {

@@ -4,10 +4,8 @@
         <!-- Customize your light theme here. -->
         <!--         <item name="colorPrimary">@color/blue6</item>-->
 
-        <!--         <item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--        <item name="android:windowLightStatusBar">false</item>-->
-
         <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="bottomNavigationStyle">@style/Widget.BottomNav.NoIndicator</item>
         <item name="android:windowSplashScreenBackground">#F3F0F5</item>

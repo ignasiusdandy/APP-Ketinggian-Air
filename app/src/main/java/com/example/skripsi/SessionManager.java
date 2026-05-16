@@ -15,6 +15,8 @@ public class SessionManager {
     public static final String KEY_EMAIL = "email";
     public static final String KEY_TOKEN = "token";
     public static final String KEY_ROLE = "role";
+    private static final String LAST_NOTIF_DATANG = "last_notif_datang";
+    private static final String LAST_NOTIF_PULANG = "last_notif_pulang";
 
 
     SharedPreferences pref;
@@ -83,5 +85,23 @@ public class SessionManager {
 
     public long getLastNotifTime() {
         return pref.getLong("last_notif_time", 0);
+    }
+
+    public void setLastNotifDatang(long time){
+        editor.putLong(LAST_NOTIF_DATANG, time);
+        editor.apply();
+    }
+
+    public long getLastNotifDatang(){
+        return pref.getLong(LAST_NOTIF_DATANG, 0);
+    }
+
+    public void setLastNotifPulang(long time){
+        editor.putLong(LAST_NOTIF_PULANG, time);
+        editor.apply();
+    }
+
+    public long getLastNotifPulang(){
+        return pref.getLong(LAST_NOTIF_PULANG, 0);
     }
 }

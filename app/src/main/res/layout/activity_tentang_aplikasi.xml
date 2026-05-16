@@ -129,8 +129,8 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/realtime_icon"/>
 
                     <LinearLayout
@@ -173,8 +173,8 @@
                     android:paddingBottom="18dp">
 
                     <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/notifikasitentang_icon"/>
 
                     <LinearLayout
@@ -223,9 +223,9 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/keamanan_icon"/>
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/keamanan_icon" />
 
                     <LinearLayout
                         android:layout_width="0dp"

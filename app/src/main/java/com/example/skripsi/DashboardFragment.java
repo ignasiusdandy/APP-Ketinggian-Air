@@ -41,7 +41,7 @@ import retrofit2.Response;
 
 public class DashboardFragment extends Fragment {
     private SessionManager sessionManager;
-    private TextView tvPerkenalanNama, tvKendaraan, tvStatusDatang, tvStatusPulang, tvTinggiDatang, tvTinggiPulang, tvKecepatanDatang, tvKecepatanPulang, tvWaktuDatang, tvWaktuPulang;
+    private TextView tvPerkenalanNama, tvKendaraan, tvStatusDatang, tvStatusPulang, tvTinggiDatang, tvTinggiPulang, tvKecepatanDatang, tvKecepatanPulang, tvWaktuDatang, tvWaktuPulang, tvSatuanKiri;
     private ApiService apiService;
     private LineChart lineChart;
     private ImageView bulatStatusDatang, bulatStatusPulang, arrowTinggiDatang, arrowKecepatanDatang, arrowTinggiPulang, arrowKecepatanPulang, btnKeluar;
@@ -55,6 +55,7 @@ public class DashboardFragment extends Fragment {
     private final Runnable refreshRunnable = new Runnable() {
         @Override
         public void run() {
+            Log.d("REFRESH_DEBUG", "Runnable jalan");
             refreshData();
             loadChartData();
             loadStatus();
@@ -75,6 +76,7 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         apiService = ApiClient.getClient().create(ApiService.class);
+        tvSatuanKiri = view.findViewById(R.id.tvSatuanKiri);
 
         // ini untuk debug
         startTime = System.currentTimeMillis();
@@ -209,7 +211,7 @@ public class DashboardFragment extends Fragment {
         if (!hidden) {
             refreshData();
             loadChartData();
-
+            loadStatus();
         }
     }
 
@@ -254,6 +256,7 @@ public class DashboardFragment extends Fragment {
                     if(datang.isEmpty() && pulang.isEmpty()){
                         lineChart.clear();
                         lineChart.setNoDataText("Tidak Ada Data");
+                        tvSatuanKiri.setVisibility(View.GONE);
                         return;
                     }
 
@@ -300,100 +303,145 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupChart(List<ChartItem> datang, List<ChartItem> pulang){
-
+        tvSatuanKiri.setVisibility(View.VISIBLE);
         ArrayList<Entry> dataDatang = new ArrayList<>();
         ArrayList<Entry> dataPulang = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
-        int size = Math.min(datang.size(), pulang.size());
-
-        for (int i = 0; i < size; i++) {
-
-            ChartItem d = datang.get(i);
-            ChartItem p = pulang.get(i);
-
-            // titik biru
-            dataDatang.add(
-                    new Entry(i, d.getNilai())
-            );
-
-            // titik ungu
-            dataPulang.add(
-                    new Entry(i, p.getNilai())
-            );
-
-            // label waktu
-            labels.add(d.getWaktu());
+        // gabung waktu datang
+        for (ChartItem d : datang){
+            if(!labels.contains(d.getWaktu())){
+                labels.add(d.getWaktu());
+            }
         }
+
+        // gabung waktu pulang
+        for (ChartItem p : pulang){
+            if(!labels.contains(p.getWaktu())){
+                labels.add(p.getWaktu());
+            }
+        }
+
+        // urutkan waktu
+        Collections.sort(labels);
+
+        Collections.sort(labels);
+
+        // ambil 6 waktu terakhir
+        if(labels.size() > 6){
+            labels = new ArrayList<>(
+                    labels.subList(labels.size() - 6, labels.size())
+            );
+        }
+
+        // mapping data datang
+        for (ChartItem d : datang){
+
+            int index = labels.indexOf(d.getWaktu());
+
+            if(index != -1){
+                dataDatang.add(
+                        new Entry(index, d.getNilai())
+                );
+            }
+        }
+
+        // mapping data pulang
+        for (ChartItem p : pulang){
+
+            int index = labels.indexOf(p.getWaktu());
+
+            if(index != -1){
+                dataPulang.add(
+                        new Entry(index, p.getNilai())
+                );
+            }
+        }
+
+
+        ArrayList<LineDataSet> dataSets = new ArrayList<>();
+
 
         // =========================
         // BLUE LINE
         // =========================
+        if(!dataDatang.isEmpty()) {
+            LineDataSet set1 =
+                    new LineDataSet(dataDatang,
+                            "Jalan Datang");
 
-        LineDataSet set1 =
-                new LineDataSet(dataDatang,
-                        "Jalan Datang");
+            set1.setColor(Color.parseColor("#2563FF"));
 
-        set1.setColor(Color.parseColor("#2563FF"));
+            set1.setLineWidth(3f);
 
-        set1.setLineWidth(3f);
+            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            set1.setDrawValues(false);
 
-        set1.setDrawValues(false);
+            set1.setDrawFilled(true);
 
-        set1.setDrawFilled(true);
+            set1.setFillColor(Color.parseColor("#2563FF"));
 
-        set1.setFillColor(Color.parseColor("#2563FF"));
+            set1.setFillAlpha(25);
 
-        set1.setFillAlpha(25);
+            set1.setDrawCircles(false);
 
-        set1.setDrawCircles(false);
+            set1.setHighLightColor(Color.TRANSPARENT);
 
-        set1.setHighLightColor(Color.TRANSPARENT);
+            set1.setDrawHorizontalHighlightIndicator(false);
 
-        set1.setDrawHorizontalHighlightIndicator(false);
+            set1.setDrawVerticalHighlightIndicator(false);
 
-        set1.setDrawVerticalHighlightIndicator(false);
+            // titik terakhir
+            set1.setDrawCircles(true);
 
-        // titik terakhir
-        set1.setDrawCircles(true);
+            set1.setCircleRadius(4f);
 
-        set1.setCircleRadius(4f);
-
-        set1.setCircleColor(Color.parseColor("#2563FF"));
+            set1.setCircleColor(Color.parseColor("#2563FF"));
+            dataSets.add(set1);
+        }
 
         // =========================
         // PURPLE LINE
         // =========================
 
-        LineDataSet set2 =
-                new LineDataSet(dataPulang,
-                        "Jalan Pulang");
+        if(!dataPulang.isEmpty()) {
 
-        set2.setColor(Color.parseColor("#C026FF"));
+            LineDataSet set2 =
+                    new LineDataSet(dataPulang,
+                            "Jalan Pulang");
 
-        set2.setLineWidth(3.5f);
+            set2.setColor(Color.parseColor("#C026FF"));
 
-        set2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            set2.setLineWidth(3.5f);
 
-        set2.setDrawValues(false);
+            set2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        set2.setDrawFilled(true);
+            set2.setDrawValues(false);
 
-        set2.setFillColor(Color.parseColor("#C026FF"));
+            set2.setDrawFilled(true);
 
-        set2.setFillAlpha(18);
+            set2.setFillColor(Color.parseColor("#C026FF"));
 
-        set2.setDrawCircles(true);
+            set2.setFillAlpha(18);
 
-        set2.setCircleColor(Color.parseColor("#C026FF"));
-        set2.setHighLightColor(Color.TRANSPARENT);
+            set2.setDrawCircles(true);
 
-        set2.setDrawHorizontalHighlightIndicator(false);
+            set2.setCircleColor(Color.parseColor("#C026FF"));
+            set2.setHighLightColor(Color.TRANSPARENT);
 
-        set2.setDrawVerticalHighlightIndicator(false);
-        set2.setCircleRadius(4f);
+            set2.setDrawHorizontalHighlightIndicator(false);
+
+            set2.setDrawVerticalHighlightIndicator(false);
+            set2.setCircleRadius(4f);
+            dataSets.add(set2);
+        }
+
+        if(dataSets.isEmpty()){
+            lineChart.clear();
+            lineChart.setNoDataText("Tidak Ada Data");
+            return;
+        }
 
 
         // =========================
@@ -526,7 +574,11 @@ public class DashboardFragment extends Fragment {
         // SET DATA
         // =========================
 
-        LineData lineData = new LineData(set1, set2);
+        LineData lineData = new LineData();
+
+        for (LineDataSet set : dataSets){
+            lineData.addDataSet(set);
+        }
 
         lineChart.setData(lineData);
         lineChart.invalidate();
@@ -562,7 +614,7 @@ public class DashboardFragment extends Fragment {
                         // Ini untuk notikasi
                         String risikoLower = risiko.toLowerCase();
                         long now = System.currentTimeMillis();
-                        long lastTime = sessionManager.getLastNotifTime();
+                        long lastTime = sessionManager.getLastNotifDatang();
                         long waktu = 3600000; // 1 jam
 
                         //debug
@@ -579,13 +631,13 @@ public class DashboardFragment extends Fragment {
                             if(now - lastTime > waktu){
                                 NotifikasiHelper.showNotification(
                                         requireContext(),
-                                        "Peringatan!",
-                                        "Kondisi sekarang: " + risiko
+                                        "Peringatan Jalan Datang!",
+                                        "Kondisi Jalan Datang: " + risiko
                                 );
-                                sessionManager.setLastNotifTime(now);
+                                sessionManager.setLastNotifDatang(now);
                             }
                         } else if (risikoLower.contains("aman")) {
-                            sessionManager.setLastNotifTime(0);
+                            sessionManager.setLastNotifDatang(0);
                         }
 
                         String lastUpdate = d.getLastUpdate();
@@ -661,7 +713,7 @@ public class DashboardFragment extends Fragment {
                         String risikoLowerPulang = risikoPulang.toLowerCase();
 
                         long now = System.currentTimeMillis();
-                        long lastTime = sessionManager.getLastNotifTime();
+                        long lastTime = sessionManager.getLastNotifPulang();
                         long waktu = 3600000;
 
                         if (risikoLowerPulang.contains("resiko tinggi") ||
@@ -676,8 +728,10 @@ public class DashboardFragment extends Fragment {
                                         "Peringatan Pulang!",
                                         "Kondisi pulang: " + risikoPulang
                                 );
-                                sessionManager.setLastNotifTime(now);
+                                sessionManager.setLastNotifPulang(now);
                             }
+                        } else if (risikoLowerPulang.contains("aman")) {
+                            sessionManager.setLastNotifPulang(0);
                         }
 
 
@@ -778,6 +832,6 @@ public class DashboardFragment extends Fragment {
                     .setDuration(400)
                     .start();
 
-        }, 1500);
+        }, 1200);
     }
 }

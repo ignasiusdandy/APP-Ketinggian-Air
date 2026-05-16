@@ -680,6 +680,6 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
                     .setDuration(400)
                     .start();
 
-        }, 1500);
+        }, 1200);
     }
 }

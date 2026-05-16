@@ -5,12 +5,15 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -59,8 +62,16 @@ public class MapsFragment extends Fragment {
                 TextView tvStatus = mView.findViewById(R.id.tvInfoStatus);
                 TextView btndetail = mView.findViewById(R.id.btn_detail);
                 TextView tvWaktu = mView.findViewById(R.id.waktu_terakhir);
+                ImageView iconStatus = mView.findViewById(R.id.iconStatus);
+                ShimmerFrameLayout shimmer = mView.findViewById(R.id.shimmerLayout);
+                View content = mView.findViewById(R.id.contentLayout);
+                shimmer.setVisibility(View.VISIBLE);
+                shimmer.setAlpha(1f);
+                content.setAlpha(0f);
+                shimmer.startShimmer();
+
                 tvtittle.setText("Jalan Datang");
-                loadStatus(tvinfotinggi, tvStatus, "datang", tvWaktu);
+                loadStatus(tvinfotinggi, tvStatus, iconStatus, "datang", tvWaktu, shimmer, content);
 
                 btndetail.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), DetailStatusDatangActivity.class);
@@ -82,6 +93,8 @@ public class MapsFragment extends Fragment {
 
             map.getController().animateTo(offset);
             m.getInfoWindow().getView().setBackground(null);
+            m.getInfoWindow().getView().setPadding(0,0,0,0);
+            m.getInfoWindow().getView().setBackgroundColor(android.graphics.Color.TRANSPARENT);
             m.showInfoWindow();
             return true;
         });
@@ -102,11 +115,18 @@ public class MapsFragment extends Fragment {
                 ImageView imageStatus = mView.findViewById(R.id.image_status);
                 TextView tvStatus = mView.findViewById(R.id.tvInfoStatus);
                 TextView tvWaktu = mView.findViewById(R.id.waktu_terakhir);
+                ImageView iconStatus = mView.findViewById(R.id.iconStatus);
+                ShimmerFrameLayout shimmer = mView.findViewById(R.id.shimmerLayout);
+                View content = mView.findViewById(R.id.contentLayout);
+                shimmer.setVisibility(View.VISIBLE);
+                shimmer.setAlpha(1f);
+                content.setAlpha(0f);
+                shimmer.startShimmer();
 
 
                 tvtittle.setText("Jalan Pulang");
                 imageStatus.setImageResource(R.drawable.jalan_pulang);
-                loadStatus(tvinfotinggi, tvStatus, "pulang", tvWaktu);
+                loadStatus(tvinfotinggi, tvStatus, iconStatus,"pulang", tvWaktu, shimmer, content);
 
                 btndetail.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), DetailStatusPulangActivity.class);
@@ -129,6 +149,8 @@ public class MapsFragment extends Fragment {
 
             map.getController().animateTo(offset);
             m.getInfoWindow().getView().setBackground(null);
+            m.getInfoWindow().getView().setPadding(0,0,0,0);
+            m.getInfoWindow().getView().setBackgroundColor(android.graphics.Color.TRANSPARENT);
             m.showInfoWindow();
             return true;
         });
@@ -158,11 +180,9 @@ public class MapsFragment extends Fragment {
     }
 
 
-    private void loadStatus(TextView tvinfotinggi, TextView tvStatus, String tipe, TextView tvWaktu){
-
+    private void loadStatus(TextView tvinfotinggi, TextView tvStatus, ImageView iconStatus, String tipe, TextView tvWaktu, ShimmerFrameLayout shimmer, View content){
         SessionManager session = new SessionManager(requireContext());
         String token = "Bearer " + session.getToken();
-
         ApiService api = ApiClient.getClient().create(ApiService.class);
 
         api.getStatusUtama(token).enqueue(new Callback<StatusUtamaResponseModel>() {
@@ -176,11 +196,11 @@ public class MapsFragment extends Fragment {
                     if (tipe.equals("datang")) {
                         lokasiData = response.body().getDatang();
                     } else {
-                        lokasiData = response.body().getPulang(); 
+                        lokasiData = response.body().getPulang();
                     }
 
                     if(lokasiData != null && lokasiData.getData() != null){
-
+                        showContent(shimmer, content);
                         StatusUtamaResponseModel.Data d = lokasiData.getData();
                         String lastUpdate = d.getLastUpdate();
 
@@ -193,16 +213,27 @@ public class MapsFragment extends Fragment {
 
                         if (risiko.toLowerCase().equals("aman")){
                             tvStatus.setTextColor(getResources().getColor(R.color.hijauaman));
-                        } else if (risiko.toLowerCase().equals("resiko rendah")){
+                            iconStatus.setImageResource(R.drawable.aman_icon);
+                        } else if (risiko.toLowerCase().equals("waspada")){
                             tvStatus.setTextColor(getResources().getColor(R.color.kuningrendah));
+                            iconStatus.setImageResource(R.drawable.resikorendah_icon);
+                        }else if (risiko.toLowerCase().equals("resiko rendah")){
+                            tvStatus.setTextColor(getResources().getColor(R.color.kuningrendah));
+                            iconStatus.setImageResource(R.drawable.resikorendah_icon);
                         } else if (risiko.toLowerCase().equals("resiko sedang")){
                             tvStatus.setTextColor(getResources().getColor(R.color.orensedang));
+                            iconStatus.setImageResource(R.drawable.resikosedang_icon);
                         } else if (risiko.toLowerCase().equals("resiko tinggi")){
                             tvStatus.setTextColor(getResources().getColor(R.color.merahtinggi));
+                            iconStatus.setImageResource(R.drawable.resikotinggi_icon);
+                        }else if (risiko.toLowerCase().equals("bahaya")){
+                            tvStatus.setTextColor(getResources().getColor(R.color.merahtinggi));
+                            iconStatus.setImageResource(R.drawable.resikotinggi_icon);
                         } else{
                             Log.e("risiko", "Risiko tidak sama");
                         }
                     } else{
+                        showContent(shimmer, content);
                         String risiko;
                         risiko = "-";
                         tvinfotinggi.setText("- Cm");
@@ -214,8 +245,34 @@ public class MapsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<StatusUtamaResponseModel> call, Throwable t) {
+                showContent(shimmer, content);
                 Log.e("API_ERROR", "Gagal Ambil Response Status");
             }
         });
+    }
+
+    private void showContent(
+            ShimmerFrameLayout shimmer,
+            View content
+    ){
+
+        new Handler().postDelayed(() -> {
+            shimmer.stopShimmer();
+            shimmer.animate()
+                    .alpha(0f)
+                    .setDuration(250)
+                    .withEndAction(() -> {
+
+                        shimmer.setVisibility(View.GONE);
+
+                    })
+                    .start();
+
+            content.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .start();
+
+        }, 1000);
     }
 }

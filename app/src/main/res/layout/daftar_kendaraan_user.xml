@@ -118,27 +118,67 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:gravity="end"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
 
-                <Button
+                <!-- EDIT -->
+                <LinearLayout
                     android:id="@+id/btnEdit"
                     android:layout_width="0dp"
+                    android:layout_height="52dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Edit"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_btn_edit"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                <Button
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/edit_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Edit"
+                        android:textColor="@color/blue6"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <!-- HAPUS -->
+                <LinearLayout
                     android:id="@+id/btnDelete"
                     android:layout_width="0dp"
+                    android:layout_height="52dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Hapus"
-                    android:backgroundTint="#FF6B6B"
-                    android:textColor="#FFFFFF"/>
+                    android:background="@drawable/bg_btn_delete"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/delete_icon"
+                        app:tint="#FF4D67"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Hapus"
+                        android:textColor="#FF4D67"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

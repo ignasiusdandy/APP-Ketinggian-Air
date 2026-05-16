@@ -30,7 +30,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding     = true
     }
 }
 
@@ -49,4 +49,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     implementation("org.osmdroid:osmdroid-android:6.1.16")
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
+    implementation ("androidx.core:core-splashscreen:1.0.1")
 }

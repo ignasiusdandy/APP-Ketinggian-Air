@@ -57,8 +57,6 @@ public class KendaraanFragment extends Fragment {
                 new LinearLayoutManager(requireContext())
         );
 
-        // karena sudah fragment
-//        btnKembali.setVisibility(View.GONE);
 
         loadKendaraan();
 

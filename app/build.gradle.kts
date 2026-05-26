@@ -8,7 +8,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.skripsi"
+        applicationId = "com.baingat.app"
         minSdk = 27
         targetSdk = 34
         versionCode = 1

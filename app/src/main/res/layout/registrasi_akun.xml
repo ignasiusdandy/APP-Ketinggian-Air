@@ -430,7 +430,7 @@
             android:layout_marginHorizontal="24dp"
             android:fontFamily="@font/poppinsmedium">
 
-            <com.example.skripsi.CustomSpinner
+            <com.baingat.app.CustomSpinner
                 android:id="@+id/spinner_motor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -488,7 +488,7 @@
             android:layout_marginHorizontal="24dp"
             app:layout_constraintTop_toBottomOf="@+id/textModelKendaraan">
 
-            <com.example.skripsi.CustomSpinner
+            <com.baingat.app.CustomSpinner
                 android:id="@+id/spinner_model_motor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

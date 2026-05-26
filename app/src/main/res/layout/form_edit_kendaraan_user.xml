@@ -167,7 +167,7 @@
         android:layout_marginTop="8dp"
         >
 
-        <com.example.skripsi.CustomSpinner
+        <com.baingat.app.CustomSpinner
             android:id="@+id/spinner_kategori"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -216,7 +216,7 @@
         android:layout_marginTop="8dp"
         >
 
-        <com.example.skripsi.CustomSpinner
+        <com.baingat.app.CustomSpinner
             android:id="@+id/spinner_model"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "9101868554",
+    "project_id": "baingat",
+    "storage_bucket": "baingat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9101868554:android:0999b53e1f5b1527d229f3",
+        "android_client_info": {
+          "package_name": "com.example.skripsi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBC41Z3Tqeo-iTZFrhZGK48gNjgWLRBoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/blue6"
     android:fillViewport="true"
-    android:id="@+id/scrollView">
+    android:id="@+id/scrollView"
+    android:forceDarkAllowed="false">
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package com.example.skripsi;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -11,8 +12,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 public class navbar_utama extends AppCompatActivity {
 
     // =========================================
@@ -68,8 +79,36 @@ public class navbar_utama extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navbar_utama);
+
+        FirebaseApp.initializeApp(this);
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
+        new android.os.Handler().postDelayed(() -> {
+
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnSuccessListener(token -> {
+                        Log.d("FCM_SUCCESS", token);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("FCM_FAIL", e.toString());
+                    });
+
+        }, 3000);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+            requestPermissions(
+                    new String[]{
+                            android.Manifest.permission.POST_NOTIFICATIONS
+                    },
+                    1
+            );
+        }
+
 
         // =========================================
         // STATUS BAR
@@ -78,6 +117,7 @@ public class navbar_utama extends AppCompatActivity {
         Window window = getWindow();
 
         window.setStatusBarColor(Color.TRANSPARENT);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -155,25 +195,13 @@ public class navbar_utama extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container,
-                        profile,
-                        "4")
-                .hide(profile)
-
-                .add(R.id.fragment_container,
-                        maps,
-                        "3")
-                .hide(maps)
-
-                .add(R.id.fragment_container,
-                        vehicle,
-                        "2")
-                .hide(vehicle)
-
-                .add(R.id.fragment_container,
-                        dashboard,
-                        "1")
+                .replace(
+                        R.id.fragment_container,
+                        dashboard
+                )
                 .commit();
+
+        active = dashboard;
 
         // =========================================
         // DEFAULT ACTIVE
@@ -287,17 +315,18 @@ public class navbar_utama extends AppCompatActivity {
 
     private void switchFragment(Fragment target) {
 
-        if (active == target) return;
+        if (active.getClass() == target.getClass()) return;
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .setReorderingAllowed(true)
                 .setCustomAnimations(
                         R.anim.fade_in_smooth,
                         R.anim.fade_out_smooth
                 )
-                .hide(active)
-                .show(target)
+                .replace(
+                        R.id.fragment_container,
+                        target
+                )
                 .commit();
 
         active = target;

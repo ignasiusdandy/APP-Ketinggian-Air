@@ -1,6 +1,7 @@
 package com.example.skripsi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         tvMessage = findViewById(R.id.tvMessage);
         bgValidasi = findViewById(R.id.bg_validasi);
         iconValidasi = findViewById(R.id.icon_validasi);

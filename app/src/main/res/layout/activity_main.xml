@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:id="@+id/scrollView">
+    android:id="@+id/scrollView"
+    android:forceDarkAllowed="false">
 
 
     <FrameLayout
@@ -129,6 +130,7 @@
         android:paddingEnd="16dp"
         android:textColor="@color/black"
         android:textSize="14sp"
+        android:textColorHint="#BDBDBD"
         />
 
     </LinearLayout>
@@ -190,7 +192,8 @@
             android:inputType="textPassword"
             android:paddingStart="12dp"
             android:paddingEnd="16dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textColorHint="#BDBDBD"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

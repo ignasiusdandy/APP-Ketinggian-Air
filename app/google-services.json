@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:9101868554:android:0999b53e1f5b1527d229f3",
+        "mobilesdk_app_id": "1:9101868554:android:e9cd9db9ffd280f1d229f3",
         "android_client_info": {
-          "package_name": "com.example.skripsi"
+          "package_name": "com.baingat.app"
         }
       },
       "oauth_client": [],

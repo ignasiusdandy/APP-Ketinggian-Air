@@ -44,7 +44,7 @@
 
             <View
                 android:id="@+id/highlight"
-                android:layout_width="78dp"
+                android:layout_width="82dp"
                 android:layout_height="49dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="7dp"
@@ -79,8 +79,8 @@
 
                     <ImageView
                         android:id="@+id/dashboard_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
                         android:src="@drawable/dashboard_icon_putih"/>
 
                     <TextView
@@ -101,7 +101,7 @@
                         android:fontFamily="@font/poppinssemibold"
                         android:text="Home"
                         android:textColor="@color/blue6"
-                        android:textSize="13sp"/>
+                        android:textSize="11sp"/>
 
                 </LinearLayout>
 
@@ -121,8 +121,8 @@
 
                     <ImageView
                         android:id="@+id/vehicle_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
                         android:src="@drawable/kendaraanputih_icon"/>
 
                     <TextView
@@ -143,7 +143,7 @@
                         android:fontFamily="@font/poppinssemibold"
                         android:text="Vehicle"
                         android:textColor="@color/blue6"
-                        android:textSize="13sp"/>
+                        android:textSize="11sp"/>
 
                 </LinearLayout>
 
@@ -163,8 +163,8 @@
 
                     <ImageView
                         android:id="@+id/maps_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
                         android:src="@drawable/maps_icon_putih"/>
 
                     <TextView
@@ -185,7 +185,7 @@
                         android:fontFamily="@font/poppinssemibold"
                         android:text="Maps"
                         android:textColor="@color/blue6"
-                        android:textSize="13sp"/>
+                        android:textSize="11sp"/>
 
                 </LinearLayout>
 
@@ -205,8 +205,8 @@
 
                     <ImageView
                         android:id="@+id/profile_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
                         android:src="@drawable/profile_admin_putih"/>
 
                     <TextView
@@ -227,7 +227,7 @@
                         android:fontFamily="@font/poppinssemibold"
                         android:text="Profile"
                         android:textColor="@color/blue6"
-                        android:textSize="13sp"/>
+                        android:textSize="11sp"/>
 
                 </LinearLayout>
 

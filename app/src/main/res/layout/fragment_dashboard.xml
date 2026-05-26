@@ -72,7 +72,8 @@
             <!-- CARD 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="15dp"
@@ -327,19 +328,19 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/status_aman"
-                        android:layout_marginRight="12dp">
+                        android:layout_marginRight="10dp">
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
                             <TextView
-                                android:layout_width="120dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="12dp"
+                                android:layout_marginLeft="8dp"
                                 android:layout_marginTop="45dp"
                                 android:text="Ketinggian Air"
                                 android:fontFamily="@font/poppinsmedium"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/black"/>
 
 
@@ -351,18 +352,18 @@
                                     android:id="@+id/tinggiDatang"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="12dp"
+                                    android:layout_marginLeft="8dp"
                                     android:layout_marginTop="0dp"
                                     android:text="20.2 cm"
                                     android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="14sp"
+                                    android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:layout_marginRight="4dp"/>
 
                                 <ImageView
                                     android:id="@+id/arrowTinggiDatang"
-                                    android:layout_width="18dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="17dp"
+                                    android:layout_height="19dp"
                                     android:src="@drawable/down_arrow" />
 
                             </LinearLayout>
@@ -374,7 +375,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/kecepatan_aman"
-                        android:layout_marginLeft="12dp">
+                        android:layout_marginLeft="10dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -382,11 +383,11 @@
                             <TextView
                                 android:layout_width="120dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="12dp"
+                                android:layout_marginLeft="8dp"
                                 android:layout_marginTop="45dp"
                                 android:text="Kecepatan Air"
                                 android:fontFamily="@font/poppinsmedium"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/black"/>
 
 
@@ -398,11 +399,11 @@
                                     android:id="@+id/kecepatanDatang"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="12dp"
+                                    android:layout_marginLeft="8dp"
                                     android:layout_marginTop="0dp"
                                     android:text="20.2 cm/h"
                                     android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="14sp"
+                                    android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:layout_marginRight="4dp"/>
 
@@ -530,7 +531,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/status_aman"
-                        android:layout_marginRight="12dp">
+                        android:layout_marginRight="10dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -538,11 +539,11 @@
                             <TextView
                                 android:layout_width="120dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="12dp"
+                                android:layout_marginLeft="8dp"
                                 android:layout_marginTop="45dp"
                                 android:text="Ketinggian Air"
                                 android:fontFamily="@font/poppinsmedium"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/black"/>
 
 
@@ -554,18 +555,18 @@
                                     android:id="@+id/tinggiPulang"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="12dp"
+                                    android:layout_marginLeft="8dp"
                                     android:layout_marginTop="0dp"
                                     android:text="22.2 cm"
                                     android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="14sp"
+                                    android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:layout_marginRight="4dp"/>
 
                                 <ImageView
                                     android:id="@+id/arrowTinggiPulang"
-                                    android:layout_width="18dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="17dp"
+                                    android:layout_height="19dp"
                                     android:src="@drawable/arrow_stabil" />
 
                             </LinearLayout>
@@ -577,7 +578,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/kecepatan_aman"
-                        android:layout_marginLeft="12dp">
+                        android:layout_marginLeft="10dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -585,11 +586,11 @@
                             <TextView
                                 android:layout_width="120dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="12dp"
+                                android:layout_marginLeft="8dp"
                                 android:layout_marginTop="45dp"
                                 android:text="Kecepatan Air"
                                 android:fontFamily="@font/poppinsmedium"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textColor="@color/black"/>
 
 
@@ -601,18 +602,18 @@
                                     android:id="@+id/kecepatanPulang"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="12dp"
+                                    android:layout_marginLeft="8dp"
                                     android:layout_marginTop="0dp"
                                     android:text="22.2 cm/h"
                                     android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="14sp"
+                                    android:textSize="12sp"
                                     android:textColor="@color/black"
                                     android:layout_marginRight="4dp"/>
 
                                 <ImageView
                                     android:id="@+id/arrowKecepatanPulang"
-                                    android:layout_width="18dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="17dp"
+                                    android:layout_height="19dp"
                                     android:src="@drawable/up_arrow" />
 
                             </LinearLayout>

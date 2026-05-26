@@ -345,7 +345,7 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="12dp"
+                                android:layout_marginRight="10dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/status_aman">
 
@@ -357,12 +357,12 @@
                                     <TextView
                                         android:layout_width="120dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="12dp"
+                                        android:layout_marginLeft="10dp"
                                         android:layout_marginTop="45dp"
                                         android:fontFamily="@font/poppinsmedium"
                                         android:text="Ketinggian Air"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="11sp" />
 
 
                                     <LinearLayout
@@ -374,18 +374,18 @@
                                             android:id="@+id/tvTinggiDetail"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="12dp"
+                                            android:layout_marginLeft="10dp"
                                             android:layout_marginTop="0dp"
                                             android:layout_marginRight="4dp"
                                             android:fontFamily="@font/poppinsmedium"
                                             android:text="- cm"
                                             android:textColor="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="12sp" />
 
                                         <ImageView
                                             android:id="@+id/arrowTinggiDetail"
-                                            android:layout_width="18dp"
-                                            android:layout_height="20dp"
+                                            android:layout_width="17dp"
+                                            android:layout_height="19dp"
                                             android:src="@drawable/down_arrow" />
 
                                     </LinearLayout>
@@ -397,7 +397,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@drawable/kecepatan_aman"
-                                android:layout_marginLeft="12dp">
+                                android:layout_marginLeft="10dp">
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -405,11 +405,11 @@
                                     <TextView
                                         android:layout_width="120dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="12dp"
+                                        android:layout_marginLeft="10dp"
                                         android:layout_marginTop="45dp"
                                         android:text="Kecepatan Air"
                                         android:fontFamily="@font/poppinsmedium"
-                                        android:textSize="12sp"
+                                        android:textSize="11sp"
                                         android:textColor="@color/black"/>
 
 
@@ -421,18 +421,18 @@
                                             android:id="@+id/tvKecepatanDetail"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="12dp"
+                                            android:layout_marginLeft="10dp"
                                             android:layout_marginTop="0dp"
                                             android:text="- cm/h"
                                             android:fontFamily="@font/poppinsmedium"
-                                            android:textSize="14sp"
+                                            android:textSize="12sp"
                                             android:textColor="@color/black"
                                             android:layout_marginRight="4dp"/>
 
                                         <ImageView
                                             android:id="@+id/arrowKecepatanDetail"
-                                            android:layout_width="18dp"
-                                            android:layout_height="20dp"
+                                            android:layout_width="17dp"
+                                            android:layout_height="19dp"
                                             android:src="@drawable/up_arrow" />
 
                                     </LinearLayout>

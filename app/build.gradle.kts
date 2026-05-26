@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.skripsi"
+    namespace = "com.baingat.app"
     compileSdk = 34
 
     defaultConfig {

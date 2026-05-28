@@ -1,5 +1,7 @@
 package com.baingat.app;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,10 +16,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class navbar_utama extends AppCompatActivity {
 
@@ -80,12 +88,12 @@ public class navbar_utama extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-
         new android.os.Handler().postDelayed(() -> {
 
             FirebaseMessaging.getInstance().getToken()
                     .addOnSuccessListener(token -> {
                         Log.d("FCM_SUCCESS", token);
+                        cekTokenFcm(token);
                     })
                     .addOnFailureListener(e -> {
                         Log.e("FCM_FAIL", e.toString());
@@ -93,15 +101,13 @@ public class navbar_utama extends AppCompatActivity {
 
         }, 3000);
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-
-            requestPermissions(
-                    new String[]{
-                            android.Manifest.permission.POST_NOTIFICATIONS
-                    },
-                    1
-            );
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
         }
 
 
@@ -490,5 +496,94 @@ public class navbar_utama extends AppCompatActivity {
                                 .setDuration(90)
                 )
                 .start();
+    }
+
+    private void cekTokenFcm(String token){
+        SessionManager sessionManager = new SessionManager(this);
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<TokenFcmResponse> call = apiService.getFcmToken("Bearer " + sessionManager.getToken());
+
+        call.enqueue(new Callback<TokenFcmResponse>() {
+
+            @Override
+            public void onResponse(
+                    Call<TokenFcmResponse> call,
+                    Response<TokenFcmResponse> response
+            ) {
+
+                if(response.isSuccessful() && response.body() != null){
+
+                    String oldToken = response.body().getFcmToken();
+
+                    if(oldToken == null || !oldToken.equals(token)){
+                        updateTokenBackend(token);
+                        Log.d(
+                                "FCM",
+                                "TOKEN UPDATE"
+                        );
+
+                    }else{
+
+                        Log.d(
+                                "FCM",
+                                "TOKEN MASIH SAMA"
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(
+                    Call<TokenFcmResponse> call,
+                    Throwable t
+            ) {
+
+                Log.e("FCM", t.getMessage());
+            }
+        });
+    }
+
+
+    private void updateTokenBackend(String token){
+
+        SessionManager sessionManager =
+                new SessionManager(this);
+
+        ApiService apiService =
+                ApiClient.getClient()
+                        .create(ApiService.class);
+
+        Call<ResponseBody> call =
+                apiService.simpanFcmToken(
+                        "Bearer " + sessionManager.getToken(),
+                        token
+                );
+
+        call.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(
+                    Call<ResponseBody> call,
+                    Response<ResponseBody> response
+            ) {
+
+                Log.d(
+                        "FCM",
+                        "TOKEN BERHASIL DISIMPAN"
+                );
+            }
+
+            @Override
+            public void onFailure(
+                    Call<ResponseBody> call,
+                    Throwable t
+            ) {
+
+                Log.e(
+                        "FCM",
+                        t.getMessage()
+                );
+            }
+        });
     }
 }

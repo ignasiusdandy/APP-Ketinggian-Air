@@ -140,4 +140,16 @@ public interface ApiService {
             @Body EditKendaraanAdminRequestModel request
     );
 
+    @GET("api/firebase/get-fcm-token")
+    Call<TokenFcmResponse> getFcmToken(
+            @Header("Authorization") String token
+    );
+
+    @FormUrlEncoded
+    @POST("api/firebase/save-fcm-token")
+    Call<ResponseBody> simpanFcmToken(
+            @Header("Authorization") String token,
+            @Field("fcm_token") String fcmToken
+    );
+
 }

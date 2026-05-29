@@ -501,7 +501,8 @@ public class navbar_utama extends AppCompatActivity {
     private void cekTokenFcm(String token){
         SessionManager sessionManager = new SessionManager(this);
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<TokenFcmResponse> call = apiService.getFcmToken("Bearer " + sessionManager.getToken());
+        String deviceId = sessionManager.getDeviceId();
+        Call<TokenFcmResponse> call = apiService.getFcmToken("Bearer " + sessionManager.getToken(), deviceId);
 
         call.enqueue(new Callback<TokenFcmResponse>() {
 
@@ -529,6 +530,9 @@ public class navbar_utama extends AppCompatActivity {
                                 "TOKEN MASIH SAMA"
                         );
                     }
+                } else {
+                    updateTokenBackend(token);
+                    Log.d("FCM", "DEVICE BARU TERDETEKSI, MENYIMPAN TOKEN BARU");
                 }
             }
 
@@ -556,7 +560,8 @@ public class navbar_utama extends AppCompatActivity {
         Call<ResponseBody> call =
                 apiService.simpanFcmToken(
                         "Bearer " + sessionManager.getToken(),
-                        token
+                        token,
+                        sessionManager.getDeviceId()
                 );
 
         call.enqueue(new Callback<ResponseBody>() {

@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = etEmail.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
+                String deviceId = sessionManager.getDeviceId();
                 // validasi
                 wrongEmail = findViewById(R.id.wrongEmail);
                 wrongPass = findViewById(R.id.wrongPass);
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 if (!email.isEmpty() && !password.isEmpty()) {
-                    apiService.loginUser(email, password).enqueue(new Callback<LoginResponse>() {
+                    apiService.loginUser(email, password, deviceId).enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if (response.isSuccessful() && response.body() != null) {

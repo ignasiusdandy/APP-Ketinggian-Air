@@ -27,7 +27,8 @@ public interface ApiService {
     @POST("api/auth/login")
     Call<LoginResponse> loginUser(
             @Field("email") String email,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("device_id") String deviceId
     );
 
     @PUT("api/auth/gantiPassword")
@@ -142,14 +143,16 @@ public interface ApiService {
 
     @GET("api/firebase/get-fcm-token")
     Call<TokenFcmResponse> getFcmToken(
-            @Header("Authorization") String token
+            @Header("Authorization") String token,
+            @Query("device_id") String deviceId
     );
 
     @FormUrlEncoded
     @POST("api/firebase/save-fcm-token")
     Call<ResponseBody> simpanFcmToken(
             @Header("Authorization") String token,
-            @Field("fcm_token") String fcmToken
+            @Field("fcm_token") String fcmToken,
+            @Field("device_id") String deviceId
     );
 
 }

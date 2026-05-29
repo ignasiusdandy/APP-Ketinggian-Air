@@ -3,6 +3,8 @@ package com.baingat.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 import java.util.HashMap;
+import java.util.UUID;
+
 public class SessionManager {
     private static final String PREF_NAME = "SkripsiSession";
 
@@ -17,6 +19,7 @@ public class SessionManager {
     public static final String KEY_ROLE = "role";
     private static final String LAST_NOTIF_DATANG = "last_notif_datang";
     private static final String LAST_NOTIF_PULANG = "last_notif_pulang";
+    public static final String KEY_DEVICE_ID = "device_id";
 
 
     SharedPreferences pref;
@@ -71,11 +74,29 @@ public class SessionManager {
         return pref.getString(KEY_TOKEN, null);
     }
 
+    public String getDeviceId() {
+        String deviceId = pref.getString(KEY_DEVICE_ID, null);
+
+        // Jika belum ada (misal baru pertama kali install), buat baru!
+        if (deviceId == null) {
+            deviceId = UUID.randomUUID().toString();
+            editor.putString(KEY_DEVICE_ID, deviceId);
+            editor.apply();
+        }
+
+        return deviceId;
+    }
 
     // Fungsi Logout (Hapus data)
     public void logoutUser() {
+        // Simpan dulu deviceId sebelum semuanya dihapus
+        String currentDeviceId = getDeviceId();
         editor.clear();
         editor.commit();
+
+        // Kembalikan deviceId ke dalam SharedPreferences
+        editor.putString(KEY_DEVICE_ID, currentDeviceId);
+        editor.apply();
     }
 
     public void setLastNotifTime(long time) {

@@ -592,49 +592,6 @@ public class DashboardFragment extends Fragment {
                         double tinggi = d.getTinggi();
                         double kecepatan = d.getKecepatan();
                         String risiko = d.getRisiko();
-
-                        // debug notifikasi
-//                        if (isDebugMode) {
-//                            long elapsed = System.currentTimeMillis() - startTime;
-//
-//                            if (elapsed < 30000) {
-//                                risiko = "Aman";
-//                            } else if (elapsed < 60000) {
-//                                risiko = "Resiko Rendah";
-//                            } else {
-//                                risiko = "Resiko Sedang";
-//                            }
-//                        }
-
-                        // Ini untuk notikasi
-                        String risikoLower = risiko.toLowerCase();
-                        long now = System.currentTimeMillis();
-                        long lastTime = sessionManager.getLastNotifDatang();
-                        long waktu = 3600000; // 1 jam
-
-                        //debug
-//                        long waktu = 10000;
-                        Log.d("NOTIF_DEBUG", "Risiko: " + risiko);
-                        Log.d("NOTIF_DEBUG", "LastTime: " + lastTime);
-                        Log.d("NOTIF_DEBUG", "Now: " + now);
-
-                        if (risikoLower.contains("resiko tinggi") ||
-                                risikoLower.contains("resiko sedang") ||
-                                risikoLower.contains("resiko rendah") ||
-                                risikoLower.contains("waspada") ||
-                                risikoLower.contains("bahaya")){
-                            if(now - lastTime > waktu){
-                                NotifikasiHelper.showNotification(
-                                        requireContext(),
-                                        "Peringatan Jalan Datang!",
-                                        "Kondisi Jalan Datang: " + risiko
-                                );
-                                sessionManager.setLastNotifDatang(now);
-                            }
-                        } else if (risikoLower.contains("aman")) {
-                            sessionManager.setLastNotifDatang(0);
-                        }
-
                         String lastUpdate = d.getLastUpdate();
                         setArrow(kecepatan, arrowTinggiDatang, arrowKecepatanDatang, tvKecepatanDatang, tvTinggiDatang);
 
@@ -706,30 +663,6 @@ public class DashboardFragment extends Fragment {
 
                         String risikoPulang = d.getRisiko();
                         String risikoLowerPulang = risikoPulang.toLowerCase();
-
-                        long now = System.currentTimeMillis();
-                        long lastTime = sessionManager.getLastNotifPulang();
-                        long waktu = 3600000;
-
-                        if (risikoLowerPulang.contains("resiko tinggi") ||
-                                risikoLowerPulang.contains("resiko sedang") ||
-                                risikoLowerPulang.contains("resiko rendah") ||
-                                risikoLowerPulang.contains("waspada") ||
-                                risikoLowerPulang.contains("bahaya")){
-
-                            if(now - lastTime > waktu){
-                                NotifikasiHelper.showNotification(
-                                        requireContext(),
-                                        "Peringatan Pulang!",
-                                        "Kondisi pulang: " + risikoPulang
-                                );
-                                sessionManager.setLastNotifPulang(now);
-                            }
-                        } else if (risikoLowerPulang.contains("aman")) {
-                            sessionManager.setLastNotifPulang(0);
-                        }
-
-
                         if (risiko.toLowerCase().contains("aman")){
                             tvTinggiPulang.setText((double) tinggi + " cm");
                             tvKecepatanPulang.setText((double) kecepatan + " cm/h");

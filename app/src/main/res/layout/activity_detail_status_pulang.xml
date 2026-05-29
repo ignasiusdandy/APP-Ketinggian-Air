@@ -211,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppinssemibold"
                         android:textSize="18sp"
-                        android:text="Jalan Pulang"
+                        android:text="Jalan Pulang ULM"
                         android:textColor="@color/white"/>
                 </LinearLayout>
 

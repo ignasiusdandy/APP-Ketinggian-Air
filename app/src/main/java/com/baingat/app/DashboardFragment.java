@@ -179,10 +179,25 @@ public class DashboardFragment extends Fragment {
 
         btnKeluar = view.findViewById(R.id.btnLogout);
         btnKeluar.setOnClickListener(v -> {
-            sessionManager.logoutUser();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
-            getActivity().finish();
+            // Ambil token dan KTP HP dari SessionManager
+            String jwtToken = "Bearer " + sessionManager.getToken();
+            String deviceId = sessionManager.getDeviceId();
+
+            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+
+            // Kirim permintaan hapus token ke Backend
+            apiService.logoutUser(jwtToken, deviceId).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    selesaikanLogout();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("LOGOUT_API", "Gagal koneksi ke server: " + t.getMessage());
+                    selesaikanLogout();
+                }
+            });
         });
 
     }
@@ -761,5 +776,17 @@ public class DashboardFragment extends Fragment {
                     .start();
 
         }, 1200);
+    }
+
+    private void selesaikanLogout() {
+        if (getActivity() != null) {
+            sessionManager.logoutUser();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+
+            // Tambahkan bendera (flag) ini agar user tidak bisa menekan tombol "Back" di HP untuk kembali ke profil
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            getActivity().finish();
+        }
     }
 }

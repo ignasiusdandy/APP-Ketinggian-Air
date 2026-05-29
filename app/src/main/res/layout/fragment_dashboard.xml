@@ -288,7 +288,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jalan Datang"
+                        android:text="Jalan Datang ULM"
                         android:textColor="@color/black"
                         android:fontFamily="@font/poppinssemibold"
                         android:textSize="17sp"
@@ -491,7 +491,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jalan Pulang"
+                        android:text="Jalan Pulang ULM"
                         android:textColor="@color/black"
                         android:fontFamily="@font/poppinssemibold"
                         android:textSize="17sp"

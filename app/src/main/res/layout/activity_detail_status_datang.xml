@@ -212,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppinssemibold"
                         android:textSize="18sp"
-                        android:text="Jalan Datang"
+                        android:text="Jalan Datang ULM"
                         android:textColor="@color/white"/>
                 </LinearLayout>
 

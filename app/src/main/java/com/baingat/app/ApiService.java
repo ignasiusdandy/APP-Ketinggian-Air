@@ -155,4 +155,11 @@ public interface ApiService {
             @Field("device_id") String deviceId
     );
 
+    @FormUrlEncoded
+    @POST("api/auth/logout")
+    Call<ResponseBody> logoutUser(
+            @Header("Authorization") String token,
+            @Field("device_id") String deviceId
+    );
+
 }

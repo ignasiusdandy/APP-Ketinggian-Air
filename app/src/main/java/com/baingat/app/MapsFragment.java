@@ -70,7 +70,7 @@ public class MapsFragment extends Fragment {
                 content.setAlpha(0f);
                 shimmer.startShimmer();
 
-                tvtittle.setText("Jalan Datang");
+                tvtittle.setText("Jalan Datang ULM");
                 loadStatus(tvinfotinggi, tvStatus, iconStatus, "datang", tvWaktu, shimmer, content);
 
                 btndetail.setOnClickListener(v -> {
@@ -124,7 +124,7 @@ public class MapsFragment extends Fragment {
                 shimmer.startShimmer();
 
 
-                tvtittle.setText("Jalan Pulang");
+                tvtittle.setText("Jalan Pulang ULM");
                 imageStatus.setImageResource(R.drawable.jalan_pulang);
                 loadStatus(tvinfotinggi, tvStatus, iconStatus,"pulang", tvWaktu, shimmer, content);
 
@@ -181,6 +181,7 @@ public class MapsFragment extends Fragment {
 
 
     private void loadStatus(TextView tvinfotinggi, TextView tvStatus, ImageView iconStatus, String tipe, TextView tvWaktu, ShimmerFrameLayout shimmer, View content){
+        if (!isAdded() || getContext() == null) return;
         SessionManager session = new SessionManager(requireContext());
         String token = "Bearer " + session.getToken();
         ApiService api = ApiClient.getClient().create(ApiService.class);
@@ -190,6 +191,7 @@ public class MapsFragment extends Fragment {
             public void onResponse(Call<StatusUtamaResponseModel> call,
                                    Response<StatusUtamaResponseModel> response) {
 
+                if (!isAdded() || getContext() == null) return;
                 if(response.isSuccessful() && response.body() != null){
 
                     StatusUtamaResponseModel.Lokasi lokasiData;
@@ -246,6 +248,7 @@ public class MapsFragment extends Fragment {
             @Override
             public void onFailure(Call<StatusUtamaResponseModel> call, Throwable t) {
                 showContent(shimmer, content);
+                if (!isAdded() || getContext() == null) return;
                 Log.e("API_ERROR", "Gagal Ambil Response Status");
             }
         });
@@ -257,6 +260,7 @@ public class MapsFragment extends Fragment {
     ){
 
         new Handler().postDelayed(() -> {
+            if (!isAdded() || getContext() == null) return;
             shimmer.stopShimmer();
             shimmer.animate()
                     .alpha(0f)

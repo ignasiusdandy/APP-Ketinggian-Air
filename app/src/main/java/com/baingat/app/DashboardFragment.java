@@ -116,7 +116,6 @@ public class DashboardFragment extends Fragment {
                 .enqueue(new Callback<KendaraanUtamaResponseModel>() {
                     @Override
                     public void onResponse(Call<KendaraanUtamaResponseModel> call, Response<KendaraanUtamaResponseModel> response) {
-
                         if (response.isSuccessful() && response.body() != null) {
 
                             KendaraanUtamaResponseModel res = response.body();
@@ -259,6 +258,7 @@ public class DashboardFragment extends Fragment {
         apiService.getChartData().enqueue(new Callback<ChartAllResponseModel>() {
             @Override
             public void onResponse(Call<ChartAllResponseModel> call, Response<ChartAllResponseModel> response) {
+                if (!isAdded() || getContext() == null) return;
                 if(response.isSuccessful() && response.body() != null ){
                     List<ChartItem> datang = response.body().getDataChartAll().getJalandatang();
                     List<ChartItem> pulang = response.body().getDataChartAll().getJalanpulang();
@@ -307,6 +307,7 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ChartAllResponseModel> call, Throwable t) {
+                if (!isAdded() || getContext() == null) return;
                 lineChart.setNoDataText("Gagal Ambil Data");
             }
         });
@@ -599,6 +600,7 @@ public class DashboardFragment extends Fragment {
         apiService.getStatusUtama(token).enqueue(new Callback<StatusUtamaResponseModel>() {
             @Override
             public void onResponse(Call<StatusUtamaResponseModel> call, Response<StatusUtamaResponseModel> response) {
+                if (!isAdded() || getContext() == null) return;
                 if(response.isSuccessful() && response.body() != null){
                     StatusUtamaResponseModel res = response.body();
                     if (res.getDatang() != null && res.getDatang().getData() != null){
@@ -735,6 +737,7 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onFailure(Call<StatusUtamaResponseModel> call, Throwable t) {
+                if (!isAdded() || getContext() == null) return;
                 Log.d("DASHBOARD", "Error: " + t.getMessage());
                 showContent();
             }

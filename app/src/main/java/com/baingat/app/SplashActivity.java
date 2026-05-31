@@ -47,12 +47,28 @@ public class SplashActivity extends AppCompatActivity {
 
             if (sessionManager.isLoggedIn()) {
 
-                startActivity(
-                        new Intent(
-                                SplashActivity.this,
-                                navbar_utama.class
-                        )
-                );
+                String role = sessionManager.getUserDetails()
+                        .get(SessionManager.KEY_ROLE);
+
+                if ("Admin".equals(role)) {
+
+                    startActivity(
+                            new Intent(
+                                    SplashActivity.this,
+                                    NavbarAdminActivity.class
+                            )
+                    );
+
+                } else {
+
+                    startActivity(
+                            new Intent(
+                                    SplashActivity.this,
+                                    navbar_utama.class
+                            )
+                    );
+                }
+
 
             } else {
 

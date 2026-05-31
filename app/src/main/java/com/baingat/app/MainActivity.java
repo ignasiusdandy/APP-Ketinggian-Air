@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
 
-        
+
 
         scrollView = findViewById(R.id.scrollView);
 
@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                                         finish();
                                     } else if (role.equals("Admin")) {
                                         startActivity(new Intent(MainActivity.this, NavbarAdminActivity.class));
+                                        finish();
                                     }
                                 } else {
                                     wrongEmail.setVisibility(View.VISIBLE);

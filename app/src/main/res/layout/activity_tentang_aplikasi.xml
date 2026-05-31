@@ -21,13 +21,13 @@
             android:gravity="center_vertical"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:paddingTop="35dp"
-            android:paddingBottom="40dp">
+            android:paddingTop="55dp"
+            android:paddingBottom="30dp">
 
             <ImageView
                 android:id="@+id/btnBack"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:src="@drawable/kembaliicon"
                 android:tint="#111827"/>
 
@@ -39,7 +39,7 @@
                 android:textAlignment="center"
                 android:textColor="#111827"
                 android:textStyle="bold"
-                android:textSize="22sp"
+                android:textSize="19sp"
                 android:layout_marginEnd="26dp"/>
         </LinearLayout>
 
@@ -61,8 +61,8 @@
                 android:padding="24dp">
 
                 <ImageView
-                    android:layout_width="230dp"
-                    android:layout_height="230dp"
+                    android:layout_width="210dp"
+                    android:layout_height="210dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/baingat"/>
 

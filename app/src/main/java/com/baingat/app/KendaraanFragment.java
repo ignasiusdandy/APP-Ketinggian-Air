@@ -110,7 +110,7 @@ public class KendaraanFragment extends Fragment {
                             Call<KendaraanUserResponseModel> call,
                             Response<KendaraanUserResponseModel> response
                     ) {
-
+                        if (!isAdded() || getContext() == null) return;
                         if (response.isSuccessful()
                                 && response.body() != null) {
 
@@ -272,7 +272,7 @@ public class KendaraanFragment extends Fragment {
 
                                 e.printStackTrace();
                             }
-
+                            if (!isAdded() || getContext() == null) return;
                             Toast.makeText(
                                     requireContext(),
                                     "Gagal Load Kendaraan",
@@ -369,7 +369,7 @@ public class KendaraanFragment extends Fragment {
                             Call<ResponseBody> call,
                             Response<ResponseBody> response
                     ) {
-
+                        if (!isAdded() || getContext() == null) return;
                         if (response.isSuccessful()) {
 
                             showPopupBerhasil();
@@ -378,6 +378,7 @@ public class KendaraanFragment extends Fragment {
 
                         } else {
 
+                            if (!isAdded() || getContext() == null) return;
                             Toast.makeText(
                                     requireContext(),
                                     "Gagal hapus",
@@ -475,11 +476,9 @@ public class KendaraanFragment extends Fragment {
                             Call<UpdatePengaturanAkunModel> call,
                             Response<UpdatePengaturanAkunModel> response
                     ) {
-
+                        if (!isAdded() || getContext() == null) return;
                         if (response.isSuccessful()) {
-
                             loadKendaraan();
-
                         } else {
 
                             Toast.makeText(
@@ -495,7 +494,7 @@ public class KendaraanFragment extends Fragment {
                             Call<UpdatePengaturanAkunModel> call,
                             Throwable t
                     ) {
-
+                        if (!isAdded() || getContext() == null) return;
                         Toast.makeText(
                                 requireContext(),
                                 "Error: " + t.getMessage(),

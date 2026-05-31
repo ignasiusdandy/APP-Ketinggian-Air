@@ -31,7 +31,8 @@
         android:gravity="center"
         android:textColor="@color/tulisanabu"
         android:fontFamily="@font/poppinsmedium"
-        android:textSize="11sp"/>
+        android:textSize="11sp"
+        android:layout_marginLeft="12dp"/>
 
     <TextView
         android:id="@+id/tvModel"

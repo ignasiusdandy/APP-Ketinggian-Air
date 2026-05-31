@@ -2,6 +2,7 @@ package com.baingat.app;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -11,12 +12,21 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NavbarAdminActivity extends AppCompatActivity {
-    BottomNavigationView bottomNav;
+
+    private BottomNavigationView bottomNav;
+
+    // Buat fragment sekali saja
+    private final Fragment dashboardFragment = new DashboardAdminFragment();
+    private final Fragment kendaraanFragment = new KendaraanAdminFragment();
+    private final Fragment profileFragment = new ProfileFragmentAdmin();
+
+    private Fragment activeFragment = dashboardFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_navbar);
+        Log.d("ADMIN", "NavbarAdminActivity Dibuka");
 
         Window window = getWindow();
 
@@ -29,35 +39,61 @@ public class NavbarAdminActivity extends AppCompatActivity {
 
         bottomNav = findViewById(R.id.bottomNav);
 
-        // default fragment
-        loadFragment(new DashboardAdminFragment());
+        // Fragment pertama
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frameContainer, dashboardFragment)
+                    .commit();
+        }
 
         bottomNav.setOnItemSelectedListener(item -> {
 
-            Fragment selectedFragment = null;
+            Fragment targetFragment = null;
 
             if (item.getItemId() == R.id.nav_home) {
-                selectedFragment = new DashboardAdminFragment();
+
+                targetFragment = dashboardFragment;
 
             } else if (item.getItemId() == R.id.nav_kendaraan) {
-                selectedFragment = new KendaraanAdminFragment();
+
+                targetFragment = kendaraanFragment;
 
             } else if (item.getItemId() == R.id.nav_profile) {
-                selectedFragment = new ProfileFragmentAdmin();
+
+                targetFragment = profileFragment;
             }
 
-            return loadFragment(selectedFragment);
+            // Jika menu yang sama diklik lagi, abaikan
+            if (targetFragment != null &&
+                    activeFragment.getClass() == targetFragment.getClass()) {
+                return true;
+            }
+
+            return switchFragment(targetFragment);
         });
     }
 
-    private boolean loadFragment(Fragment fragment) {
-        if (fragment != null) {
+    private boolean switchFragment(Fragment targetFragment) {
+
+        if (targetFragment == null) return false;
+
+        try {
+
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.frameContainer, fragment)
+                    .replace(R.id.frameContainer, targetFragment)
                     .commit();
+
+            activeFragment = targetFragment;
+
             return true;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return false;
         }
-        return false;
     }
 }

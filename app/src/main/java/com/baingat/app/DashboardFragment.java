@@ -97,15 +97,15 @@ public class DashboardFragment extends Fragment {
 
         String ucapan;
 
-        if (jam > 3 && jam < 10 ){
+        if (jam >= 4 && jam < 10) {
             ucapan = "Selamat Pagi";
-        } else if (jam > 10 && jam < 15 ){
+        } else if (jam >= 10 && jam < 15) {
             ucapan = "Selamat Siang";
-        } else if (jam > 15 && jam < 18 ){
+        } else if (jam >= 15 && jam < 18) {
             ucapan = "Selamat Sore";
-        }else if (jam > 18 && jam < 19 ){
-            ucapan = "Selamat Sore";
-        }else {
+        } else if (jam >= 18 && jam < 19) {
+            ucapan = "Selamat Petang";
+        } else {
             ucapan = "Selamat Malam";
         }
         tvselamatwaktu.setText(ucapan);

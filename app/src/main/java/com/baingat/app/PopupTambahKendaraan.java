@@ -350,7 +350,12 @@ public class PopupTambahKendaraan extends Dialog {
 
         listJenis.clear();
         listJenis.add("Pilih Jenis Motor");
-        listJenis.addAll(KendaraanCache.getJenisList());
+        List<String> jenisDariCache = KendaraanCache.getJenisList();
+        // Urutkan data secara alfabetis (A-Z)
+        if (jenisDariCache != null && !jenisDariCache.isEmpty()) {
+            Collections.sort(jenisDariCache);
+        }
+        listJenis.addAll(jenisDariCache);
 
         adapterJenis.notifyDataSetChanged();
     }
@@ -364,11 +369,13 @@ public class PopupTambahKendaraan extends Dialog {
         } else {
 
             listModel.add("Pilih Model");
-            listModel.addAll(KendaraanCache.getModelList(jenis));
+            List<String> modelDariCache = KendaraanCache.getModelList(jenis);
 
-            if (listModel.size() > 1) {
-                Collections.sort(listModel.subList(1, listModel.size()));
+            // Urutkan data secara alfabetis (A-Z)
+            if (modelDariCache != null && !modelDariCache.isEmpty()) {
+                Collections.sort(modelDariCache);
             }
+            listModel.addAll(modelDariCache);
         }
 
         adapterModel.notifyDataSetChanged();
@@ -467,12 +474,32 @@ public class PopupTambahKendaraan extends Dialog {
                     dialog.show();
                     dismiss();
                 } else {
+                    boolean isDuplicate = false; // Penanda error duplikat
+
                     try {
-                        Log.e("STATUS_CODE", "Code: " + response.code());
-                        Log.e("ERROR_BODY", response.errorBody().string());
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            Log.e("ERROR_BODY", errorBody);
+
+                            // Cek error dari backend
+                            if (errorBody.toLowerCase().contains("terdaftar")) {
+                                isDuplicate = true;
+                                layoutPlat.setBackgroundResource(R.drawable.bg_plat_error);
+                                imgStatus.setImageResource(R.drawable.peringatan_icon);
+                                imgInfo.setImageResource(R.drawable.peringatan_icon);
+                                tvInfo.setTextColor(Color.parseColor("#EF4444"));
+                                tvInfo.setText("Plat kendaraan sudah terdaftar di sistem!");
+                            }
+                        }
                     } catch (Exception e) {
                         Log.e("ERROR_PARSE", e.getMessage());
                     }
+
+                    // JIKA PLAT DUPLIKAT, HENTIKAN KODE DI SINI (Jangan tutup popup)
+                    if (isDuplicate) {
+                        return;
+                    }
+
                     Dialog dialog = new Dialog(context);
                     dialog.setContentView(R.layout.popup_gagal);
                     dialog.getWindow().setLayout(

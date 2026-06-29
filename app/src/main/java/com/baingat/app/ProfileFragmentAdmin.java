@@ -18,14 +18,14 @@ import java.util.HashMap;
 
 public class ProfileFragmentAdmin extends Fragment {
 
-    private TextView tvName, tvEmail;
+    private TextView tvName, tvEmail, tvNamaValue;
     private LinearLayout btnChangePassword;
 
     private LinearLayout layoutChangePassword;
     private EditText etOldPassword, etNewPassword, etConfirmPassword;
     private LinearLayout btnCancelPassword, btnSavePassword, btnLogout;
 
-    // 🔥 ERROR TEXT
+    // ERROR TEXT
     private TextView tvErrorOld, tvErrorNew, tvErrorConfirm;
     ApiService apiService;
     SessionManager sessionManager;
@@ -41,6 +41,7 @@ public class ProfileFragmentAdmin extends Fragment {
 
         // INIT VIEW
         tvName = view.findViewById(R.id.tvName);
+        tvNamaValue = view.findViewById(R.id.tvNamaValue);
         tvEmail = view.findViewById(R.id.tvEmail);
         btnChangePassword = view.findViewById(R.id.btnChangePassword);
         btnLogout = view.findViewById(R.id.btnLogout);
@@ -70,6 +71,7 @@ public class ProfileFragmentAdmin extends Fragment {
         String email = user.get(SessionManager.KEY_EMAIL);
 
         tvName.setText(nama != null ? nama : "-");
+        tvNamaValue.setText(nama != null ? nama : "-");
         tvEmail.setText(email != null ? email : "-");
 
         TextView tvAvatar = view.findViewById(R.id.tvAvatar);

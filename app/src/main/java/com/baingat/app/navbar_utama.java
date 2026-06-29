@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.FirebaseApp;
@@ -128,6 +131,25 @@ public class navbar_utama extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             );
         }
+
+        FrameLayout navbar = findViewById(R.id.navbar);
+
+        ViewCompat.setOnApplyWindowInsetsListener(navbar, (view, insets) -> {
+
+            int bottomInset =
+                    insets.getInsets(
+                            WindowInsetsCompat.Type.navigationBars()
+                    ).bottom;
+
+            ViewGroup.MarginLayoutParams params =
+                    (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+
+            params.bottomMargin = bottomInset + 4;
+
+            view.setLayoutParams(params);
+
+            return insets;
+        });
 
         // =========================================
         // INIT VIEW

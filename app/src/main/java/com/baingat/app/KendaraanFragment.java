@@ -2,6 +2,7 @@ package com.baingat.app;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -25,11 +28,13 @@ public class KendaraanFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private LinearLayout btnKembali, btnAdd;
+    private LinearLayout btnKembali, btnAdd, scrollView2;
 
     private TextView tvJumlah;
 
     private ApiService apiService;
+    private ShimmerFrameLayout shimmerLayout;
+
 
     public KendaraanFragment() {
         super(R.layout.tampil_kendaraaan_user);
@@ -56,6 +61,12 @@ public class KendaraanFragment extends Fragment {
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(requireContext())
         );
+
+        shimmerLayout = view.findViewById(R.id.shimmerLayout);
+        scrollView2 = view.findViewById(R.id.contentLayout);
+        scrollView2.setAlpha(0f);
+        shimmerLayout.setVisibility(View.VISIBLE);
+        shimmerLayout.startShimmer();
 
 
         loadKendaraan();
@@ -258,6 +269,7 @@ public class KendaraanFragment extends Fragment {
                                     );
 
                             recyclerView.setAdapter(adapter);
+                            showContent();
 
                         } else {
 
@@ -278,6 +290,7 @@ public class KendaraanFragment extends Fragment {
                                     "Gagal Load Kendaraan",
                                     Toast.LENGTH_SHORT
                             ).show();
+                            showContent();
                         }
                     }
 
@@ -292,6 +305,7 @@ public class KendaraanFragment extends Fragment {
                                 "Error: " + t.getMessage(),
                                 Toast.LENGTH_SHORT
                         ).show();
+                        showContent();
                     }
                 });
     }
@@ -502,5 +516,29 @@ public class KendaraanFragment extends Fragment {
                         ).show();
                     }
                 });
+    }
+
+
+    private void showContent(){
+        new Handler().postDelayed(() -> {
+
+            shimmerLayout.stopShimmer();
+
+            shimmerLayout.animate()
+                    .alpha(0f)
+                    .setDuration(250)
+                    .withEndAction(() -> {
+
+                        shimmerLayout.setVisibility(View.GONE);
+
+                    })
+                    .start();
+
+            scrollView2.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .start();
+
+        }, 1200);
     }
 }

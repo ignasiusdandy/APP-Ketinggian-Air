@@ -153,11 +153,9 @@ public class ProfileFragment extends Fragment {
 
             wrongNewConf.setVisibility(View.GONE);
 
-            String etSandiLama =
-                    edtPasswordOld.getText().toString();
+            String etSandiLama = edtPasswordOld.getText().toString();
 
-            String etSandiBaru =
-                    edtPasswordNew.getText().toString();
+            String etSandiBaru = edtPasswordNew.getText().toString();
 
             String etSandiBaruConf =
                     edtPasswordConfirm.getText().toString();
@@ -187,6 +185,14 @@ public class ProfileFragment extends Fragment {
                 wrongNew.setVisibility(View.VISIBLE);
 
                 isValid = false;
+
+            } else if (etSandiBaru.equals(etSandiLama)) {
+
+                wrongNew.setText("Password baru tidak boleh sama dengan yang lama");
+                wrongNew.setVisibility(View.VISIBLE);
+
+                isValid = false;
+                // ----------------------------
 
             } else if (!etSandiBaru.equals(etSandiBaruConf)
                     && !etSandiBaruConf.isEmpty()) {

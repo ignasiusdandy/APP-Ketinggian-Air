@@ -71,6 +71,17 @@ public class DetailAlatDialog {
         tvKoordinat.setText("Koordinat: " + koordinat);
         tvWaktu.setText("Terakhir Aktif: " + tanggal);
 
+        TextView tvNamaAlat = dialog.findViewById(R.id.tvNamaAlat);
+        TextView tvDeskripsi = dialog.findViewById(R.id.tvDeskripsi);
+
+        tvNamaAlat.setText(title);
+
+        if(title.equals("Jalan Datang")){
+            tvDeskripsi.setText("Sensor Jalan Datang");
+        } else {
+            tvDeskripsi.setText("Sensor Jalan Pulang");
+        }
+
         updateUI(
                 context,
                 isAktif,

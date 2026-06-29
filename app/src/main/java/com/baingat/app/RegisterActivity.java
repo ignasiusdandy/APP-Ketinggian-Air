@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -475,9 +476,12 @@ public class RegisterActivity extends AppCompatActivity {
                         unikJenis.add(k.getJenis_motor());
                     }
 
+                    List<String> listJenisSort = new ArrayList<>(unikJenis);
+                    Collections.sort(listJenisSort);
+
                     listNamaJenis.clear();
                     listNamaJenis.add("Pilih Jenis Motor"); // Default
-                    listNamaJenis.addAll(unikJenis);
+                    listNamaJenis.addAll(listJenisSort);
 
                     // Refresh Spinner
                     adapterJenis.notifyDataSetChanged();
@@ -502,12 +506,15 @@ public class RegisterActivity extends AppCompatActivity {
             listNamaModel.add("Pilih Jenis Dulu");
         } else {
             listNamaModel.add("Pilih Model");
-            // Cari model yang cocok dengan jenis motor yang dipilih
+            List<String> tempModel = new ArrayList<>();
             for (Kendaraan k : listSemuaKendaraan) {
                 if (k.getJenis_motor().equals(jenis)) {
-                    listNamaModel.add(k.getModel_motor());
+                    tempModel.add(k.getModel_motor());
                 }
             }
+
+            Collections.sort(tempModel);
+            listNamaModel.addAll(tempModel);
         }
         adapterModel.notifyDataSetChanged();
         // Reset pilihan ke posisi 0

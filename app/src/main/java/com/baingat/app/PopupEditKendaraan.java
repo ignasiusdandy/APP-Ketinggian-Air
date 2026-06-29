@@ -2,9 +2,11 @@ package com.baingat.app;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -353,8 +355,20 @@ public class PopupEditKendaraan extends Dialog {
 
         listJenis.clear();
         listJenis.add("Pilih Jenis Motor");
-        listJenis.addAll(KendaraanCache.getJenisList());
+        // Ambil data jenis dari cache
+        List<String> jenisDariCache = KendaraanCache.getJenisList();
+
+        // Urutkan data secara alfabetis (A-Z)
+        if (jenisDariCache != null && !jenisDariCache.isEmpty()) {
+            Collections.sort(jenisDariCache);
+        }
+
+        // Tambahkan ke list
+        listJenis.addAll(jenisDariCache);
+
         adapterJenis.notifyDataSetChanged();
+
+        // Memilih data yang sudah tersimpan sebelumnya
         String jenisTerpilih = data.getKategori();
         int indexJenis = listJenis.indexOf(jenisTerpilih);
 
@@ -372,11 +386,16 @@ public class PopupEditKendaraan extends Dialog {
         } else {
 
             listModel.add("Pilih Model");
-            listModel.addAll(KendaraanCache.getModelList(jenis));
+            // Ambil data dari cache
+            List<String> modelDariCache = KendaraanCache.getModelList(jenis);
 
-            if (listModel.size() > 1) {
-                Collections.sort(listModel.subList(1, listModel.size()));
+            // Urutkan secara alfabetis (A-Z)
+            if (modelDariCache != null && !modelDariCache.isEmpty()) {
+                Collections.sort(modelDariCache);
             }
+
+            // Tambahkan data yang sudah diurutkan
+            listModel.addAll(modelDariCache);
         }
 
         adapterModel.notifyDataSetChanged();
@@ -426,12 +445,6 @@ public class PopupEditKendaraan extends Dialog {
             wrongModel.setVisibility(View.GONE);
 
             boolean isValid = true;
-
-//            if (plat.isEmpty()) {
-//                wrongPlat.setVisibility(View.VISIBLE);
-//                isValid = false;
-//            }
-
             String kategori = spinnerJenis.getSelectedItem().toString();
             if (kategori.equals("Pilih Jenis Motor") || kategori.equals("Pilih Jenis Dulu")) {
                 wrongKategori.setVisibility(View.VISIBLE);
@@ -445,6 +458,19 @@ public class PopupEditKendaraan extends Dialog {
             }
 
             if (!isValid) return;
+
+            String platAsli = data.getPlat().trim();
+            String idKendaraanAsli = data.getIdKendaraan();
+
+            // Jika plat yang diketik SAMA dengan plat awal
+            // DAN model kendaraan yang dipilih SAMA dengan model awal
+            if (plat.equalsIgnoreCase(platAsli) && selectedIdKendaraan != null && selectedIdKendaraan.equals(idKendaraanAsli)) {
+                if (listener != null) {
+                    listener.onBerhasilEdit();
+                }
+                dismiss();
+                return;
+            }
 
             updateKendaraan(plat);
         });
@@ -488,6 +514,23 @@ public class PopupEditKendaraan extends Dialog {
 
                     dismiss();
                 } else {
+                    try{
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            Log.e("ERROR_BODY", errorBody);
+
+                            if (errorBody.toLowerCase().contains("plat kendaraan sudah terdaftar")) {
+                                layoutPlat.setBackgroundResource(R.drawable.bg_plat_error);
+                                imgStatus.setImageResource(R.drawable.peringatan_icon);
+                                imgInfo.setImageResource(R.drawable.peringatan_icon);
+                                tvInfo.setTextColor(Color.parseColor("#EF4444"));
+                                tvInfo.setText("Plat kendaraan sudah terdaftar di sistem!");
+                                return;
+                            }
+                        }
+                    } catch (Exception e){
+                        Log.e("ERROR_PARSE", e.getMessage());
+                    }
                     Dialog dialog = new Dialog(context);
                     dialog.setContentView(R.layout.popup_gagal);
                     dialog.getWindow().setLayout(
@@ -503,6 +546,7 @@ public class PopupEditKendaraan extends Dialog {
                     lanjutanGagal.setOnClickListener(v -> {
                         dialog.dismiss();
                     });
+                    dialog.show();
                     dismiss();
                 }
             }

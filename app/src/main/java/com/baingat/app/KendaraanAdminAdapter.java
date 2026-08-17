@@ -124,10 +124,10 @@ public class KendaraanAdminAdapter extends RecyclerView.Adapter<KendaraanAdminAd
                                         org.json.JSONObject json = new org.json.JSONObject(errorBody);
                                         String message = json.getString("message");
 
-                                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                                        android.util.Log.d("AppLog", String.valueOf(message));
 
                                     } catch (Exception e) {
-                                        Toast.makeText(context, "Gagal hapus", Toast.LENGTH_SHORT).show();
+                                        android.util.Log.d("AppLog", String.valueOf("Gagal hapus"));
                                     }
                                 }
                             }
@@ -135,9 +135,7 @@ public class KendaraanAdminAdapter extends RecyclerView.Adapter<KendaraanAdminAd
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
                                 dialog.dismiss();
-                                Toast.makeText(context,
-                                        "Error: " + t.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
+                                android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                             }
                         });
 

@@ -1,4 +1,5 @@
 package com.baingat.app;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -11,155 +12,212 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Multipart;
+import retrofit2.http.Part;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public interface ApiService {
-    @FormUrlEncoded
-    @POST("api/auth/register")
-    Call<ResponseBody> registerUser(
-            @Field("username") String nama,
-            @Field("email") String email,
-            @Field("password") String password,
-            @Field("id_kendaraan") String idKendaraan,
-            @Field("plat_kendaraan") String plat
-    );
+        @FormUrlEncoded
+        @POST("api/auth/register")
+        Call<ResponseBody> registerUser(
+                        @Field("username") String nama,
+                        @Field("email") String email,
+                        @Field("password") String password,
+                        @Field("id_kendaraan") String idKendaraan,
+                        @Field("plat_kendaraan") String plat);
 
-    @FormUrlEncoded
-    @POST("api/auth/login")
-    Call<LoginResponse> loginUser(
-            @Field("email") String email,
-            @Field("password") String password,
-            @Field("device_id") String deviceId
-    );
+        @FormUrlEncoded
+        @POST("api/auth/login")
+        Call<LoginResponse> loginUser(
+                        @Field("email") String email,
+                        @Field("password") String password,
+                        @Field("device_id") String deviceId);
 
-    @PUT("api/auth/gantiPassword")
-    Call<GantiKataSandiModel> changePassword(
-            @Header("Authorization") String token,
-            @Body GantiKataSandiModel request
-    );
+        @PUT("api/auth/gantiPassword")
+        Call<GantiKataSandiModel> changePassword(
+                        @Header("Authorization") String token,
+                        @Body GantiKataSandiModel request);
 
-    @GET("api/auth/kendaraan")
-    Call<KendaraanResponse> getDataKendaraan();
+        @GET("api/auth/kendaraan")
+        Call<KendaraanResponse> getDataKendaraan();
 
-    @GET("api/kendaraan/utama")
-    Call<KendaraanUtamaResponseModel> getKendaraanUtama(
-            @Header("Authorization") String token
-    );
+        @GET("api/kendaraan/utama")
+        Call<KendaraanUtamaResponseModel> getKendaraanUtama(
+                        @Header("Authorization") String token);
 
-    @GET("api/data/statusUtama")
-    Call<StatusUtamaResponseModel> getStatusUtama(
-            @Header("Authorization") String token
-    );
+        @GET("api/data/statusUtama")
+        Call<StatusUtamaResponseModel> getStatusUtama(
+                        @Header("Authorization") String token,
+                        @Query("id_lokasi") String idLokasi // We should pass id_lokasi so it can fetch the specific
+                                                            // locations, or just an array of IDs. Let's assume it can
+                                                            // take a comma-separated string
+        );
 
-    @GET("api/kendaraan/user")
-    Call<KendaraanUserResponseModel> getKendaraanUserSPK(
-            @Header("Authorization") String token,
-            @Query("id_lokasi") String idLokasi
-    );
+        @GET("api/data/dataLokasi")
+        Call<LokasiResponseModel> getLokasi(@Header("Authorization") String token);
 
-    @GET("api/kendaraan/user")
-    Call<KendaraanUserResponseModel> getKendaraanUser(
-            @Header("Authorization") String token
-    );
+        @GET("api/kendaraan/user")
+        Call<KendaraanUserResponseModel> getKendaraanUserSPK(
+                        @Header("Authorization") String token,
+                        @Query("id_lokasi") String idLokasi);
 
-    @FormUrlEncoded
-    @PATCH("api/kendaraan/update")
-    Call<UpdatePengaturanAkunModel> updateUser(
-            @Header("Authorization") String token,
-            @Field("nama") String nama,
-            @Field("id_kendaraan") String idKendaraan
-    );
+        @GET("api/kendaraan/user")
+        Call<KendaraanUserResponseModel> getKendaraanUser(
+                        @Header("Authorization") String token);
 
-    @DELETE("api/kendaraan/hapus/{id_kendaraan}/{plat_kendaraan}")
-    Call<ResponseBody> hapusKendaraan(
-            @Header("Authorization") String token,
-            @Path("id_kendaraan") String idKendaraan,
-            @Path("plat_kendaraan") String platKendaraan
-    );
+        @FormUrlEncoded
+        @PATCH("api/kendaraan/update")
+        Call<UpdatePengaturanAkunModel> updateUser(
+                        @Header("Authorization") String token,
+                        @Field("nama") String nama,
+                        @Field("id_kendaraan") String idKendaraan);
 
+        @DELETE("api/kendaraan/hapus/{id_kendaraan}/{plat_kendaraan}")
+        Call<ResponseBody> hapusKendaraan(
+                        @Header("Authorization") String token,
+                        @Path("id_kendaraan") String idKendaraan,
+                        @Path("plat_kendaraan") String platKendaraan);
 
-    @GET("api/data/chartAll")
-    Call<ChartAllResponseModel> getChartData();
+        @GET("api/data/chartAll")
+        Call<ChartAllResponseModel> getChartData();
 
-    @POST("api/kendaraan/tambahKendaraanUser")
-    Call<ResponseBody> tambahKendaraan(
-            @Header("Authorization") String token,
-            @Body TambahKendaraanRequestModel request
-    );
+        @GET("api/data/chartAll")
+        Call<ChartResponseModel> getChartDataDetail(@Query("id_lokasi") String idLokasi);
 
-    @PUT("api/kendaraan/updateKendaraan/{id}")
-    Call<ResponseBody> updateKendaraan(
-            @Header("Authorization") String token,
-            @Path("id") String idKendaraanLama,
-            @Body EditKendaraanRequestModel request
-    );
+        @POST("api/kendaraan/tambahKendaraanUser")
+        Call<ResponseBody> tambahKendaraan(
+                        @Header("Authorization") String token,
+                        @Body TambahKendaraanRequestModel request);
 
-    // Admin endpoint
-    @GET("api/admin/statusAlat")
-    Call<StatusAlatResponseModel> getStatusAlat(
-            @Header("Authorization") String token
-    );
+        @PUT("api/kendaraan/updateKendaraan/{id}")
+        Call<ResponseBody> updateKendaraan(
+                        @Header("Authorization") String token,
+                        @Path("id") String idKendaraanLama,
+                        @Body EditKendaraanRequestModel request);
 
-    @PUT("api/admin/updateStatusAlat")
-    Call<ResponseStatusAlatModel> updateStatusAlat(
-            @Header("Authorization") String token,
-            @Body UpdateStatusAlatRequestModel request
-    );
+        // Admin endpoint
+        @GET("api/admin/statusAlat")
+        Call<StatusAlatResponseModel> getStatusAlat(
+                        @Header("Authorization") String token);
 
-    @GET("api/admin/kalibrasiAlat/{id}")
-    Call<KalibrasiResponseModel> getKalibrasiDetail(
-            @Header("Authorization") String token,
-            @Path("id") String idAlat
-    );
+        @PUT("api/admin/updateStatusAlat")
+        Call<ResponseStatusAlatModel> updateStatusAlat(
+                        @Header("Authorization") String token,
+                        @Body UpdateStatusAlatRequestModel request);
 
-    @PUT("api/admin/kalibrasi")
-    Call<ResponseUpdateKalibrasiModel> updateKalibrasi(
-            @Header("Authorization") String token,
-            @Body UpdateKalibrasiRequest request
-    );
+        @GET("api/admin/kalibrasiAlat/{id}")
+        Call<KalibrasiResponseModel> getKalibrasiDetail(
+                        @Header("Authorization") String token,
+                        @Path("id") String idAlat);
 
-    @GET("api/admin/kendaraanPabrik")
-    Call<KendaraanAdminResponseModel> getKendaraanAdmin(
-            @Header("Authorization") String token
-    );
+        @PUT("api/admin/kalibrasi")
+        Call<ResponseUpdateKalibrasiModel> updateKalibrasi(
+                        @Header("Authorization") String token,
+                        @Body UpdateKalibrasiRequest request);
 
-    @DELETE("api/admin/hapusKendaraan/{id_kendaraan}")
-    Call<ResponseBody> deleteKendaraan(
-            @Header("Authorization") String token,
-            @Path("id_kendaraan") String id
-    );
+        @GET("api/admin/kendaraanPabrik")
+        Call<KendaraanAdminResponseModel> getKendaraanAdmin(
+                        @Header("Authorization") String token);
 
-    @POST("api/admin/tambahKendaraan")
-    Call<ResponseBody> tambahKendaraanAdmin(
-            @Header("Authorization") String token,
-            @Body TambahKendaraanAdminRequest request
-    );
+        @DELETE("api/admin/hapusKendaraan/{id_kendaraan}")
+        Call<ResponseBody> deleteKendaraan(
+                        @Header("Authorization") String token,
+                        @Path("id_kendaraan") String id);
 
-    @PUT("api/admin/updateKendaraan/{id}")
-    Call<ResponseBody> updateKendaraanAdmin(
-            @Header("Authorization") String token,
-            @Path("id") String id,
-            @Body EditKendaraanAdminRequestModel request
-    );
+        @POST("api/admin/tambahKendaraan")
+        Call<ResponseBody> tambahKendaraanAdmin(
+                        @Header("Authorization") String token,
+                        @Body TambahKendaraanAdminRequest request);
 
-    @GET("api/firebase/get-fcm-token")
-    Call<TokenFcmResponse> getFcmToken(
-            @Header("Authorization") String token,
-            @Query("device_id") String deviceId
-    );
+        @PUT("api/admin/updateKendaraan/{id}")
+        Call<ResponseBody> updateKendaraanAdmin(
+                        @Header("Authorization") String token,
+                        @Path("id") String id,
+                        @Body EditKendaraanAdminRequestModel request);
 
-    @FormUrlEncoded
-    @POST("api/firebase/save-fcm-token")
-    Call<ResponseBody> simpanFcmToken(
-            @Header("Authorization") String token,
-            @Field("fcm_token") String fcmToken,
-            @Field("device_id") String deviceId
-    );
+        @GET("api/firebase/get-fcm-token")
+        Call<TokenFcmResponse> getFcmToken(
+                        @Header("Authorization") String token,
+                        @Query("device_id") String deviceId);
 
-    @FormUrlEncoded
-    @POST("api/auth/logout")
-    Call<ResponseBody> logoutUser(
-            @Header("Authorization") String token,
-            @Field("device_id") String deviceId
-    );
+        @FormUrlEncoded
+        @POST("api/firebase/save-fcm-token")
+        Call<ResponseBody> simpanFcmToken(
+                        @Header("Authorization") String token,
+                        @Field("fcm_token") String fcmToken,
+                        @Field("device_id") String deviceId);
 
+        @FormUrlEncoded
+        @POST("api/auth/logout")
+        Call<ResponseBody> logoutUser(
+                        @Header("Authorization") String token,
+                        @Field("device_id") String deviceId);
+
+        @Multipart
+        @POST("api/pelaporan/lapor-jalan")
+        Call<ResponseBody> laporJalan(
+                        @Header("Authorization") String token,
+                        @Part("id_lokasi") RequestBody idLokasi,
+                        @Part("keterangan") RequestBody keterangan,
+                        @Part MultipartBody.Part foto);
+
+        @Multipart
+        @POST("api/pelaporan/lapor-lokasi")
+        Call<ResponseBody> laporLokasi(
+                        @Header("Authorization") String token,
+                        @Part("lat") RequestBody lat,
+                        @Part("long") RequestBody lng,
+                        @Part("keterangan") RequestBody keterangan,
+                        @Part MultipartBody.Part foto);
+
+        @Multipart
+        @POST("api/pelaporan/lapor-kendaraan")
+        Call<ResponseBody> laporKendaraan(
+                        @Header("Authorization") String token,
+                        @Part("keterangan") RequestBody keterangan,
+                        @Part MultipartBody.Part foto);
+
+        @GET("api/pelaporan/get-semua-laporan-jalan")
+        Call<LaporanJalanResponse> getSemuaLaporanJalan(@Header("Authorization") String token);
+
+        @GET("api/pelaporan/get-semua-permintaan-lokasi")
+        Call<PermintaanLokasiResponse> getSemuaPermintaanLokasi(@Header("Authorization") String token);
+
+        @GET("api/pelaporan/get-semua-laporan-kendaraan")
+        Call<LaporanKendaraanResponse> getSemuaLaporanKendaraan(@Header("Authorization") String token);
+
+        // Admin specific report endpoints
+        @GET("api/admin/get-semua-laporan-jalan-admin")
+        Call<LaporanJalanResponse> getSemuaLaporanJalanAdmin(@Header("Authorization") String token);
+
+        @GET("api/admin/get-semua-permintaan-lokasi-admin")
+        Call<PermintaanLokasiResponse> getSemuaPermintaanLokasiAdmin(@Header("Authorization") String token);
+
+        @GET("api/admin/get-semua-laporan-kendaraan-admin")
+        Call<LaporanKendaraanResponse> getSemuaLaporanKendaraanAdmin(@Header("Authorization") String token);
+
+        @FormUrlEncoded
+        @PUT("api/admin/updateStatusLaporanJalan/{id}/status")
+        Call<ResponseBody> updateStatusLaporanJalan(
+                        @Header("Authorization") String token,
+                        @Path("id") String idLaporan,
+                        @Field("status") String status,
+                        @Field("catatan") String catatan);
+
+        @FormUrlEncoded
+        @PUT("api/admin/updateStatusPermintaanLokasi/{id}/status")
+        Call<ResponseBody> updateStatusPermintaanLokasi(
+                        @Header("Authorization") String token,
+                        @Path("id") String idLaporan,
+                        @Field("status") String status,
+                        @Field("catatan") String catatan);
+
+        @FormUrlEncoded
+        @PUT("api/admin/updateStatusLaporanKendaraan/{id}/status")
+        Call<ResponseBody> updateStatusLaporanKendaraan(
+                        @Header("Authorization") String token,
+                        @Path("id") String idLaporan,
+                        @Field("status") String status,
+                        @Field("catatan") String catatan);
 }

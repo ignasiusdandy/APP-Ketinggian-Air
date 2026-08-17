@@ -18,6 +18,7 @@ public class NavbarAdminActivity extends AppCompatActivity {
     // Buat fragment sekali saja
     private final Fragment dashboardFragment = new DashboardAdminFragment();
     private final Fragment kendaraanFragment = new KendaraanAdminFragment();
+    private final Fragment laporanFragment = new RiwayatLaporanAdminFragment();
     private final Fragment profileFragment = new ProfileFragmentAdmin();
 
     private Fragment activeFragment = dashboardFragment;
@@ -58,6 +59,10 @@ public class NavbarAdminActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_kendaraan) {
 
                 targetFragment = kendaraanFragment;
+
+            } else if (item.getItemId() == R.id.nav_laporan) {
+
+                targetFragment = laporanFragment;
 
             } else if (item.getItemId() == R.id.nav_profile) {
 

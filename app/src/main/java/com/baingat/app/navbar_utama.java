@@ -1,6 +1,7 @@
 package com.baingat.app;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -41,11 +42,13 @@ public class navbar_utama extends AppCompatActivity {
     private LinearLayout menuDashboard;
     private LinearLayout menuVehicle;
     private LinearLayout menuMaps;
+    private LinearLayout menuPelaporan;
     private LinearLayout menuProfile;
 
     private ImageView dashboardIcon;
     private ImageView vehicleIcon;
     private ImageView mapsIcon;
+    private ImageView pelaporanIcon;
     private ImageView profileIcon;
 
     // =========================================
@@ -73,6 +76,7 @@ public class navbar_utama extends AppCompatActivity {
     private final Fragment dashboard = new DashboardFragment();
     private final Fragment vehicle = new KendaraanFragment();
     private final Fragment maps = new MapsFragment();
+    private final Fragment pelaporan = new PelaporanFragment();
     private final Fragment profile = new ProfileFragment();
 
     private Fragment active = dashboard;
@@ -88,6 +92,19 @@ public class navbar_utama extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navbar_utama);
+
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (active != dashboard) {
+                    menuDashboard.performClick();
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                    setEnabled(true);
+                }
+            }
+        });
 
         FirebaseApp.initializeApp(this);
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
@@ -133,6 +150,7 @@ public class navbar_utama extends AppCompatActivity {
         }
 
         FrameLayout navbar = findViewById(R.id.navbar);
+        menuPelaporan = findViewById(R.id.menu_pelaporan);
 
         ViewCompat.setOnApplyWindowInsetsListener(navbar, (view, insets) -> {
 
@@ -141,12 +159,21 @@ public class navbar_utama extends AppCompatActivity {
                             WindowInsetsCompat.Type.navigationBars()
                     ).bottom;
 
+            float density = getResources().getDisplayMetrics().density;
+
             ViewGroup.MarginLayoutParams params =
                     (ViewGroup.MarginLayoutParams) view.getLayoutParams();
 
-            params.bottomMargin = bottomInset + 4;
+            params.bottomMargin = bottomInset + (int)(4 * density);
 
             view.setLayoutParams(params);
+
+            if (menuPelaporan != null) {
+                ViewGroup.MarginLayoutParams pelaporanParams =
+                        (ViewGroup.MarginLayoutParams) menuPelaporan.getLayoutParams();
+                pelaporanParams.bottomMargin = bottomInset + (int)(32 * density);
+                menuPelaporan.setLayoutParams(pelaporanParams);
+            }
 
             return insets;
         });
@@ -160,11 +187,13 @@ public class navbar_utama extends AppCompatActivity {
         menuDashboard = findViewById(R.id.menu_dashboard);
         menuVehicle = findViewById(R.id.menu_vehicle);
         menuMaps = findViewById(R.id.menu_maps);
+        // menuPelaporan is already initialized above
         menuProfile = findViewById(R.id.menu_profile);
 
         dashboardIcon = findViewById(R.id.dashboard_icon);
         vehicleIcon = findViewById(R.id.vehicle_icon);
         mapsIcon = findViewById(R.id.maps_icon);
+        pelaporanIcon = findViewById(R.id.pelaporan_icon);
         profileIcon = findViewById(R.id.profile_icon);
 
         // =========================================
@@ -294,6 +323,23 @@ public class navbar_utama extends AppCompatActivity {
         });
 
         // =========================================
+        // CLICK PELAPORAN
+        // =========================================
+
+        menuPelaporan.setOnClickListener(v -> {
+            animateClick(v);
+            highlight.setVisibility(View.INVISIBLE);
+            
+            // Re-reset all icons to inactive state so they don't look active
+            resetMenu(menuDashboard, dashboardIcon, textDashboardBottom, textDashboardActive, R.drawable.dashboard_icon_putih);
+            resetMenu(menuVehicle, vehicleIcon, textVehicleBottom, textVehicleActive, R.drawable.kendaraanputih_icon);
+            resetMenu(menuMaps, mapsIcon, textMapsBottom, textMapsActive, R.drawable.maps_icon_putih);
+            resetMenu(menuProfile, profileIcon, textProfileBottom, textProfileActive, R.drawable.profile_admin_putih);
+
+            switchFragment(pelaporan);
+        });
+
+        // =========================================
         // CLICK PROFILE
         // =========================================
 
@@ -362,13 +408,24 @@ public class navbar_utama extends AppCompatActivity {
     private void moveHighlight(View target) {
 
         target.post(() -> {
+            int startWidth = highlight.getWidth();
+            int endWidth = target.getWidth();
 
-            ViewGroup.LayoutParams params =
-                    highlight.getLayoutParams();
-
-            params.width = target.getWidth();
-
-            highlight.setLayoutParams(params);
+            if (startWidth == 0 || startWidth == endWidth) {
+                ViewGroup.LayoutParams params = highlight.getLayoutParams();
+                params.width = endWidth;
+                highlight.setLayoutParams(params);
+            } else {
+                ValueAnimator widthAnim = ValueAnimator.ofInt(startWidth, endWidth);
+                widthAnim.addUpdateListener(valueAnimator -> {
+                    ViewGroup.LayoutParams params = highlight.getLayoutParams();
+                    params.width = (int) valueAnimator.getAnimatedValue();
+                    highlight.setLayoutParams(params);
+                });
+                widthAnim.setDuration(320);
+                widthAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                widthAnim.start();
+            }
 
             highlight.animate()
                     .x(target.getX())
@@ -467,6 +524,7 @@ public class navbar_utama extends AppCompatActivity {
             );
         }
 
+        highlight.setVisibility(View.VISIBLE);
         moveHighlight(menu);
     }
 

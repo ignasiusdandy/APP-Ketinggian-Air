@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.Uri;
+import java.net.URLEncoder;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -33,10 +35,12 @@ import java.util.Set;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-// import android.widget.Toast; // Uncomment jika butuh Toast
-// import android.view.View;    // Uncomment jika butuh View
+import android.app.ProgressDialog;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    private Dialog laporDialog;
+    private ProgressDialog pd;
 
     private List<Kendaraan> listSemuaKendaraan = new ArrayList<>();
 
@@ -143,6 +147,11 @@ public class RegisterActivity extends AppCompatActivity {
         CustomSpinner spinnerModel = findViewById(R.id.spinner_model_motor);
         final ImageView arrowMotor = findViewById(R.id.iv_arrow_motor);
         final ImageView arrowModel = findViewById(R.id.iv_arrow_model);
+        
+        TextView tvLaporKendaraan = findViewById(R.id.tv_lapor_kendaraan);
+        tvLaporKendaraan.setOnClickListener(v -> {
+            showLaporAnonimDialog();
+        });
 
         listNamaJenis.add("Pilih Jenis Motor"); // Placeholder saat loading
         adapterJenis = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listNamaJenis);
@@ -303,7 +312,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             if (idKendaraanYangAkanDikirim == null) {
-                Toast.makeText(this, "Data kendaraan tidak valid!", Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Data kendaraan tidak valid!"));
                 return;
             }
             prosesRegister(nama, email, pass, idKendaraanYangAkanDikirim, plat, motor, model);
@@ -487,7 +496,7 @@ public class RegisterActivity extends AppCompatActivity {
                     adapterJenis.notifyDataSetChanged();
 
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Gagal ambil data motor", Toast.LENGTH_SHORT).show();
+                    android.util.Log.d("AppLog", String.valueOf("Gagal ambil data motor"));
                 }
             }
 
@@ -567,9 +576,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             return;
                         } else {
-                            Toast.makeText(RegisterActivity.this,
-                                    "Gagal: " + response.code(),
-                                    Toast.LENGTH_LONG).show();
+                            android.util.Log.d("AppLog", String.valueOf("Gagal: " + response.code()));
                         }
 
                     } catch (Exception e) {
@@ -580,7 +587,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Eror Koneksi :" + t.getMessage(), Toast.LENGTH_LONG).show();
+                android.util.Log.d("AppLog", String.valueOf("Eror Koneksi :" + t.getMessage()));
                 Log.e("Retrofit Error", t.getMessage());
             }
         });
@@ -601,5 +608,114 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(android.text.Editable s) {}
         });
+    }
+
+    private void showLaporAnonimDialog() {
+        if (isFinishing() || isDestroyed()) return;
+
+        laporDialog = new Dialog(this);
+        laporDialog.setContentView(R.layout.popup_lapor_anonim);
+        Window window = laporDialog.getWindow();
+        if (window != null) {
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.addFlags(android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            window.setDimAmount(0.7f); // Menggelapkan background sebanyak 70%
+        }
+        
+        EditText etDeskripsi = laporDialog.findViewById(R.id.etDeskripsiKendaraan);
+        MaterialButton btnKirim = laporDialog.findViewById(R.id.btnKirimKendaraan);
+        ImageView btnClose = laporDialog.findViewById(R.id.btnClose);
+        
+        if (btnClose != null) {
+            btnClose.setOnClickListener(v -> {
+                if (laporDialog != null && laporDialog.isShowing()) laporDialog.dismiss();
+            });
+        }
+
+        btnKirim.setOnClickListener(v -> {
+            String deskripsi = etDeskripsi.getText().toString();
+            if (deskripsi.isEmpty()) {
+                etDeskripsi.setError("Deskripsi tidak boleh kosong");
+                return;
+            }
+
+            btnKirim.setEnabled(false);
+            
+            pd = new ProgressDialog(this);
+            pd.setMessage("Mengirim laporan...");
+            pd.setCancelable(false);
+            if (!isFinishing() && !isDestroyed()) {
+                pd.show();
+            }
+
+            String token = "Bearer USERANOM";
+            String fullKeterangan = deskripsi;
+            okhttp3.RequestBody ketBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), fullKeterangan);
+            okhttp3.MultipartBody.Part fotoPart = null;
+
+            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+            apiService.laporKendaraan(token, ketBody, fotoPart).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (isFinishing() || isDestroyed()) return;
+                    if (pd != null && pd.isShowing()) pd.dismiss();
+                    
+                    if (response.isSuccessful()) {
+                        if (laporDialog != null && laporDialog.isShowing()) laporDialog.dismiss();
+                        showStatusPopup("Berhasil", "Laporan berhasil dikirim! Terima kasih.", true);
+                    } else {
+                        btnKirim.setEnabled(true);
+                        showStatusPopup("Gagal", "Gagal mengirim laporan", false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    if (isFinishing() || isDestroyed()) return;
+                    if (pd != null && pd.isShowing()) pd.dismiss();
+                    btnKirim.setEnabled(true);
+                    showStatusPopup("Error", "Error Jaringan: " + t.getMessage(), false);
+                }
+            });
+        });
+
+        if (!isFinishing() && !isDestroyed()) {
+            laporDialog.show();
+        }
+    }
+
+    private void showStatusPopup(String title, String message, boolean isSuccess) {
+        if (isFinishing() || isDestroyed()) return;
+        
+        Dialog statusDialog = new Dialog(this);
+        statusDialog.setContentView(isSuccess ? R.layout.popup_berhasil_tambah : R.layout.popup_gagal);
+        
+        Window window = statusDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        
+        TextView tvPesan = statusDialog.findViewById(isSuccess ? R.id.tvPesanBerhasil : R.id.tvPesanGagal);
+        if (tvPesan != null) tvPesan.setText(message);
+        
+        View btnLanjut = statusDialog.findViewById(isSuccess ? R.id.lanjutanBerhasil : R.id.lanjutanGagal);
+        if (btnLanjut != null) {
+            btnLanjut.setOnClickListener(v -> statusDialog.dismiss());
+        }
+        
+        statusDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (laporDialog != null && laporDialog.isShowing()) {
+            laporDialog.dismiss();
+        }
+        if (pd != null && pd.isShowing()) {
+            pd.dismiss();
+        }
+        super.onDestroy();
     }
 }

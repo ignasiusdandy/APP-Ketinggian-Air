@@ -16,17 +16,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class DashboardAdminFragment extends Fragment {
     private SessionManager sessionManager;
     private String token;
     private ApiService apiService;
 
 
+    private SwipeRefreshLayout swipeRefresh;
+
     private TextView tvTotal, tvAktif, tvNonAktif;
-    private TextView tvStatusDatang, tvStatusPulang;
-    private TextView tvWaktuDatang, tvWaktuPulang;
-    private ImageView dotDatang, dotPulang, datangAlatIcon, pulangAlatIcon;
-    private LinearLayout bgDatangAlat, bgPulangAlat, btnJalanDatang, btnJalanPulang;
+    private androidx.recyclerview.widget.RecyclerView rvDaftarAlat;
+    private AlatDashboardAdapter adapter;
+
     private Handler handler = new Handler();
     private Runnable runnable;
     private final int INTERVAL = 10 * 60 * 1000;
@@ -41,25 +44,17 @@ public class DashboardAdminFragment extends Fragment {
         apiService = ApiClient.getClient().create(ApiService.class);
 
         // binding
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
         tvTotal = view.findViewById(R.id.tvTotal);
         tvAktif = view.findViewById(R.id.tvAktif);
         tvNonAktif = view.findViewById(R.id.tvNonAktif);
+        rvDaftarAlat = view.findViewById(R.id.rvDaftarAlat);
+        rvDaftarAlat.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+        
+        swipeRefresh.setOnRefreshListener(() -> {
+            loadData();
+        });
 
-        tvStatusDatang = view.findViewById(R.id.tvStatusDatang);
-        tvStatusPulang = view.findViewById(R.id.tvStatusPulang);
-
-        tvWaktuDatang = view.findViewById(R.id.tvWaktuDatang);
-        tvWaktuPulang = view.findViewById(R.id.tvWaktuPulang);
-
-        dotDatang = view.findViewById(R.id.dotDatang);
-        dotPulang = view.findViewById(R.id.dotPulang);
-
-        datangAlatIcon = view.findViewById(R.id.datangAlatIcon);
-        pulangAlatIcon = view.findViewById(R.id.pulangAlatIcon);
-        bgDatangAlat = view.findViewById(R.id.bgDatangIcon);
-        bgPulangAlat = view.findViewById(R.id.bgPulangIcon);
-        btnJalanDatang = view.findViewById(R.id.btnJalanDatang);
-        btnJalanPulang = view.findViewById(R.id.btnJalanPulang);
         loadData();
         return view;
     }
@@ -75,6 +70,7 @@ public class DashboardAdminFragment extends Fragment {
                                    Response<StatusAlatResponseModel> response) {
 
                 isLoading = false;
+                if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
 
                 if (response.isSuccessful() && response.body() != null) {
 
@@ -85,44 +81,32 @@ public class DashboardAdminFragment extends Fragment {
                     tvAktif.setText(String.valueOf(data.aktif));
                     tvNonAktif.setText(String.valueOf(data.non_aktif));
 
-                    // jalan datang
-                    setStatus(tvStatusDatang, dotDatang, data.jalan_datang.aktif, bgDatangAlat, datangAlatIcon);
-                    tvWaktuDatang.setText("Terakhir Diperbaharui " + data.jalan_datang.last_update);
-
-                    // jalan pulang
-                    setStatus(tvStatusPulang, dotPulang, data.jalan_pulang.aktif, bgPulangAlat, pulangAlatIcon);
-                    tvWaktuPulang.setText("Terakhir Diperbaharui " + data.jalan_pulang.last_update);
-
-                    btnJalanDatang.setOnClickListener(v -> {
-                        DetailAlatDialog.show(
-                                requireContext(),
-                                getParentFragmentManager(),
-                                "Jalan Datang",
-                                data.jalan_datang.aktif,
-                                data.jalan_datang.koordinat,
-                                data.jalan_datang.tanggal,
-                                "ALT001",
-                                token,
-                                apiService,
-                                () -> loadData()
-                        );
-                    });
-
-                    btnJalanPulang.setOnClickListener(v -> {
-                        DetailAlatDialog.show(
-                                requireContext(),
-                                getParentFragmentManager(),
-                                "Jalan Pulang",
-                                data.jalan_pulang.aktif,
-                                data.jalan_pulang.koordinat,
-                                data.jalan_pulang.tanggal,
-                                "ALT002",
-                                token,
-                                apiService,
-                                () -> loadData()
-                        );
-                    });
-
+                    // alat list
+                    java.util.List<StatusAlatResponseModel.Alat> listAlat = data.getAlatList();
+                    if (listAlat != null && !listAlat.isEmpty()) {
+                        if (adapter == null) {
+                            adapter = new AlatDashboardAdapter(getContext(), listAlat, alat -> {
+                                DetailAlatDialog.show(
+                                        requireContext(),
+                                        getParentFragmentManager(),
+                                        alat.getDisplayName(),
+                                        alat.aktif,
+                                        alat.koordinat,
+                                        alat.tanggal,
+                                        alat.id_alat,
+                                        token,
+                                        apiService,
+                                        () -> loadData()
+                                );
+                            });
+                        } else {
+                            adapter.updateData(listAlat);
+                        }
+                        
+                        if (rvDaftarAlat.getAdapter() == null) {
+                            rvDaftarAlat.setAdapter(adapter);
+                        }
+                    }
                 }
             }
 
@@ -130,26 +114,11 @@ public class DashboardAdminFragment extends Fragment {
             public void onFailure(Call<StatusAlatResponseModel> call, Throwable t) {
 
                 isLoading = false;
+                if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
 
                 t.printStackTrace();
             }
         });
-    }
-
-    private void setStatus(TextView tv, ImageView dot, boolean aktif, LinearLayout bg, ImageView icon) {
-        if (aktif) {
-            tv.setText("Status: Aktif");
-            tv.setTextColor(getResources().getColor(R.color.hijauaman));
-            dot.setImageResource(R.drawable.bulathijaukecil);
-            bg.setBackground(getResources().getDrawable(R.drawable.bg_icon_hijau));
-            icon.setImageResource(R.drawable.cpu_icon);
-        } else {
-            tv.setText("Status: Non Aktif");
-            tv.setTextColor(getResources().getColor(R.color.peringatan));
-            dot.setImageResource(R.drawable.bulatmerahkecil);
-            bg.setBackground(getResources().getDrawable(R.drawable.bg_icon_merah));
-            icon.setImageResource(R.drawable.cpu_merah);
-        }
     }
 
     private void startAutoRefresh() {

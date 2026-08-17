@@ -109,15 +109,13 @@ public class KendaraanAkunFragment extends Fragment {
 //                    tabelKendaraan.setAdapter(adapter);
 
                 } else {
-                    Toast.makeText(requireContext(),
-                            "Gagal Load Kendaraan", Toast.LENGTH_SHORT).show();
+                    android.util.Log.d("AppLog", String.valueOf("Gagal Load Kendaraan"));
                 }
             }
 
             @Override
             public void onFailure(Call<KendaraanUserResponseModel> call, Throwable t) {
-                Toast.makeText(requireContext(),
-                        "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
             }
         });
     }

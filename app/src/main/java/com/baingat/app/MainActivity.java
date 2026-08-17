@@ -21,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class MainActivity extends AppCompatActivity {
     LinearLayout bgValidasi;
     TextView tvMessage, wrongEmail, wrongPass;
@@ -29,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     Dialog loadingDialog;
     ScrollView scrollView;
+    View loadingOverlay;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        android.util.Log.d("LOGIN_DEBUG", "MainActivity DESTROY");
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonLogin = findViewById(R.id.btn_login);
         EditText etEmail = findViewById(R.id.et_email);
         EditText etPassword = findViewById(R.id.et_password);
+        loadingOverlay = findViewById(R.id.loadingOverlay);
 
         Window window = getWindow();
 
@@ -50,10 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         window.getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        );
-
-
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
         scrollView = findViewById(R.id.scrollView);
 
@@ -65,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         hideErrorOnType(etEmail, wrongEmail);
         hideErrorOnType(etPassword, wrongPass);
 
-
         SessionManager sessionManager = new SessionManager(this);
         if (sessionManager.isLoggedIn()) {
 
@@ -73,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             if ("User".equals(role)) {
                 startActivity(new Intent(MainActivity.this, navbar_utama.class));
-            }
-            else if ("Admin".equals(role)) {
+            } else if ("Admin".equals(role)) {
                 startActivity(new Intent(MainActivity.this, NavbarAdminActivity.class));
             }
 
@@ -96,20 +98,29 @@ public class MainActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
                 String deviceId = sessionManager.getDeviceId();
-                // validasi
                 wrongEmail = findViewById(R.id.wrongEmail);
                 wrongPass = findViewById(R.id.wrongPass);
+                
+                // Sembunyikan error container saat mulai
+                View apiErrorContainer = findViewById(R.id.api_error_container);
+                if (apiErrorContainer != null) {
+                    apiErrorContainer.setVisibility(View.GONE);
+                }
+
                 View firstErrorView = null;
                 scrollView = findViewById(R.id.scrollView);
 
                 if (email.isEmpty()) {
                     wrongEmail.setVisibility(View.VISIBLE);
-                    if (firstErrorView == null) firstErrorView = etEmail;
+                    if (firstErrorView == null)
+                        firstErrorView = etEmail;
 
                 }
                 if (password.isEmpty()) {
                     wrongPass.setVisibility(View.VISIBLE);
-                    if (firstErrorView == null) firstErrorView = etPassword;
+                    wrongPass.setText("Masukkan kata sandi");
+                    if (firstErrorView == null)
+                        firstErrorView = etPassword;
                 }
 
                 if (firstErrorView != null) {
@@ -123,12 +134,26 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 if (!email.isEmpty() && !password.isEmpty()) {
+                    android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getSystemService(
+                            android.content.Context.INPUT_METHOD_SERVICE);
+                    if (imm != null && getCurrentFocus() != null)
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+                    loadingOverlay.setVisibility(View.VISIBLE);
+
                     apiService.loginUser(email, password, deviceId).enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                            loadingOverlay.setVisibility(View.GONE);
+
+
                             if (response.isSuccessful() && response.body() != null) {
+
                                 LoginResponse res = response.body();
+
                                 if (res.getUser() != null) {
+
                                     sessionManager.createLoginSession(
                                             res.getUser().getId(),
                                             res.getUser().getNama(),
@@ -138,36 +163,39 @@ public class MainActivity extends AppCompatActivity {
                                     );
 
                                     String role = res.getUser().getRole();
+
                                     if (role.equals("User")) {
-                                        startActivity(new Intent(MainActivity.this, navbar_utama.class));
+                                        startActivity(new Intent(
+                                                MainActivity.this,
+                                                navbar_utama.class
+                                        ));
                                         finish();
+
                                     } else if (role.equals("Admin")) {
-                                        startActivity(new Intent(MainActivity.this, NavbarAdminActivity.class));
+                                        startActivity(new Intent(
+                                                MainActivity.this,
+                                                NavbarAdminActivity.class
+                                        ));
                                         finish();
                                     }
+
                                 } else {
-                                    wrongEmail.setVisibility(View.VISIBLE);
-                                    wrongEmail.setText(
-                                            response.body().getMessage()
-                                    );
+                                    showLoginError("Email/Password yang anda masukkan salah!");
                                 }
 
                             } else {
-                                try {
-                                    wrongEmail.setVisibility(View.VISIBLE);
-                                    wrongEmail.setText("Email/Password yang anda masukkan salah!");
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    wrongEmail.setVisibility(View.VISIBLE);
-                                    wrongEmail.setText("Terjadi kesalahan");
-                                }
+                                // Response 401 / 400 / 500
+                                showLoginError("Email/Password yang anda masukkan salah!");
                             }
                         }
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            loadingOverlay.setVisibility(View.GONE);
                             wrongEmail.setVisibility(View.VISIBLE);
-                            wrongEmail.setText("Tidak bisa konek ke server");
+                            wrongPass.setVisibility(View.VISIBLE);
+                            wrongEmail.setText("Gagal masuk: " + t.getMessage());
+                            wrongPass.setText("Gagal masuk: " + t.getMessage());
                         }
                     });
                 }
@@ -176,18 +204,43 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     private void hideErrorOnType(EditText editText, TextView errorView) {
         editText.addTextChangedListener(new android.text.TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                errorView.setVisibility(View.GONE);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void afterTextChanged(android.text.Editable s) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (editText.hasFocus()) {
+                    errorView.setVisibility(View.GONE);
+                    View apiErrorContainer = findViewById(R.id.api_error_container);
+                    if (apiErrorContainer != null) {
+                        apiErrorContainer.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+            }
         });
+    }
+
+    private void showLoginError(String message) {
+
+        wrongEmail.setVisibility(View.GONE);
+        wrongPass.setVisibility(View.GONE);
+
+        View apiErrorContainer = findViewById(R.id.api_error_container);
+        TextView apiErrorText = findViewById(R.id.api_error_text);
+        
+        if (apiErrorContainer != null && apiErrorText != null) {
+            apiErrorText.setText(message);
+            apiErrorContainer.setVisibility(View.VISIBLE);
+        }
+
+        loadingOverlay.setVisibility(View.GONE);
     }
 }

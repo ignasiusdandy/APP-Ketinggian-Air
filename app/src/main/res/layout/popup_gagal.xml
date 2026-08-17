@@ -29,6 +29,7 @@
         android:textSize="14sp"
         android:fontFamily="@font/poppins_regular"
         android:textColor="@color/black"
+        android:id="@+id/tvPesanGagal"
         android:text="Perubahan gagal disimpan"/>
 
     <LinearLayout

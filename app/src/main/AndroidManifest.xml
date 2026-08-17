@@ -8,8 +8,11 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -40,13 +43,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UpdateActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".TentangAplikasiActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailStatusPulangActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DetailStatusDatangActivity"
+            android:name=".DetailStatusActivity"
             android:exported="false"
             android:label="@string/title_activity_detail_status"
             android:theme="@style/AppTheme"
@@ -61,6 +69,13 @@
             android:name=".navbar_utama"
             android:exported="false" />
         <activity
+            android:name=".RiwayatLaporanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailRiwayatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".NavbarAdminActivity"
             android:exported="false" />
         <activity
@@ -69,12 +84,23 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
         </activity>
         <activity
             android:name=".RegisterActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".DaftarKendaraanUserActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

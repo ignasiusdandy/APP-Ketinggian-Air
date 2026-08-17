@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Dominan Putih -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Garis awan 1: Biru muda lembut diagonal -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="135"
+                android:startColor="#00FFFFFF"
+                android:centerColor="#30E0F2FE"
+                android:endColor="#00FFFFFF"
+                android:centerX="0.3"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Garis awan 2: Biru diagonal melintang di tengah -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="45"
+                android:startColor="#00FFFFFF"
+                android:centerColor="#20BAE6FD"
+                android:endColor="#00FFFFFF"
+                android:centerX="0.75"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Garis awan 3: Sentuhan biru di sudut -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:startColor="#00FFFFFF"
+                android:endColor="#257DD3FC"
+                android:type="linear" />
+        </shape>
+    </item>
+</layer-list>

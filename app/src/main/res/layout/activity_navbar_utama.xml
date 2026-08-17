@@ -60,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:weightSum="4"
+                android:weightSum="5"
                 android:paddingHorizontal="6dp">
 
                 <!-- ============================== -->
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/poppinsmedium"
-                        android:text="Vehicle"
+                        android:text="Bike"
                         android:textColor="@android:color/white"
                         android:textSize="10sp"/>
 
@@ -141,11 +141,20 @@
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         android:fontFamily="@font/poppinssemibold"
-                        android:text="Vehicle"
+                        android:text="Bike"
                         android:textColor="@color/blue6"
                         android:textSize="11sp"/>
 
                 </LinearLayout>
+
+                <!-- ============================== -->
+                <!-- PELAPORAN PLACEHOLDER -->
+                <!-- ============================== -->
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
 
                 <!-- ============================== -->
                 <!-- MAPS -->
@@ -188,6 +197,7 @@
                         android:textSize="11sp"/>
 
                 </LinearLayout>
+
 
                 <!-- ============================== -->
                 <!-- PROFILE -->
@@ -236,6 +246,40 @@
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ============================== -->
+    <!-- FLOATING REPORT BUTTON -->
+    <!-- ============================== -->
+
+    <LinearLayout
+        android:id="@+id/menu_pelaporan"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bg_btn_pelaporan_orange"
+        android:elevation="12dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/pelaporan_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_camera_report"
+            app:tint="@android:color/white"/>
+            
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pelaporan"
+            android:textColor="@android:color/white"
+            android:textSize="9sp"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="2dp"/>
+    </LinearLayout>
 
     <!-- ============================== -->
     <!-- NO INTERNET -->

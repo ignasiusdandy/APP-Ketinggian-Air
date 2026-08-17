@@ -1,0 +1,67 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Clipboard body shadow -->
+    <path
+        android:fillColor="#1E3A8A"
+        android:fillAlpha="0.3"
+        android:pathData="M22,22 Q22,16 28,16 L96,16 Q102,16 102,22 L102,104 Q102,110 96,110 L28,110 Q22,110 22,104 Z"/>
+
+    <!-- Clipboard body white -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.95"
+        android:pathData="M18,18 Q18,12 24,12 L92,12 Q98,12 98,18 L98,100 Q98,106 92,106 L24,106 Q18,106 18,100 Z"/>
+
+    <!-- Clip at top (holder) -->
+    <path
+        android:fillColor="#BFDBFE"
+        android:pathData="M40,6 Q40,2 44,2 L70,2 Q74,2 74,6 L74,16 Q74,20 70,20 L44,20 Q40,20 40,16 Z"/>
+
+    <!-- Clip hole -->
+    <path
+        android:fillColor="#93C5FD"
+        android:pathData="M50,8 Q50,5 54,5 L60,5 Q64,5 64,8 Q64,11 60,11 L54,11 Q50,11 50,8 Z"/>
+
+    <!-- Line 1 -->
+    <path
+        android:fillColor="#DBEAFE"
+        android:pathData="M28,36 Q28,34 30,34 L84,34 Q86,34 86,36 Q86,38 84,38 L30,38 Q28,38 28,36 Z"/>
+
+    <!-- Line 2 -->
+    <path
+        android:fillColor="#DBEAFE"
+        android:pathData="M28,48 Q28,46 30,46 L84,46 Q86,46 86,48 Q86,50 84,50 L30,50 Q28,50 28,48 Z"/>
+
+    <!-- Line 3 short -->
+    <path
+        android:fillColor="#DBEAFE"
+        android:pathData="M28,60 Q28,58 30,58 L65,58 Q67,58 67,60 Q67,62 65,62 L30,62 Q28,62 28,60 Z"/>
+
+    <!-- Warning triangle background (yellow) -->
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M72,68 L104,68 L88,42 Z"/>
+
+    <!-- Warning triangle stroke/border -->
+    <path
+        android:fillColor="#F59E0B"
+        android:pathData="M72,68 L104,68 L88,42 Z"
+        android:fillAlpha="0.0"
+        android:strokeColor="#F59E0B"
+        android:strokeWidth="1.5"/>
+
+    <!-- Exclamation mark - body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M86,51 Q86,49.5 88,49.5 Q90,49.5 90,51 L89.5,62 Q89.5,63 88,63 Q86.5,63 86.5,62 Z"/>
+
+    <!-- Exclamation mark - dot -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M86.5,65 Q86.5,63.5 88,63.5 Q89.5,63.5 89.5,65 Q89.5,66.5 88,66.5 Q86.5,66.5 86.5,65 Z"/>
+
+</vector>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="10dp"
+    android:background="@color/white"
+    android:gravity="center_vertical">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cbLokasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jalan Datang ULM"
+        android:textColor="#4B5563"
+        android:textSize="14sp"
+        android:fontFamily="@font/poppins_regular"
+        app:buttonTint="#2563EB"/>
+
+</LinearLayout>

@@ -37,8 +37,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class KendaraanAdminFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeRefresh;
     private RecyclerView rvKendaraan;
     private KendaraanAdminAdapter adapter;
 
@@ -63,6 +66,7 @@ public class KendaraanAdminFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_kendaraan_admin, container, false);
 
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
         rvKendaraan = view.findViewById(R.id.rvKendaraan);
         layoutFilter = view.findViewById(R.id.layoutFilter);
         tvJumlah = view.findViewById(R.id.tvJumlah);
@@ -84,6 +88,12 @@ public class KendaraanAdminFragment extends Fragment {
         adapter.setOnEditClickListener(data -> {
             showPopupEditKendaraan(data);
         });
+        
+        if (swipeRefresh != null) {
+            swipeRefresh.setOnRefreshListener(() -> {
+                loadKendaraan();
+            });
+        }
 
         // 🔥 SEARCH
         etSearch.addTextChangedListener(new android.text.TextWatcher() {
@@ -122,6 +132,9 @@ public class KendaraanAdminFragment extends Fragment {
                     public void onResponse(Call<KendaraanAdminResponseModel> call,
                                            Response<KendaraanAdminResponseModel> response) {
 
+                        if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
+                        if (!isAdded() || getContext() == null) return;
+
                         if (response.isSuccessful() && response.body() != null) {
 
                             List<KendaraanAdminResponseModel.Data> dataApi =
@@ -147,17 +160,14 @@ public class KendaraanAdminFragment extends Fragment {
                             setupFilter();
 
                         } else {
-                            Toast.makeText(getContext(),
-                                    "Gagal ambil data",
-                                    Toast.LENGTH_SHORT).show();
+                            android.util.Log.d("AppLog", String.valueOf("Gagal ambil data"));
                         }
                     }
 
                     @Override
                     public void onFailure(Call<KendaraanAdminResponseModel> call, Throwable t) {
-                        Toast.makeText(getContext(),
-                                "Error: " + t.getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
+                        android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                     }
                 });
     }
@@ -524,17 +534,13 @@ public class KendaraanAdminFragment extends Fragment {
                             dialogSukses.show();
 
                         } else {
-                            Toast.makeText(getContext(),
-                                    "Gagal tambah",
-                                    Toast.LENGTH_SHORT).show();
+                            android.util.Log.d("AppLog", String.valueOf("Gagal tambah"));
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(getContext(),
-                                t.getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        android.util.Log.d("AppLog", String.valueOf(t.getMessage()));
                     }
                 });
     }
@@ -596,9 +602,9 @@ public class KendaraanAdminFragment extends Fragment {
 
                             try {
                                 String error = response.errorBody().string();
-                                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                                android.util.Log.d("AppLog", String.valueOf(error));
                             } catch (Exception e) {
-                                Toast.makeText(getContext(), "Gagal update", Toast.LENGTH_SHORT).show();
+                                android.util.Log.d("AppLog", String.valueOf("Gagal update"));
                             }
                         }
                     }
@@ -608,9 +614,7 @@ public class KendaraanAdminFragment extends Fragment {
 
                         hideLoading(loadingOverlay, btnText);
 
-                        Toast.makeText(getContext(),
-                                "Error: " + t.getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                     }
                 });
     }

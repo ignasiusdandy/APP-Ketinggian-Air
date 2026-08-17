@@ -30,6 +30,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -42,25 +43,52 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailStatusPulangActivity extends AppCompatActivity {
+public class DetailStatusActivity extends AppCompatActivity {
     private MapView map;
     private LineChart lineChart;
-    private LinearLayout bgRekomendasi, weightResiko;
+    private LinearLayout bgRekomendasi;
 
-    private TextView tvTinggi, tvKecepatan, tvStatus, tvWaktu, tvStatusJam, tvRekomendasi, tvDeskripsiRekomendasi;
-    private ImageView bulatStatus, arrowKecepatan, arrowTinggi, iconRekomendasi;
-    InternetHandler internetHandler;
-    Handler handler = new Handler();
-    Runnable runnable;
+    private TextView tvTinggi, tvKecepatan, tvStatus, tvWaktu, tvStatusJam, tvRekomendasi, tvDeskripsiRekomendasi, tvKetTinggi, tvKetTren;
+    private ImageView bulatStatus, arrowKecepatan, iconRekomendasi;
     private ShimmerFrameLayout shimmerLayout;
     private ScrollView contentScroll;
-    int interval = 10 * 60 * 1000;
+    InternetHandler internetHandler;
+    private Marker mapMarker;
 
+    // Ini untuk refresh
+    Handler handler = new Handler();
+    Runnable runnable;
+    int interval = 10 * 60 * 1000;
+    // Variabel Dinamis
+    private String idLokasi;
+    private String namaLokasi;
+    private double latitude = 0.0;
+    private double longitude = 0.0;
+    
+    private String currentKendaraan = "-";
+    private String currentRisiko = "Tidak Diketahui";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_status_pulang);
+        setContentView(R.layout.activity_detail_status_datang);
+
+        // Ambil Data dari Intent
+        idLokasi = getIntent().getStringExtra("ID_LOKASI");
+        namaLokasi = getIntent().getStringExtra("NAMA_LOKASI");
+        String strLat = getIntent().getStringExtra("LATITUDE");
+        String strLng = getIntent().getStringExtra("LONGITUDE");
+        if (strLat != null && !strLat.isEmpty()) latitude = Double.parseDouble(strLat);
+        if (strLng != null && !strLng.isEmpty()) longitude = Double.parseDouble(strLng);
+
+        // Jika tidak ada parameter (misal buka paksa), beri default
+        if (idLokasi == null) idLokasi = "LOC001";
+        if (namaLokasi == null) namaLokasi = "Nama Lokasi";
+
+        Configuration.getInstance().load(
+                this,
+                getSharedPreferences("osmdroid", 0)
+        );
 
         // cek internet
         internetHandler = new InternetHandler(
@@ -70,6 +98,10 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
                 findViewById(R.id.progressReconnect)
         );
         internetHandler.checkInternet();
+        shimmerLayout = findViewById(R.id.shimmerLayout);
+        contentScroll = findViewById(R.id.contentScroll);
+        contentScroll.setAlpha(0f);
+        shimmerLayout.startShimmer();
 
         Window window = getWindow();
 
@@ -80,12 +112,7 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
 
-        shimmerLayout = findViewById(R.id.shimmerLayout);
-        contentScroll = findViewById(R.id.contentScroll);
-        contentScroll.setAlpha(0f);
-        shimmerLayout.startShimmer();
-
-        map = findViewById(R.id.mapDetailPulang);
+        map = findViewById(R.id.mapDetailDatang);
         map.setMultiTouchControls(false);
         map.setClickable(false);
         map.setEnabled(false);
@@ -95,15 +122,20 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         // posisi
-        GeoPoint jalanPulang = new GeoPoint(-3.2955525424546877, 114.58486568269987);
+        GeoPoint titikLokasi = new GeoPoint(latitude != 0 ? latitude : -3.2967022, longitude != 0 ? longitude : 114.5837564);
 
         map.getController().setZoom(19.0);
-        map.getController().setCenter(jalanPulang);
-        Marker marker = new Marker(map);
-        marker.setPosition(jalanPulang);
-        marker.setInfoWindow(null);
-        marker.setIcon(getResources().getDrawable(R.drawable.maps_point_icon));
-        map.getOverlays().add(marker);
+        map.getController().setCenter(titikLokasi);
+        mapMarker = new Marker(map);
+        mapMarker.setPosition(titikLokasi);
+        mapMarker.setInfoWindow(null);
+        mapMarker.setIcon(getResources().getDrawable(R.drawable.maps_point_icon));
+        map.getOverlays().add(mapMarker);
+
+        TextView tvTitle = findViewById(R.id.tvTitleDetail);
+        if(tvTitle != null) {
+            tvTitle.setText("Detail " + namaLokasi);
+        }
 
         RecyclerView tabelKendaraan = findViewById(R.id.rvKendaraan);
         tabelKendaraan.setLayoutManager(new LinearLayoutManager(this));
@@ -128,15 +160,19 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
         tvWaktu = findViewById(R.id.tvWaktuDetail);
         bulatStatus = findViewById(R.id.bulatStatusDetail);
         arrowKecepatan = findViewById(R.id.arrowKecepatanDetail);
-        arrowTinggi = findViewById(R.id.arrowTinggiDetail);
+
         tvStatusJam = findViewById(R.id.statusJam);
         bgRekomendasi = findViewById(R.id.bgRekomendasi);
         iconRekomendasi = findViewById(R.id.iconRekomendasi);
         tvRekomendasi = findViewById(R.id.textRekomendasi);
         tvDeskripsiRekomendasi = findViewById(R.id.deskripsiRekomendasi);
-        weightResiko = findViewById(R.id.weightResiko);
-        loadStatusPulang();
+        tvKetTinggi = findViewById(R.id.tvKetTinggi);
+        tvKetTren = findViewById(R.id.tvKetTren);
+        loadStatusData();
     }
+
+
+
 
     @Override
     protected void onResume(){
@@ -152,12 +188,13 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
         stopAutoRefresh();
     }
 
+
     private void startAutoRefresh() {
         runnable = new Runnable() {
             @Override
             public void run() {
 
-                loadStatusPulang();
+                loadStatusData();
                 loadChartData();
                 handler.postDelayed(this, interval);
             }
@@ -172,13 +209,14 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
         }
     }
 
+
     private void loadKendaraan(RecyclerView tabelKendaraan) {
 
         SessionManager session = new SessionManager(this);
         String token = "Bearer " + session.getToken();
 
         ApiService api = ApiClient.getClient().create(ApiService.class);
-        String lokasi = "LOC002";
+        String lokasi = idLokasi != null ? idLokasi : "LOC001";
 
         api.getKendaraanUserSPK(token, lokasi).enqueue(new Callback<KendaraanUserResponseModel>() {
             @Override
@@ -192,9 +230,16 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
                     List<KendaraanTabelModel> list = new ArrayList<>();
 
                     for (KendaraanUserResponseModel.DataKendaraanUser item : data) {
+                        
+                        if (item.isKendaraanUtama()) {
+                            currentKendaraan = item.getNamaLengkapMotor();
+                            if (!currentRisiko.equals("Tidak Diketahui")) {
+                                setStatusUI(currentRisiko, currentKendaraan);
+                                setDeskripsiStatus(currentKendaraan, currentRisiko);
+                            }
+                        }
 
                         String plat = item.getPlatKendaraan();
-
                         String kategori = item.getJenisMotor();
                         String model = item.getModelMotor();
                         String status = item.getStatus();
@@ -211,15 +256,13 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
                     tabelKendaraan.setAdapter(adapter);
 
                 } else {
-                    Toast.makeText(DetailStatusPulangActivity.this,
-                            "Gagal Load Kendaraan", Toast.LENGTH_SHORT).show();
+                    android.util.Log.d("AppLog", String.valueOf("Gagal Load Kendaraan"));
                 }
             }
 
             @Override
             public void onFailure(Call<KendaraanUserResponseModel> call, Throwable t) {
-                Toast.makeText(DetailStatusPulangActivity.this,
-                        "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
             }
         });
     }
@@ -228,78 +271,84 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
     private void loadChartData(){
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        apiService.getChartData().enqueue(new Callback<ChartAllResponseModel>() {
+        apiService.getChartDataDetail(idLokasi).enqueue(new Callback<ChartResponseModel>() {
             @Override
-            public void onResponse(Call<ChartAllResponseModel> call, Response<ChartAllResponseModel> response) {
+            public void onResponse(Call<ChartResponseModel> call, Response<ChartResponseModel> response) {
                 if(response.isSuccessful() && response.body() != null ){
-                    List<ChartItem> pulang = response.body().getDataChartAll().getJalanpulang();
+                    List<ChartItem> dataChart = response.body().getData();
 
-                    if(pulang.isEmpty()){
+                    if(dataChart == null || dataChart.isEmpty()){
                         lineChart.clear();
                         lineChart.setNoDataText("Tidak Ada Data");
                         return;
                     }
 
-                    setupChart(pulang);
+                    setupChart(dataChart);
                 }
             }
 
             @Override
-            public void onFailure(Call<ChartAllResponseModel> call, Throwable t) {
+            public void onFailure(Call<ChartResponseModel> call, Throwable t) {
                 lineChart.setNoDataText("Gagal Ambil Data");
             }
         });
     }
 
-    private void setupChart(List<ChartItem> pulang){
-        ArrayList<Entry> dataPulang = new ArrayList<>();
+    private void setupChart(List<ChartItem> dataChart){
+
+        ArrayList<Entry> dataDatang = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
-        int size = pulang.size();
+        int size = dataChart.size();
 
         for (int i = 0; i < size; i++) {
 
-            ChartItem p = pulang.get(i);
-
-            // titik ungu
-            dataPulang.add(
-                    new Entry(i, p.getNilai())
+            ChartItem d = dataChart.get(i);
+            // titik biru
+            dataDatang.add(
+                    new Entry(i, d.getNilai())
             );
 
             // label waktu
-            labels.add(p.getWaktu());
+            labels.add(d.getWaktu());
         }
 
-        LineDataSet set2 =
-                new LineDataSet(dataPulang,
-                        "Jalan Pulang");
+        // =========================
+        // BLUE LINE
+        // =========================
 
-        set2.setColor(Color.parseColor("#C026FF"));
+        LineDataSet set1 =
+                new LineDataSet(dataDatang,
+                        namaLokasi != null ? namaLokasi : "Data Lokasi");
 
-        set2.setLineWidth(3.5f);
+        set1.setColor(Color.parseColor("#2563FF"));
 
-        set2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        set1.setLineWidth(3f);
 
-        set2.setDrawValues(false);
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        set2.setDrawFilled(true);
+        set1.setDrawValues(false);
 
-        set2.setFillColor(Color.parseColor("#C026FF"));
+        set1.setDrawFilled(true);
 
-        set2.setFillAlpha(18);
+        set1.setFillColor(Color.parseColor("#2563FF"));
 
-        set2.setDrawCircles(true);
+        set1.setFillAlpha(25);
 
-        set2.setCircleColor(Color.parseColor("#C026FF"));
+        set1.setDrawCircles(false);
 
-        set2.setCircleRadius(0f);
+        set1.setHighLightColor(Color.TRANSPARENT);
 
-        set2.setHighLightColor(Color.TRANSPARENT);
+        set1.setDrawHorizontalHighlightIndicator(false);
 
-        set2.setDrawHorizontalHighlightIndicator(false);
+        set1.setDrawVerticalHighlightIndicator(false);
 
-        set2.setDrawVerticalHighlightIndicator(false);
-        set2.setCircleRadius(4f);
+        // titik terakhir
+        set1.setDrawCircles(true);
+
+        set1.setCircleRadius(4f);
+
+        set1.setCircleColor(Color.parseColor("#2563FF"));
 
 
         // =========================
@@ -324,6 +373,8 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
 
         lineChart.setExtraTopOffset(12f);
         lineChart.setMinOffset(0f);
+
+
         lineChart.setExtraBottomOffset(16f);
 
         // =========================
@@ -427,7 +478,7 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
         // SET DATA
         // =========================
 
-        LineData lineData = new LineData(set2);
+        LineData lineData = new LineData(set1);
 
         lineChart.setData(lineData);
 
@@ -458,25 +509,31 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
     }
 
 
-    private void loadStatusPulang(){
+    private void loadStatusData(){
 
         SessionManager session = new SessionManager(this);
         String token = "Bearer " + session.getToken();
 
         ApiService api = ApiClient.getClient().create(ApiService.class);
 
-        api.getStatusUtama(token).enqueue(new Callback<StatusUtamaResponseModel>() {
+        api.getStatusUtama(token, idLokasi).enqueue(new Callback<StatusUtamaResponseModel>() {
             @Override
             public void onResponse(Call<StatusUtamaResponseModel> call,
                                    Response<StatusUtamaResponseModel> response) {
 
                 if(response.isSuccessful() && response.body() != null){
+                    StatusUtamaResponseModel res = response.body();
 
-                    StatusUtamaResponseModel.Lokasi pulang = response.body().getPulang();
-
-                    if(pulang != null && pulang.getData() != null){
-
-                        StatusUtamaResponseModel.Data d = pulang.getData();
+                    if(res.isStatus() && res.getData() != null && !res.getData().isEmpty()){
+                        StatusUtamaResponseModel.Data d = null;
+                        for(StatusUtamaResponseModel.Data data : res.getData()) {
+                            if(data.getIdLokasi() != null && data.getIdLokasi().equals(idLokasi)) {
+                                d = data;
+                                break;
+                            }
+                        }
+                        // Fallback jika tidak match id (harusnya tidak terjadi)
+                        if (d == null) d = res.getData().get(0);
 
                         double tinggi = d.getTinggi();
                         double kecepatan = d.getKecepatan();
@@ -484,17 +541,23 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
                         String waktu = d.getLastUpdate();
                         String kendaraan = d.getKendaraan();
 
+                        if (kendaraan != null && !kendaraan.trim().isEmpty() && !kendaraan.equals("-")) {
+                            currentKendaraan = kendaraan;
+                        }
+                        if (risiko != null) {
+                            currentRisiko = risiko;
+                        }
+
                         tvTinggi.setText((double) tinggi + " cm");
-                        tvKecepatan.setText((double) kecepatan + " cm/h");
                         tvWaktu.setText(waktu + " WITA");
                         tvWaktu.setTextColor(getResources().getColor(R.color.blue6));
-                        Log.d("Resiko: ", risiko);
+                        Log.d("Resiko: ", currentRisiko);
 
-                        setStatusUI(risiko);
+                        setStatusUI(currentRisiko, currentKendaraan);
                         setArrow(kecepatan);
-                        setDeskripsiStatus(kendaraan, risiko);
-                        showContent();
+                        setDeskripsiStatus(currentKendaraan, currentRisiko);
 
+                        showContent();
                     }
                 }
             }
@@ -507,11 +570,11 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
         });
     }
 
-    private void setStatusUI(String risiko){
+    private void setStatusUI(String risiko, String kendaraan){
 
         if(risiko == null) return;
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) weightResiko.getLayoutParams();
-
+        if (kendaraan == null) kendaraan = "Kendaraan Anda";
+        
         if(risiko.toLowerCase().contains("aman")){
             tvStatusJam.setText("Aman");
             tvStatusJam.setTextColor(getResources().getColor(R.color.hijauaman));
@@ -520,9 +583,12 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             bulatStatus.setImageResource(R.drawable.bulathijaukecil);
             bgRekomendasi.setBackgroundColor(getResources().getColor(R.color.hijaubackgroundaman));
             iconRekomendasi.setImageResource(R.drawable.aman_icon);
-            tvRekomendasi.setText("Motor Honda Beat 150 anda Aman untuk melintasi jalur ini");
+            tvRekomendasi.setText("Motor " + kendaraan + " aman untuk melintasi jalur ini");
             tvDeskripsiRekomendasi.setText("Tetap hati-hati dan gunakan kecepatan rendah saat melintas");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.hijauaman));
+            tvTinggi.setTextColor(getResources().getColor(R.color.hijauaman));
+            if(tvKetTinggi != null) tvKetTinggi.setText("Batas aman");
+            if(mapMarker != null) mapMarker.setIcon(getResources().getDrawable(R.drawable.maps_point_green));
         } else if(risiko.toLowerCase().contains("resiko rendah")){
             tvStatusJam.setText("Resiko Sedang");
             tvStatusJam.setTextColor(getResources().getColor(R.color.kuningrendah));
@@ -531,11 +597,12 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             bulatStatus.setImageResource(R.drawable.bulatkuningkecil);
             bgRekomendasi.setBackgroundColor(getResources().getColor(R.color.kuningbackgroundrendah));
             iconRekomendasi.setImageResource(R.drawable.resikorendah_icon);
-            tvRekomendasi.setText("Motor Honda Beat 150 anda Beresiko Rendah untuk melintasi jalur ini");
+            tvRekomendasi.setText("Motor " + kendaraan + " beresiko rendah untuk melintasi jalur ini");
             tvDeskripsiRekomendasi.setText("Kondisi diperkiran akan surut. Disarankan menunggu hingga kondisi lebih aman");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.kuningrendah));
-            params.weight = 0.6f;
-
+            tvTinggi.setTextColor(getResources().getColor(R.color.kuningrendah));
+            if(tvKetTinggi != null) tvKetTinggi.setText("Perlu diwaspadai");
+            if(mapMarker != null) mapMarker.setIcon(getResources().getDrawable(R.drawable.maps_point_yellow));
         } else if(risiko.toLowerCase().contains("waspada")){
             tvStatusJam.setText("Waspada");
             tvStatusJam.setTextColor(getResources().getColor(R.color.kuningrendah));
@@ -544,11 +611,13 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             bulatStatus.setImageResource(R.drawable.bulatkuningkecil);
             bgRekomendasi.setBackgroundColor(getResources().getColor(R.color.kuningbackgroundrendah));
             iconRekomendasi.setImageResource(R.drawable.resikorendah_icon);
-            tvRekomendasi.setText("Motor Honda Beat 150 anda Beresiko untuk melintasi jalur ini");
+            tvRekomendasi.setText("Motor " + kendaraan + " beresiko untuk melintasi jalur ini");
             tvDeskripsiRekomendasi.setText("Kondisi berpotensi berbahaya. Disarankan menunggu hingga kondisi lebih aman atau gunakan alternatif lain");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.kuningrendah));
-            params.weight = 0.6f;
-        }else if(risiko.toLowerCase().contains("resiko sedang")){
+            tvTinggi.setTextColor(getResources().getColor(R.color.kuningrendah));
+            if(tvKetTinggi != null) tvKetTinggi.setText("Perlu diwaspadai");
+            if(mapMarker != null) mapMarker.setIcon(getResources().getDrawable(R.drawable.maps_point_yellow));
+        } else if(risiko.toLowerCase().contains("resiko sedang")){
             tvStatusJam.setText("Resiko Sedang");
             tvStatusJam.setTextColor(getResources().getColor(R.color.orensedang));
             tvStatus.setText("Resiko Sedang");
@@ -556,11 +625,12 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             bulatStatus.setImageResource(R.drawable.bulatorenkecil);
             bgRekomendasi.setBackgroundColor(getResources().getColor(R.color.orenbackgroundsedang));
             iconRekomendasi.setImageResource(R.drawable.resikosedang_icon);
-            tvRekomendasi.setText("Motor Honda Beat 150 anda Beresiko Sedang untuk melintasi jalur ini");
+            tvRekomendasi.setText("Motor " + kendaraan + " beresiko sedang untuk melintasi jalur ini");
             tvDeskripsiRekomendasi.setText("Kondisi berpotensi berbahaya, Ketinggian air tidak menunjukkan penurunan");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.orensedang));
-            params.weight = 0.6f;
-
+            tvTinggi.setTextColor(getResources().getColor(R.color.orensedang));
+            if(tvKetTinggi != null) tvKetTinggi.setText("Kondisi siaga");
+            if(mapMarker != null) mapMarker.setIcon(getResources().getDrawable(R.drawable.maps_point_yellow));
         } else if(risiko.toLowerCase().contains("resiko tinggi")){
             tvStatusJam.setText("Resiko Tinggi");
             tvStatusJam.setTextColor(getResources().getColor(R.color.peringatan));
@@ -569,10 +639,12 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             bulatStatus.setImageResource(R.drawable.bulatmerahkecil);
             bgRekomendasi.setBackgroundColor(getResources().getColor(R.color.merahbackgroundtinggi));
             iconRekomendasi.setImageResource(R.drawable.resikotinggi_icon);
-            tvRekomendasi.setText("Motor Honda Beat 150 anda Beresiko Tinggi untuk melintasi jalur ini ");
+            tvRekomendasi.setText("Motor " + kendaraan + " beresiko tinggi untuk melintasi jalur ini");
             tvDeskripsiRekomendasi.setText("Kondisi sangat berbahaya, Ketinggian air sangat berisiko menyebabkan motor mogok dan bahkan risiko kerusakan pada kendaraan");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.peringatan));
-            params.weight = 0.6f;
+            tvTinggi.setTextColor(getResources().getColor(R.color.peringatan));
+            if(tvKetTinggi != null) tvKetTinggi.setText("Bahaya banjir!");
+            if(mapMarker != null) mapMarker.setIcon(getResources().getDrawable(R.drawable.maps_point_red));
         } else if(risiko.toLowerCase().contains("bahaya")){
             tvStatusJam.setText("Bahaya");
             tvStatusJam.setTextColor(getResources().getColor(R.color.peringatan));
@@ -581,31 +653,41 @@ public class DetailStatusPulangActivity extends AppCompatActivity {
             bulatStatus.setImageResource(R.drawable.bulatmerahkecil);
             bgRekomendasi.setBackgroundColor(getResources().getColor(R.color.merahbackgroundtinggi));
             iconRekomendasi.setImageResource(R.drawable.resikotinggi_icon);
-            tvRekomendasi.setText("Motor Honda Beat 150 anda Berbahaya untuk melintasi jalur ini ");
+            tvRekomendasi.setText("Motor " + kendaraan + " berbahaya untuk melintasi jalur ini");
             tvDeskripsiRekomendasi.setText("Kondisi sangat berbahaya, sangat tidak dianjurkan untuk melewati tempat ini. Ketinggian air sangat berisiko menyebabkan motor mogok dan bahkan berisiko kerusakan pada kendaraan");
             tvDeskripsiRekomendasi.setTextColor(getResources().getColor(R.color.peringatan));
-            params.weight = 0.6f;
+            tvTinggi.setTextColor(getResources().getColor(R.color.peringatan));
+            if(tvKetTinggi != null) tvKetTinggi.setText("Bahaya banjir!");
+            if(mapMarker != null) mapMarker.setIcon(getResources().getDrawable(R.drawable.maps_point_red));
         }
+        if(map != null) map.invalidate();
     }
 
 
     private void setArrow(double kecepatan){
 
         if(kecepatan > 0){
-            arrowTinggi.setImageResource(R.drawable.up_arrow);
             arrowKecepatan.setImageResource(R.drawable.up_arrow);
+            tvKecepatan.setText("Naik");
+            tvKecepatan.setTextColor(getResources().getColor(R.color.hijauaman));
+            if(tvKetTren != null) tvKetTren.setText("Ketinggian air menurun");
         } else if(kecepatan < 0){
             arrowKecepatan.setImageResource(R.drawable.down_arrow);
-            arrowTinggi.setImageResource(R.drawable.down_arrow);
+            tvKecepatan.setText("Turun");
+            tvKecepatan.setTextColor(getResources().getColor(R.color.peringatan));
+            if(tvKetTren != null) tvKetTren.setText("Ketinggian air meningkat");
         } else{
             arrowKecepatan.setImageResource(R.drawable.arrow_stabil);
-            arrowTinggi.setImageResource(R.drawable.arrow_stabil);
-            tvTinggi.setTextColor(getResources().getColor(R.color.black));
-            tvKecepatan.setTextColor(getResources().getColor(R.color.black));
+            tvKecepatan.setTextColor(android.graphics.Color.parseColor("#8B5CF6"));
+            tvKecepatan.setText("Stabil");
+            if(tvKetTren != null) tvKetTren.setText("Tidak ada perubahan signifikan");
         }
     }
 
     private void setDeskripsiStatus(String kendaraan, String risiko){
+        if (kendaraan == null) kendaraan = "-";
+        if (risiko == null) risiko = "Tidak Diketahui";
+
         if (risiko.equals("Aman")){
             risiko = "Aman";
         } else if(risiko.equals("Waspada")){

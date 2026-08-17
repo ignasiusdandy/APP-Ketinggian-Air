@@ -145,7 +145,7 @@ public class GantiKataSandiFragment extends Fragment {
                     @Override
                     public void onFailure(Call<GantiKataSandiModel> call, Throwable t) {
                         btn_ganti.setEnabled(true);
-                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                     }
                 });
 

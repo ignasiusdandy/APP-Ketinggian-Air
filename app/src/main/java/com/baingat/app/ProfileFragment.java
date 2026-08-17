@@ -348,11 +348,7 @@ public class ProfileFragment extends Fragment {
                                     Call<GantiKataSandiModel> call,
                                     Throwable t) {
 
-                                Toast.makeText(
-                                        getContext(),
-                                        "Error: " + t.getMessage(),
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                                android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
 
                             }
 

@@ -61,7 +61,7 @@ public class PopupPilihEditKendaraan extends Dialog {
         btnHapus.setOnClickListener(v -> {
             int position = spinnerKendaraanUser.getSelectedItemPosition();
             if(position <= 0){
-                Toast.makeText(context, "Pilih Kendaraan terlebih dahulu!", Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Pilih Kendaraan terlebih dahulu!"));
                 return;
             }
             KendaraanUserResponseModel.DataKendaraanUser selected = listKendaraan.get(position - 1);
@@ -90,7 +90,7 @@ public class PopupPilihEditKendaraan extends Dialog {
 //            int position = spinnerKendaraanUser.getSelectedItemPosition();
 //
 //            if (position <= 0) {
-//                Toast.makeText(context, "Pilih Kendaraan terlebih dahulu!", Toast.LENGTH_SHORT).show();
+//                android.util.Log.d("AppLog", String.valueOf("Pilih Kendaraan terlebih dahulu!"));
 //                return;
 //            }
 //
@@ -189,7 +189,7 @@ public class PopupPilihEditKendaraan extends Dialog {
 
                     @Override
                     public void onFailure(Call<KendaraanUserResponseModel> call, Throwable t) {
-                        Toast.makeText(getContext(), "Gagal load kendaraan", Toast.LENGTH_SHORT).show();
+                        android.util.Log.d("AppLog", String.valueOf("Gagal load kendaraan"));
                     }
                 });
 
@@ -236,13 +236,13 @@ public class PopupPilihEditKendaraan extends Dialog {
                                 listener.onBerhasilHapus();
                             }
                         } else {
-                            Toast.makeText(context, "Gagal hapus", Toast.LENGTH_SHORT).show();
+                            android.util.Log.d("AppLog", String.valueOf("Gagal hapus"));
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                     }
                 });
 

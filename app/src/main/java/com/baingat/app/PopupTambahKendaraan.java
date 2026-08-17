@@ -335,7 +335,7 @@ public class PopupTambahKendaraan extends Dialog {
                     setupJenis();
 
                 } else {
-                    Toast.makeText(context, "Gagal ambil data", Toast.LENGTH_SHORT).show();
+                    android.util.Log.d("AppLog", String.valueOf("Gagal ambil data"));
                 }
             }
 

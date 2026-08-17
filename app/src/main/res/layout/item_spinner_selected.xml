@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Item yang tampil di dalam kotak spinner (saat dropdown ditutup) -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="12dp"
+    android:paddingEnd="36dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    android:gravity="center_vertical"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:textSize="13sp"
+    android:textColor="#1F2937"
+    android:fontFamily="sans-serif"/>

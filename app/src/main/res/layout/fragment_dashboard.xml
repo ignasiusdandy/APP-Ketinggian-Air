@@ -180,543 +180,434 @@
     <!-- CONTENT ASLI -->
     <!-- ===================== -->
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white"
+            android:background="@drawable/bg_gradient_blue"
             >
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:background="@drawable/headerfix"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="345dp"
-                    android:layout_height="150dp"
-                    android:orientation="vertical">
 
+            <!-- ===================== -->
+            <!-- TOP BAR: User Info    -->
+            <!-- ===================== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="56dp"
+                android:paddingBottom="10dp"
+                android:background="@android:color/transparent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/selamatWaktu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Selamat Pagi,"
+                        android:textColor="#6B7280"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_regular"/>
                     <TextView
                         android:id="@+id/haiNamaUser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginTop="57dp"
+                        android:text="Nama User"
+                        android:textColor="#111827"
+                        android:textSize="18sp"
                         android:fontFamily="@font/poppinssemibold"
-                        android:text="Hai Ignasius Dandy"
-                        android:textColor="@color/white"
-                        android:textSize="22sp" />
-                    <TextView
-                        android:id="@+id/selamatWaktu"
-                        android:layout_width="200dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginTop="0dp"
-                        android:fontFamily="@font/poppinsmedium"
-                        android:text="Selamat Pagi"
-                        android:textColor="@color/white2"
-                        android:textSize="18sp" />
+                        android:layout_marginTop="-2dp"/>
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/btnLogout"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/logout_icon"
+                    app:tint="#2563EB"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <!-- ===================== -->
+            <!-- LOCATION SELECTOR     -->
+            <!-- ===================== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="14dp">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/logout_icon"
-                    android:layout_gravity="top|end"
+                    android:text="Pilih Lokasi"
+                    android:textColor="#4B5563"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:layout_marginBottom="6dp"/>
+
+                <LinearLayout
+                    android:id="@+id/btnPilihLokasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/card_putih"
+                    android:elevation="2dp"
+                    android:padding="12dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_marginTop="65dp"
-                    android:layout_marginRight="25dp"/>
+                    android:foreground="?attr/selectableItemBackground">
+                    
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/maps_icon"
+                        app:tint="#2563EB"
+                        android:layout_marginEnd="10dp"/>
 
+                    <TextView
+                        android:id="@+id/tvLokasiTerpilih"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Semua Wilayah"
+                        android:textColor="#111827"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppinsmedium"/>
 
-            </FrameLayout>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/down_arrow"
+                        android:layout_gravity="center_vertical"
+                        app:tint="#6B7280"/>
+                </LinearLayout>
+            </LinearLayout>
 
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"/>
+
+            <!-- ===================== -->
+            <!-- MOTOR UTAMA BAR       -->
+            <!-- ===================== -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp">
+                android:gravity="center_vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="0dp">
 
                 <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/kendaraan_icon"
+                    app:tint="#4B5563"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bulatbirukecil" />
+                    android:text="Kendaraan Utama: "
+                    android:textColor="#6B7280"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppins_regular"/>
 
                 <TextView
                     android:id="@+id/kendaraanUtama"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppinsmedium"
-                    android:textColor="@color/black"
-                    android:text="Honda Beat 150" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/layoutJalanDatang"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="vertical"
-                android:background="@drawable/card_putih"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="16dp"
-                android:paddingTop="8dp"
-                android:elevation="6dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="30dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                >
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Jalan Datang ULM"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/poppinssemibold"
-                        android:textSize="16sp"
-                        android:layout_marginTop="6dp"/>
-
-                    <View
-                        android:layout_height="0dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/bulatStatusDatang"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/bulathijaukecil"
-                        android:layout_marginRight="6dp"
-                        android:layout_marginTop="4dp"/>
-
-                    <TextView
-                        android:id="@+id/statusDatang"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppinssemibold"
-                        android:text="AMAN"
-                        android:textSize="13sp"
-                        android:textColor="@color/hijauaman"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="115dp"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp"
-                    >
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/status_aman"
-                        android:layout_marginRight="10dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:layout_marginTop="45dp"
-                                android:text="Ketinggian Air"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textSize="11sp"
-                                android:textColor="@color/black"/>
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:id="@+id/tinggiDatang"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="8dp"
-                                    android:layout_marginTop="0dp"
-                                    android:text="20.2 cm"
-                                    android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="12sp"
-                                    android:textColor="@color/black"
-                                    android:layout_marginRight="4dp"/>
-
-                                <ImageView
-                                    android:id="@+id/arrowTinggiDatang"
-                                    android:layout_width="17dp"
-                                    android:layout_height="19dp"
-                                    android:src="@drawable/down_arrow" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/kecepatan_aman"
-                        android:layout_marginLeft="10dp">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:layout_marginTop="45dp"
-                                android:text="Kecepatan Air"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textSize="11sp"
-                                android:textColor="@color/black"/>
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:id="@+id/kecepatanDatang"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="8dp"
-                                    android:layout_marginTop="0dp"
-                                    android:text="20.2 cm/h"
-                                    android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="12sp"
-                                    android:textColor="@color/black"
-                                    android:layout_marginRight="4dp"/>
-
-                                <ImageView
-                                    android:id="@+id/arrowKecepatanDatang"
-                                    android:layout_width="18dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/up_arrow" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="10sp"
-                        android:text="Diperbaharui"/>
-                    <TextView
-                        android:id="@+id/waktuDatang"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/blue6"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="10sp"
-                        android:text="08:00 WITA"
-                        android:layout_marginLeft="3dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="10sp"
-                        android:text="lalu"
-                        android:layout_marginLeft="3dp"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:layout_marginTop="0dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/blue6"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="10sp"
-                        android:text="Lihat selengkapnya"
-                        />
-                </LinearLayout>
+                    android:text="Honda Beat 150"
+                    android:textColor="#111827"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:layout_marginStart="4dp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/layoutJalanPulang"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="vertical"
-                android:background="@drawable/card_putih"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="16dp"
-                android:paddingTop="8dp"
-                android:elevation="6dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="30dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Jalan Pulang ULM"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/poppinssemibold"
-                        android:textSize="16sp"
-                        android:layout_marginTop="6dp"/>
-
-                    <View
-                        android:layout_height="0dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/bulatStatusPulang"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/bulathijaukecil"
-                        android:layout_marginRight="6dp"
-                        android:layout_marginTop="4dp"/>
-
-                    <TextView
-                        android:id="@+id/statusPulang"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppinssemibold"
-                        android:text="AMAN"
-                        android:textSize="13sp"
-                        android:textColor="@color/hijauaman"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="115dp"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp"
-                    >
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/status_aman"
-                        android:layout_marginRight="10dp">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:layout_marginTop="45dp"
-                                android:text="Ketinggian Air"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textSize="11sp"
-                                android:textColor="@color/black"/>
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:id="@+id/tinggiPulang"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="8dp"
-                                    android:layout_marginTop="0dp"
-                                    android:text="22.2 cm"
-                                    android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="12sp"
-                                    android:textColor="@color/black"
-                                    android:layout_marginRight="4dp"/>
-
-                                <ImageView
-                                    android:id="@+id/arrowTinggiPulang"
-                                    android:layout_width="17dp"
-                                    android:layout_height="19dp"
-                                    android:src="@drawable/arrow_stabil" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/kecepatan_aman"
-                        android:layout_marginLeft="10dp">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:layout_marginTop="45dp"
-                                android:text="Kecepatan Air"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textSize="11sp"
-                                android:textColor="@color/black"/>
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:id="@+id/kecepatanPulang"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="8dp"
-                                    android:layout_marginTop="0dp"
-                                    android:text="22.2 cm/h"
-                                    android:fontFamily="@font/poppinsmedium"
-                                    android:textSize="12sp"
-                                    android:textColor="@color/black"
-                                    android:layout_marginRight="4dp"/>
-
-                                <ImageView
-                                    android:id="@+id/arrowKecepatanPulang"
-                                    android:layout_width="17dp"
-                                    android:layout_height="19dp"
-                                    android:src="@drawable/up_arrow" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="10sp"
-                        android:text="Diperbaharui"/>
-                    <TextView
-                        android:id="@+id/waktuPulang"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/blue6"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="10sp"
-                        android:text="08:00 WITA"
-                        android:layout_marginLeft="3dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="10sp"
-                        android:text="lalu"
-                        android:layout_marginLeft="3dp"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:layout_marginTop="0dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/blue6"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="10sp"
-                        android:text="Lihat selengkapnya"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-
+            <!-- ===================== -->
+            <!-- INFO BANNER           -->
+            <!-- ===================== -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="50dp"
-                android:orientation="vertical"
-                android:padding="18dp"
-                android:elevation="6dp"
-                android:background="@drawable/card_putih">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_info_banner"
+                android:padding="10dp">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/realtime_icon"
+                    app:tint="#3B82F6"
+                    android:layout_marginEnd="8dp"/>
+                <TextView
+                    android:id="@+id/tvInfoBanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Menampilkan data untuk semua area pantauan."
+                    android:textColor="#1D4ED8"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppins_regular"/>
+            </LinearLayout>
 
-                <!-- TITLE -->
+            <!-- Removed hidden views as they are now active above -->
+            <!-- ===================== -->
+            <!-- CARD: JALAN DATANG    -->
+            <!-- ===================== -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvStatusJalan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="14dp"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp" />
+
+            <LinearLayout
+                android:id="@+id/layoutEmptyState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone">
+                
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_empty_water"
+                    android:layout_marginBottom="8dp"/>
+                    
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grafik Perubahan 1 Jam Terakhir"
+                    android:text="Belum ada alat yang aktif"
+                    android:textColor="#6B7280"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinsmedium"/>
+                    
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="Saat ini tidak ada sensor ketinggian air yang mengirimkan data ke sistem di wilayah ini."
+                    android:textColor="#9CA3AF"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/poppins_regular"/>
+            </LinearLayout>
+
+
+
+
+
+
+            <!-- Baris 2: Info Update + Keterangan -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_putih"
+                android:elevation="3dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="80dp"
+                android:layout_marginTop="14dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Informasi Sensor"
                     android:textColor="#111827"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/poppinssemibold"/>
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:layout_marginBottom="12dp"/>
 
-                <!-- WRAPPER CHART -->
-                <FrameLayout
+                <!-- Info item: interval update -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginTop="12dp">
-
-                    <!-- SATUAN KIRI -->
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/realtime_icon"
+                        app:tint="#3B82F6"
+                        android:layout_marginEnd="10dp"/>
                     <TextView
-                        android:id="@+id/tvSatuanKiri"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Interval Update Data"
+                        android:textColor="#374151"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_regular"/>
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="cm"
-                        android:textColor="#6B7280"
-                        android:textSize="11sp"
-                        android:fontFamily="@font/poppinsmedium"
-                        android:layout_gravity="top|start"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="6dp"/>
+                        android:text="5 Menit"
+                        android:textColor="#2563EB"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppinsmedium"/>
+                </LinearLayout>
 
-                    <!-- CHART -->
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/lineChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="18dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F3F4F6"
+                    android:layout_marginBottom="10dp"/>
 
-                </FrameLayout>
+                <!-- Info item: Status Aman -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/circle_green"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="2dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Indikator 1"
+                        android:textColor="#374151"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_regular"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Aman"
+                        android:textColor="#10B981"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppinsmedium"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F3F4F6"
+                    android:layout_marginBottom="10dp"/>
+
+                <!-- Info item: Status Waspada -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/circle_yellow"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="2dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Indikator 2"
+                        android:textColor="#374151"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_regular"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Waspada"
+                        android:textColor="#F59E0B"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppinsmedium"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F3F4F6"
+                    android:layout_marginBottom="10dp"/>
+
+                <!-- Info item: Status Bahaya -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/circle_red"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="2dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Indikator 3"
+                        android:textColor="#374151"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_regular"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bahaya"
+                        android:textColor="#EF4444"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppinsmedium"/>
+                </LinearLayout>
 
             </LinearLayout>
+
+            <!-- Hidden: untuk kompatibilitas Java -->
+            <TextView
+                android:id="@+id/tvSatuanKiri"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"/>
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineChart"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"/>
+
         </LinearLayout>
     </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

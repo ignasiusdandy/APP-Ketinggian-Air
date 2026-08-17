@@ -12,6 +12,11 @@
         android:icon="@drawable/kendaraan_icon"/>
 
     <item
+        android:id="@+id/nav_laporan"
+        android:title="Laporan"
+        android:icon="@drawable/ic_assignment"/>
+
+    <item
         android:id="@+id/nav_profile"
         android:title="Profile"
         android:icon="@drawable/profile_admin"/>

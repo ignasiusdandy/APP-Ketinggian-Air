@@ -3,13 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:background="#F9FAFB"
     tools:context=".DetailStatusPulangActivity">
-
-    <!-- ========================= -->
-    <!-- SHIMMER -->
-    <!-- ========================= -->
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"
@@ -21,654 +17,607 @@
         app:shimmer_highlight_alpha="1"
         app:shimmer_direction="left_to_right">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-            <!-- HEADER -->
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:background="#DADADA"/>
+                android:layout_height="wrap_content">
 
-            <!-- CARD -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_margin="16dp"
-                android:background="#E0E0E0"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <View
-                    android:layout_width="120dp"
-                    android:layout_height="18dp"
-                    android:background="#CFCFCF"/>
-
-                <View
+                <!-- TOP BAR PLACEHOLDER (Now above map) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/shimmerTopBar"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#CFCFCF"/>
+                    android:layout_height="56dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/white">
 
-                <View
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="6dp">
+
+                        <View
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="#E5E7EB"
+                            android:backgroundTint="#E5E7EB"
+                            android:layout_marginEnd="8dp"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:background="#E5E7EB"
+                            android:layout_marginEnd="40dp"/>
+
+                        <View
+                            android:layout_width="70dp"
+                            android:layout_height="32dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginEnd="8dp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- MAP PLACEHOLDER -->
+                <FrameLayout
+                    android:id="@+id/shimmerMapContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#CFCFCF"/>
+                    android:layout_height="320dp"
+                    android:background="#E5E7EB"
+                    android:layout_below="@+id/shimmerTopBar"/>
 
+                <!-- BOTTOM SHEET PLACEHOLDER -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:layout_below="@id/shimmerMapContainer"
+                    android:layout_marginTop="-40dp"
+                    android:background="@drawable/bg_bottom_sheet"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:elevation="6dp">
 
                     <View
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:layout_weight="1"
-                        android:layout_marginRight="10dp"
-                        android:background="#CFCFCF"/>
+                        android:layout_width="40dp"
+                        android:layout_height="4dp"
+                        android:background="#E5E7EB"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="24dp"/>
 
                     <View
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
-                        android:background="#CFCFCF"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="#E5E7EB"
+                        android:layout_marginBottom="20dp"/>
+                        
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="115dp"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="20dp">
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginRight="10dp"
+                            android:background="#E5E7EB"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="10dp"
+                            android:background="#E5E7EB"/>
+                    </LinearLayout>
+                    
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:background="#E5E7EB"
+                        android:layout_marginBottom="20dp"/>
+                        
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="230dp"
+                        android:background="#E5E7EB"/>
 
                 </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- TABLE -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="#E0E0E0"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <View
-                    android:layout_width="200dp"
-                    android:layout_height="18dp"
-                    android:background="#CFCFCF"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#CFCFCF"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#CFCFCF"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#CFCFCF"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#CFCFCF"/>
-
-            </LinearLayout>
-
-            <!-- CHART -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="50dp"
-                android:background="#E0E0E0"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <View
-                    android:layout_width="220dp"
-                    android:layout_height="18dp"
-                    android:background="#CFCFCF"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#CFCFCF"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
+            </RelativeLayout>
+        </ScrollView>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <!-- ========================= -->
-    <!-- CONTENT -->
-    <!-- ========================= -->
 
     <ScrollView
         android:id="@+id/contentScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0"
-        >
+        android:fillViewport="true"
+        android:alpha="0">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/blue6">
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/background_atas" />
-            </LinearLayout>
+            android:background="#F9FAFB">
 
-            <LinearLayout
+            <!-- TOP BAR (Now above map) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/topBarDetail"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="-200dp"
-                android:gravity="center">
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
-                    android:id="@+id/weightResiko"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.8">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="6dp">
 
                     <ImageView
                         android:id="@+id/btn_kembali"
-                        android:layout_width="19dp"
-                        android:layout_height="19dp"
-                        android:layout_marginLeft="20dp"
-                        android:src="@drawable/kembaliicon"/>
-                </LinearLayout>
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:src="@drawable/kembaliicon"
+                        app:tint="#4B5563"
+                        android:padding="12dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.1"
-                    android:gravity="center_vertical">
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvTitleDetail"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:fontFamily="@font/poppinssemibold"
                         android:textSize="16sp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeStepGranularity="1sp"
                         android:text="Jalan Pulang ULM"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="end|center_vertical">
+                        android:textColor="#111827"
+                        android:layout_marginStart="8dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:background="@drawable/bg_spinner"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:background="@drawable/bg_badge_aman"
                         android:gravity="center"
-                        android:layout_marginRight="20dp">
+                        android:layout_marginEnd="8dp">
 
                         <ImageView
                             android:id="@+id/bulatStatusDetail"
-                            android:layout_width="9dp"
-                            android:layout_height="9dp"
-                            android:src="@drawable/bulathijaukecil"/>
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:src="@drawable/bg_icon_green_solid" />
 
                         <TextView
                             android:id="@+id/tvStatusDetail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:fontFamily="@font/poppinsmedium"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="@font/poppinssemibold"
                             android:textSize="12sp"
                             android:text="-"
-                            android:textColor="@color/hijauaman"/>
+                            android:textColor="#059669"/>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <!-- MAP HEADER -->
+            <FrameLayout
+                android:id="@+id/mapContainer"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_below="@+id/topBarDetail">
+
+                <org.osmdroid.views.MapView
+                    android:id="@+id/mapDetailPulang"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"/>
+            </FrameLayout>
+
+            <!-- BOTTOM SHEET CONTENT -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_cardkirikananatasrounded"
-                android:layout_marginTop="55dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_below="@id/mapContainer"
+                android:layout_marginTop="-40dp"
+                android:background="@drawable/bg_bottom_sheet"
+                android:paddingTop="20dp"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="40dp"
+                android:elevation="8dp">
 
+                <!-- DRAG HANDLE -->
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="4dp"
+                    android:background="#D1D5DB"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="24dp"/>
+
+                <!-- REKOMENDASI -->
                 <LinearLayout
+                    android:id="@+id/bgRekomendasi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/card_putih"
-                    android:elevation="6dp"
-                    android:layout_marginTop="43dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:orientation="vertical">
+                    android:background="@drawable/card_hijau"
+                    android:padding="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/iconRekomendasi"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/aman_icon" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-
-                        <org.osmdroid.views.MapView
-                            android:id="@+id/mapDetailPulang"
-                            android:layout_width="170dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/black"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/bgRekomendasi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:background="@drawable/card_hijau"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center_horizontal"
-                            android:paddingTop="12dp">
-
-                            <ImageView
-                                android:id="@+id/iconRekomendasi"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/aman_icon" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingTop="8dp"
-                            android:layout_marginLeft="12dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textRekomendasi"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textColor="@color/black"
-                                android:textSize="13sp"
-                                android:text="Motor Honda Beat 120 Anda Aman untuk melintasi jalur ini"/>
-
-                            <TextView
-                                android:id="@+id/deskripsiRekomendasi"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppinsmedium"
-                                android:textColor="@color/hijautulisanaman"
-                                android:textSize="11sp"
-                                android:text="Tetap hati-hati dan gunakan kecepatan rendah saat melintas"
-                                />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginBottom="12dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="115dp"
-                            android:orientation="horizontal"
-                            android:layout_marginBottom="8dp"
-                            >
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/status_aman">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="120dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:layout_marginTop="45dp"
-                                        android:fontFamily="@font/poppinsmedium"
-                                        android:text="Ketinggian Air"
-                                        android:textColor="@color/black"
-                                        android:textSize="11sp" />
-
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:orientation="horizontal">
-
-                                        <TextView
-                                            android:id="@+id/tvTinggiDetail"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:layout_marginTop="0dp"
-                                            android:layout_marginRight="4dp"
-                                            android:fontFamily="@font/poppinsmedium"
-                                            android:text="- cm"
-                                            android:textColor="@color/black"
-                                            android:textSize="12sp" />
-
-                                        <ImageView
-                                            android:id="@+id/arrowTinggiDetail"
-                                            android:layout_width="17dp"
-                                            android:layout_height="19dp"
-                                            android:src="@drawable/down_arrow" />
-
-                                    </LinearLayout>
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@drawable/kecepatan_aman"
-                                android:layout_marginLeft="10dp">
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-                                    <TextView
-                                        android:layout_width="120dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:layout_marginTop="45dp"
-                                        android:text="Kecepatan Air"
-                                        android:fontFamily="@font/poppinsmedium"
-                                        android:textSize="11sp"
-                                        android:textColor="@color/black"/>
-
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:orientation="horizontal">
-                                        <TextView
-                                            android:id="@+id/tvKecepatanDetail"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:layout_marginTop="0dp"
-                                            android:text="- cm/h"
-                                            android:fontFamily="@font/poppinsmedium"
-                                            android:textSize="12sp"
-                                            android:textColor="@color/black"
-                                            android:layout_marginRight="4dp"/>
-
-                                        <ImageView
-                                            android:id="@+id/arrowKecepatanDetail"
-                                            android:layout_width="17dp"
-                                            android:layout_height="19dp"
-                                            android:src="@drawable/up_arrow" />
-
-                                    </LinearLayout>
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="end">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppinsmedium"
-                            android:textSize="9sp"
-                            android:text="Status "/>
+                        android:layout_marginLeft="12dp"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/statusJam"
+                            android:id="@+id/textRekomendasi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppinsmedium"
-                            android:textSize="9sp"
-                            android:text="-"
-                            android:textColor="@color/hijauaman"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppinsmedium"
+                            android:fontFamily="@font/poppinssemibold"
                             android:textColor="@color/black"
-                            android:textSize="9sp"
-                            android:text=" sejak "/>
+                            android:textSize="13sp"
+                            android:text="Motor Honda Beat 120 Anda Aman untuk melintasi jalur ini"/>
 
                         <TextView
-                            android:id="@+id/tvWaktuDetail"
+                            android:id="@+id/deskripsiRekomendasi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppinsmedium"
-                            android:textColor="@color/black"
-                            android:textSize="9sp"
-                            android:text="- WITA"/>
-
+                            android:textColor="@color/hijautulisanaman"
+                            android:textSize="11sp"
+                            android:text="Tetap hati-hati dan gunakan kecepatan rendah saat melintas"
+                            android:layout_marginTop="2dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- GAMBAR DARI MAPS -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/imageContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp">
 
-                <LinearLayout
+                    <ImageView
+                        android:id="@+id/image_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/jalan_pulang"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- DETAIL CARD KETINGGIAN & KECEPATAN -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/card_putih"
-                    android:elevation="6dp"
-                    android:layout_marginTop="43dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="24dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#F3F4F6">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginTop="8dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <!-- Ketinggian Air -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:background="@drawable/bg_soft_blue_rounded"
+                                android:padding="8dp"
+                                android:layout_marginEnd="4dp">
+                                
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ketinggian Air"
+                                    android:textSize="12sp"
+                                    android:textColor="#6B7280"
+                                    android:fontFamily="@font/poppinsmedium"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginTop="4dp">
+                                    <TextView
+                                        android:id="@+id/tvTinggiDetail"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="- cm"
+                                        android:textSize="22sp"
+                                        android:textColor="#111827"
+                                        android:fontFamily="@font/poppinssemibold"/>
+                                    <ImageView
+                                        android:id="@+id/arrowTinggiDetail"
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:layout_marginStart="6dp"
+                                        android:src="@drawable/down_arrow"/>
+                                </LinearLayout>
+                                
+                                <TextView
+                                    android:id="@+id/tvKetTinggi"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Data Sensor"
+                                    android:textSize="11sp"
+                                    android:textColor="#9CA3AF"
+                                    android:fontFamily="@font/poppinsmedium"
+                                    android:layout_marginTop="2dp"/>
+                            </LinearLayout>
+
+                            <!-- Vertical Divider -->
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#F3F4F6"/>
+
+                            <!-- Tren Ketinggian -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:paddingStart="16dp">
+                                
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tren Ketinggian"
+                                    android:textSize="12sp"
+                                    android:textColor="#6B7280"
+                                    android:fontFamily="@font/poppinsmedium"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginTop="4dp">
+                                    <TextView
+                                        android:id="@+id/tvKecepatanDetail"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="- cm/h"
+                                        android:textSize="22sp"
+                                        android:textColor="#111827"
+                                        android:fontFamily="@font/poppinssemibold"/>
+                                    <ImageView
+                                        android:id="@+id/arrowKecepatanDetail"
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:layout_marginStart="6dp"
+                                        android:src="@drawable/up_arrow"/>
+                                </LinearLayout>
+                                
+                                <TextView
+                                    android:id="@+id/tvKetTren"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Data Sensor"
+                                    android:textSize="11sp"
+                                    android:textColor="#9CA3AF"
+                                    android:fontFamily="@font/poppinsmedium"
+                                    android:layout_marginTop="2dp"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Horizontal Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#F3F4F6"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="12dp"/>
+
+                        <!-- Waktu Status -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Diperbarui:"
+                                android:textSize="11sp"
+                                android:textColor="#9CA3AF"
+                                android:fontFamily="@font/poppinsmedium"/>
+                            <TextView
+                                android:id="@+id/tvWaktuDetail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="- WITA"
+                                android:textSize="11sp"
+                                android:textColor="#3B82F6"
+                                android:fontFamily="@font/poppinsmedium"/>
+                            
+                            <Space
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <!-- Hidden items -->
+                            <TextView
+                                android:id="@+id/statusJam"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"/>
+                                
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- TABEL KENDARAAN -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#F3F4F6">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppinssemibold"
                             android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:textSize="18sp"
-                            android:text="DAFTAR KENDARAAN &amp; STATUS"/>
-                    </LinearLayout>
+                            android:textSize="14sp"
+                            android:text="DAFTAR KENDARAAN &amp; STATUS"
+                            android:layout_marginBottom="12dp"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <!-- PLAT -->
                         <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1.2"
-                            android:orientation="horizontal"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:src="@drawable/plat_icon"
-                                android:layout_marginEnd="5dp"
-                                android:scaleType="fitCenter"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Plat"
-                                android:textSize="11sp"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/tulisanabu"
-                                android:fontFamily="@font/poppinsmedium"/>
-                        </LinearLayout>
-
-                        <!-- KATEGORI -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1.2"
-                            android:orientation="horizontal"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/kategori_icon"
-                                android:layout_marginEnd="5dp"
-                                android:scaleType="fitCenter"
-                                android:layout_marginLeft="5dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Kategori"
-                                android:textSize="11sp"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/tulisanabu"
-                                android:fontFamily="@font/poppinsmedium"/>
-                        </LinearLayout>
-
-                        <!-- MODEL -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1.4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center"
-                            android:paddingLeft="6dp">
+                            android:paddingBottom="8dp">
 
-                            <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:src="@drawable/model_icon"
-                                android:layout_marginEnd="5dp"
-                                android:scaleType="fitCenter"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="Model"
-                                android:textSize="11sp"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/tulisanabu"
-                                android:fontFamily="@font/poppinsmedium"/>
+                                android:layout_weight="1.1"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <ImageView android:layout_width="14dp" android:layout_height="14dp" android:src="@drawable/plat_icon" android:layout_marginEnd="4dp"/>
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Plat" android:textSize="10sp" android:maxLines="1" android:textColor="@color/tulisanabu" android:fontFamily="@font/poppinsmedium"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.3"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/kategori_icon" android:layout_marginEnd="4dp"/>
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kategori" android:textSize="10sp" android:maxLines="1" android:textColor="@color/tulisanabu" android:fontFamily="@font/poppinsmedium"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.4"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <ImageView android:layout_width="14dp" android:layout_height="14dp" android:src="@drawable/model_icon" android:layout_marginEnd="4dp"/>
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Model" android:textSize="10sp" android:maxLines="1" android:textColor="@color/tulisanabu" android:fontFamily="@font/poppinsmedium"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.2"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/statustabel_icon" android:layout_marginEnd="4dp"/>
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Status" android:textSize="10sp" android:maxLines="1" android:textColor="@color/tulisanabu" android:fontFamily="@font/poppinsmedium"/>
+                            </LinearLayout>
                         </LinearLayout>
 
-                        <!-- STATUS -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1.2"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:paddingLeft="12dp">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E5E7EB"
+                            android:layout_marginBottom="8dp"/>
 
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/statustabel_icon"
-                                android:layout_marginEnd="5dp"
-                                android:scaleType="fitCenter"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Status"
-                                android:textSize="11sp"
-                                android:includeFontPadding="false"
-                                android:textColor="@color/tulisanabu"
-                                android:fontFamily="@font/poppinsmedium"/>
-                        </LinearLayout>
-
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvKendaraan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"/>
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <View
-                        android:layout_marginTop="2dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/tulisanabu"
-                        android:layout_marginBottom="12dp"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvKendaraan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-
-                <LinearLayout
+                <!-- GRAFIK -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/card_putih"
-                    android:elevation="6dp"
-                    android:layout_marginTop="43dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="8dp">
-
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#F3F4F6">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginTop="8dp">
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppinssemibold"
                             android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:textSize="18sp"
-                            android:text="Grafik Perubahan 1 Jam Terakhir"/>
-                    </LinearLayout>
+                            android:textSize="14sp"
+                            android:text="Grafik Perubahan 1 Jam Terakhir"
+                            android:layout_marginBottom="12dp"/>
 
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/lineChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="230dp"/>
-                </LinearLayout>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/lineChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
     <include

@@ -340,13 +340,13 @@ public class PopupEditKendaraan extends Dialog {
                     setupJenis();
 
                 } else {
-                    Toast.makeText(context, "Gagal ambil data", Toast.LENGTH_SHORT).show();
+                    android.util.Log.d("AppLog", String.valueOf("Gagal ambil data"));
                 }
             }
 
             @Override
             public void onFailure(Call<KendaraanResponse> call, Throwable t) {
-                Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
             }
         });
     }
@@ -553,7 +553,7 @@ public class PopupEditKendaraan extends Dialog {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
             }
         });
     }

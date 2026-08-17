@@ -88,7 +88,7 @@ public class PengaturanAkunFragment extends Fragment {
             int posisi = spinner.getSelectedItemPosition();
 
             if (posisi < 0 || posisi >= listKendaraan.size()) {
-                Toast.makeText(getContext(), "Pilih kendaraan dulu", Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Pilih kendaraan dulu"));
                 return;
             }
 
@@ -159,7 +159,7 @@ public class PengaturanAkunFragment extends Fragment {
                         @Override
                         public void onFailure(Call<UpdatePengaturanAkunModel> call, Throwable t) {
                             btnUpdate.setEnabled(true);
-                            Toast.makeText(getContext(), "Error koneksi", Toast.LENGTH_SHORT).show();
+                            android.util.Log.d("AppLog", String.valueOf("Error koneksi"));
                         }
                     });
         });
@@ -288,7 +288,7 @@ public class PengaturanAkunFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<KendaraanUserResponseModel> call, Throwable t) {
-                        Toast.makeText(getContext(), "Gagal load kendaraan", Toast.LENGTH_SHORT).show();
+                        android.util.Log.d("AppLog", String.valueOf("Gagal load kendaraan"));
                     }
                 });
     }

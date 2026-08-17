@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="20dp"
     android:foregroundGravity="center"
+    android:elevation="10dp"
     android:background="@android:color/transparent">
 
     <!-- ========================= -->

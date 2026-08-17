@@ -285,11 +285,7 @@ public class KendaraanFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             if (!isAdded() || getContext() == null) return;
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Gagal Load Kendaraan",
-                                    Toast.LENGTH_SHORT
-                            ).show();
+                            android.util.Log.d("AppLog", String.valueOf("Gagal Load Kendaraan"));
                             showContent();
                         }
                     }
@@ -300,11 +296,7 @@ public class KendaraanFragment extends Fragment {
                             Throwable t
                     ) {
 
-                        Toast.makeText(
-                                requireContext(),
-                                "Error: " + t.getMessage(),
-                                Toast.LENGTH_SHORT
-                        ).show();
+                        android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                         showContent();
                     }
                 });
@@ -393,11 +385,7 @@ public class KendaraanFragment extends Fragment {
                         } else {
 
                             if (!isAdded() || getContext() == null) return;
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Gagal hapus",
-                                    Toast.LENGTH_SHORT
-                            ).show();
+                            android.util.Log.d("AppLog", String.valueOf("Gagal hapus"));
                         }
                     }
 
@@ -407,11 +395,7 @@ public class KendaraanFragment extends Fragment {
                             Throwable t
                     ) {
 
-                        Toast.makeText(
-                                requireContext(),
-                                "Error: " + t.getMessage(),
-                                Toast.LENGTH_SHORT
-                        ).show();
+                        android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                     }
                 });
     }
@@ -495,11 +479,7 @@ public class KendaraanFragment extends Fragment {
                             loadKendaraan();
                         } else {
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Gagal set utama",
-                                    Toast.LENGTH_SHORT
-                            ).show();
+                            android.util.Log.d("AppLog", String.valueOf("Gagal set utama"));
                         }
                     }
 
@@ -509,11 +489,7 @@ public class KendaraanFragment extends Fragment {
                             Throwable t
                     ) {
                         if (!isAdded() || getContext() == null) return;
-                        Toast.makeText(
-                                requireContext(),
-                                "Error: " + t.getMessage(),
-                                Toast.LENGTH_SHORT
-                        ).show();
+                        android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                     }
                 });
     }

@@ -130,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Dikalibrasi pada 27 Apr 2026, 10:39"
+                    android:text="Loading..."
                     android:textColor="@color/hijauaman"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -152,7 +152,7 @@
             android:background="@drawable/bg_input"
             android:inputType="numberSigned|numberDecimal"
             android:paddingHorizontal="16dp"
-            android:text="-"
+            android:hint="0"
             android:textSize="14sp" />
 
         <TextView

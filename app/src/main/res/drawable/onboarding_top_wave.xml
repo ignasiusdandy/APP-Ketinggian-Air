@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1440dp"
+    android:height="320dp"
+    android:viewportWidth="1440"
+    android:viewportHeight="320">
+    
+    <!-- Lighter background wave -->
+    <path
+        android:fillColor="#33004DFF"
+        android:pathData="M0,0 L1440,0 L1440,240 C1080,100 360,320 0,240 Z" />
+        
+    <!-- Main solid foreground wave -->
+    <path
+        android:fillColor="#004DFF"
+        android:pathData="M0,0 L1440,0 L1440,160 C1080,320 360,0 0,160 Z" />
+</vector>

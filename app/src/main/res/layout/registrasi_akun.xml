@@ -524,8 +524,19 @@
                 android:fontFamily="@font/poppins_regular"
                 android:text="Masukkan model motor anda"
                 android:visibility="gone"
-
                 />
+
+            <TextView
+                android:id="@+id/tv_lapor_kendaraan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:layout_gravity="end"
+                android:text="Kendaraan tidak ada? Lapor di sini"
+                android:textColor="@color/blue6"
+                android:fontFamily="@font/poppinsmedium"
+                android:textSize="14sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_daftar"

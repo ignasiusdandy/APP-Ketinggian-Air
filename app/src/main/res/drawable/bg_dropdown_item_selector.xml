@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Pressed state -->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#EFF6FF"/>
+        </shape>
+    </item>
+    <!-- Selected state (item yang dipilih) -->
+    <item android:state_selected="true">
+        <shape>
+            <solid android:color="#EFF6FF"/>
+        </shape>
+    </item>
+    <!-- Activated state -->
+    <item android:state_activated="true">
+        <shape>
+            <solid android:color="#DBEAFE"/>
+        </shape>
+    </item>
+    <!-- Default -->
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF"/>
+        </shape>
+    </item>
+</selector>

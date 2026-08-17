@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pembaruan Tersedia!"
+        android:textColor="#111827"
+        android:textSize="22sp"
+        android:fontFamily="@font/poppinssemibold"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Untuk pengalaman terbaik dan fitur terbaru, silakan perbarui aplikasi ke versi terkini melalui Google Play Store."
+        android:textColor="#4B5563"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginBottom="32dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnUpdatePlayStore"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Buka Play Store"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppinssemibold"
+        android:textAllCaps="false"
+        android:background="@drawable/bg_btn_biru"/>
+
+</LinearLayout>

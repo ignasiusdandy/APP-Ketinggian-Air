@@ -12,6 +12,7 @@ public class SessionManager {
     private static final int PRIVATE_MODE = Context.MODE_PRIVATE;
 
     public static final String KEY_IS_LOGIN = "IsLoggedIn";
+    public static final String KEY_IS_FIRST_TIME = "IsFirstTimeLaunch";
     public static final String KEY_ID = "id_user";
     public static final String KEY_NAMA = "nama";
     public static final String KEY_EMAIL = "email";
@@ -44,6 +45,14 @@ public class SessionManager {
         editor.apply();
     }
 
+    public void setFirstTimeLaunch(boolean isFirstTime) {
+        editor.putBoolean(KEY_IS_FIRST_TIME, isFirstTime);
+        editor.apply();
+    }
+
+    public boolean isFirstTimeLaunch() {
+        return pref.getBoolean(KEY_IS_FIRST_TIME, true);
+    }
 
     // Cek apakah user sudah login
     public boolean isLoggedIn() {

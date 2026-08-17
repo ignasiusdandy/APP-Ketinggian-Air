@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutJalanItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/card_putih"
+    android:elevation="4dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="14dp"
+    android:layout_marginBottom="0dp"
+    android:padding="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <!-- Baris 1: Dot + Nama + Badge Status -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:id="@+id/bulatStatus"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/bulathijaukecil"
+                android:layout_marginEnd="8dp"/>
+            <TextView
+                android:id="@+id/tvNamaJalan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Jalan"
+                android:textColor="#111827"
+                android:textSize="15sp"
+                android:fontFamily="@font/poppinssemibold"/>
+        </LinearLayout>
+
+        <!-- Badge Status -->
+        <LinearLayout
+            android:id="@+id/bgBadgeStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_badge_aman"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+            <ImageView
+                android:id="@+id/iconBadgeStatus"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:src="@drawable/bulathijaukecil"
+                android:layout_marginEnd="4dp"/>
+            <TextView
+                android:id="@+id/tvBadgeStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aman"
+                android:textColor="#059669"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinssemibold"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Divider tipis -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F3F4F6"
+        android:layout_marginBottom="14dp"/>
+
+    <!-- Baris 2: Dua kolom stat -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Kolom Kiri: Ketinggian Air -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/bg_soft_blue_rounded"
+            android:padding="12dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_water_drop_custom"
+                    android:layout_marginEnd="4dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ketinggian Air"
+                    android:textColor="#475569"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppins_regular"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="2dp">
+                <TextView
+                    android:id="@+id/tvTinggi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0,0 cm"
+                    android:textColor="#2563EB"
+                    android:textSize="24sp"
+                    android:fontFamily="@font/poppinssemibold"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvTinggiDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Normal"
+                android:textColor="#64748B"
+                android:textSize="11sp"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <!-- Kolom Kanan: Tren Ketinggian -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_soft_purple_rounded"
+            android:padding="12dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_chart_trend_custom"
+                    android:layout_marginEnd="4dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tren Ketinggian"
+                    android:textColor="#475569"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppins_regular"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="2dp">
+                <TextView
+                    android:id="@+id/tvTren"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stabil"
+                    android:textColor="#7C3AED"
+                    android:textSize="24sp"
+                    android:fontFamily="@font/poppinssemibold"/>
+                <ImageView
+                    android:id="@+id/iconTren"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/arrow_stabil"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvTrenDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tidak ada perubahan signifikan"
+                android:textColor="#64748B"
+                android:textSize="11sp"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Divider tipis -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F3F4F6"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- Baris 3: Waktu update + Lihat detail -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@drawable/realtime_icon"
+                app:tint="#9CA3AF"
+                android:layout_marginEnd="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diperbarui: "
+                android:textColor="#9CA3AF"
+                android:textSize="11sp"
+                android:fontFamily="@font/poppins_regular"/>
+            <TextView
+                android:id="@+id/tvWaktuUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:-- WITA"
+                android:textColor="#3B82F6"
+                android:textSize="11sp"
+                android:fontFamily="@font/poppinsmedium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat detail"
+                android:textColor="#3B82F6"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinsmedium"/>
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="#3B82F6"
+                android:layout_marginStart="2dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

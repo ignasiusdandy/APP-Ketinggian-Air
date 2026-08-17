@@ -182,18 +182,13 @@ public class DaftarKendaraanUserActivity extends AppCompatActivity {
 
                     Log.d("API_CODE", String.valueOf(response.code()));
 
-                    Toast.makeText(
-                            DaftarKendaraanUserActivity.this,
-                            "Gagal Load Kendaraan (" + response.code() + ")",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    android.util.Log.d("AppLog", String.valueOf("Gagal Load Kendaraan (" + response.code() + ")"));
                 }
             }
 
             @Override
             public void onFailure(Call<KendaraanUserResponseModel> call, Throwable t) {
-                Toast.makeText(DaftarKendaraanUserActivity.this,
-                        "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
             }
         });
     }
@@ -238,15 +233,13 @@ public class DaftarKendaraanUserActivity extends AppCompatActivity {
                             showPopupBerhasil();
                             loadKendaraan();
                         } else {
-                            Toast.makeText(DaftarKendaraanUserActivity.this,
-                                    "Gagal hapus", Toast.LENGTH_SHORT).show();
+                            android.util.Log.d("AppLog", String.valueOf("Gagal hapus"));
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(DaftarKendaraanUserActivity.this,
-                                "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
                     }
                 });
 
@@ -295,15 +288,13 @@ public class DaftarKendaraanUserActivity extends AppCompatActivity {
                     loadKendaraan();
 
                 } else {
-                    Toast.makeText(DaftarKendaraanUserActivity.this,
-                            "Gagal set utama", Toast.LENGTH_SHORT).show();
+                    android.util.Log.d("AppLog", String.valueOf("Gagal set utama"));
                 }
             }
 
             @Override
             public void onFailure(Call<UpdatePengaturanAkunModel> call, Throwable t) {
-                Toast.makeText(DaftarKendaraanUserActivity.this,
-                        "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                android.util.Log.d("AppLog", String.valueOf("Error: " + t.getMessage()));
             }
         });
     }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btnAlatCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_putih"
+    android:elevation="2dp"
+    android:paddingVertical="20dp"
+    android:paddingHorizontal="15dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    android:layout_marginBottom="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/bgAlatIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="@drawable/bg_icon_hijau"
+            android:layout_marginRight="8dp">
+
+            <ImageView
+                android:id="@+id/ivAlatIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cpu_icon" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="50dp">
+
+            <TextView
+                android:id="@+id/tvNamaAlat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Alat"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvStatusAlat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status: Aktif"
+                android:textColor="@color/hijautulisanaman"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivDotStatus"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/bulathijaukecil"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginVertical="10dp"
+        android:background="#BDBDBD"/>
+
+    <TextView
+        android:id="@+id/tvWaktuUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Terakhir berfungsi pada --:--"
+        android:textSize="12sp"/>
+</LinearLayout>

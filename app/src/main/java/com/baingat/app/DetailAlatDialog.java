@@ -130,7 +130,8 @@ public class DetailAlatDialog {
                                 }
 
                             } else {
-                                Toast.makeText(context, "Gagal update status", Toast.LENGTH_SHORT).show();
+                                GagalDialog dialogGagal = new GagalDialog();
+                                dialogGagal.show(fragmentManager, "GagalDialog");
                             }
                         }
 
@@ -139,7 +140,8 @@ public class DetailAlatDialog {
 
                             btnAktif.setEnabled(true);
 
-                            Toast.makeText(context, "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            GagalDialog dialogGagal = new GagalDialog();
+                            dialogGagal.show(fragmentManager, "GagalDialog");
                         }
                     });
         });
@@ -179,7 +181,8 @@ public class DetailAlatDialog {
                                 }
 
                             } else {
-                                Toast.makeText(context, "Gagal update status", Toast.LENGTH_SHORT).show();
+                                GagalDialog dialogGagal = new GagalDialog();
+                                dialogGagal.show(fragmentManager, "GagalDialog");
                             }
                         }
 
@@ -188,7 +191,8 @@ public class DetailAlatDialog {
 
                             btnNonAktif.setEnabled(true);
 
-                            Toast.makeText(context, "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            GagalDialog dialogGagal = new GagalDialog();
+                            dialogGagal.show(fragmentManager, "GagalDialog");
                         }
                     });
         });
@@ -212,6 +216,11 @@ public class DetailAlatDialog {
             TextView tvKalibrasi = dialogKalibrasi.findViewById(R.id.tvKalibrasi);
             TextView tvWaktuKalibrasi = dialogKalibrasi.findViewById(R.id.tvWaktuKalibrasi);
             EditText etKalibrasi = dialogKalibrasi.findViewById(R.id.etKalibrasi);
+            TextView tvTitleKalibrasi = dialogKalibrasi.findViewById(R.id.tvTitle);
+            
+            if (tvTitleKalibrasi != null) {
+                tvTitleKalibrasi.setText(title);
+            }
 
 //            ImageView btnCloseKalibrasi = dialogKalibrasi.findViewById(R.id.btnCloseKalibrasi);
             TextView btnBatal = dialogKalibrasi.findViewById(R.id.btnBatal);
@@ -291,16 +300,24 @@ public class DetailAlatDialog {
                                                 .start();
                                     }
 
-                                    @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                                    @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
-                                });
+                                        @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                                        @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                                    });
+                                } else {
+                                    tvKetinggian.setText("Gagal dimuat");
+                                    tvKalibrasi.setText("-");
+                                    tvWaktuKalibrasi.setText("-");
+                                    Log.e("KALIBRASI", "Data kalibrasi tidak ditemukan atau response body null");
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<KalibrasiResponseModel> call, Throwable t) {
-                            Toast.makeText(context, "Gagal ambil data", Toast.LENGTH_SHORT).show();
-                        }
+                            @Override
+                            public void onFailure(Call<KalibrasiResponseModel> call, Throwable t) {
+                                tvKetinggian.setText("Gagal dimuat");
+                                tvKalibrasi.setText("-");
+                                tvWaktuKalibrasi.setText("-");
+                                Log.e("KALIBRASI", "Gagal ambil data: " + t.getMessage());
+                            }
                     });
 
 //            btnCloseKalibrasi.setOnClickListener(v1 -> dialogKalibrasi.dismiss());
@@ -321,7 +338,8 @@ public class DetailAlatDialog {
                 try {
                     input = Double.parseDouble(inputStr);
                 } catch (Exception e) {
-                    Toast.makeText(context, "Input tidak valid", Toast.LENGTH_SHORT).show();
+                    GagalDialog dialogGagal = new GagalDialog();
+                    dialogGagal.show(fragmentManager, "GagalDialog");
                     return;
                 }
 
@@ -348,7 +366,8 @@ public class DetailAlatDialog {
                                     }
 
                                 } else {
-                                    Toast.makeText(context, "Gagal simpan kalibrasi", Toast.LENGTH_SHORT).show();
+                                    GagalDialog dialogGagal = new GagalDialog();
+                                    dialogGagal.show(fragmentManager, "GagalDialog");
                                 }
                             }
 
@@ -358,7 +377,7 @@ public class DetailAlatDialog {
                                 btnSimpan.setEnabled(true);
 
                                 GagalDialog dialog2 = new GagalDialog();
-                                dialog2.show(dialog2.getParentFragmentManager(), "GagalDialog");
+                                dialog2.show(fragmentManager, "GagalDialog");
                             }
                         });
             });
